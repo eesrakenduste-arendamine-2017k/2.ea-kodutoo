@@ -13,17 +13,10 @@
         this.routes = game.routes;
         // saame lehe laadimiseks kasutada hiljem this.routes['home-view'].render()
 
-        console.log('moosipurgi sees');
-
         // KÕIK muuutujad, mida muudetakse ja on rakendusega seotud defineeritakse siin
-        this.click_count = 0;
         this.currentRoute = null;
 
-        //id, mis läheb purgile kaasa, alustame nullist, tegelikult võiks olla unikaalne
-        this.jar_id = 0;
-
-        // hakkan hoidma siin kõiki purke
-        this.jars = [];
+    
 
         // Kui tahan Moosipurgile referenci siis kasutan THIS = MOOSIPURGI RAKENDUS ISE
         this.init();

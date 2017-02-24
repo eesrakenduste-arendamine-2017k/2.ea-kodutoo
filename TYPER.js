@@ -19,7 +19,10 @@ var TYPER = function(){
 
 	//mängija objekt, hoiame nime ja skoori
 	this.player = {name: null, score: 0};
+  this.playerId = 0;
 
+  // hakkan hoidma siin kõiki purke
+  this.players = [];
 	this.init();
 };
 
@@ -41,6 +44,8 @@ TYPER.prototype = {
 		this.canvas.width = this.WIDTH;
 		this.canvas.height = this.HEIGHT;
 
+
+
 		// laeme sõnad
 		this.loadWords();
 	},
@@ -59,6 +64,9 @@ TYPER.prototype = {
 		// Mänigja objektis muudame nime
 		this.player.name = p_name; // player =>>> {name:"Romil", score: 0}
         console.log(this.player);
+    document.getElementById("playerName").innerHTML = p_name;
+
+
 	},
 
 	loadWords: function(){
@@ -157,7 +165,8 @@ TYPER.prototype = {
 
                 //update player score
                 this.player.score = this.guessed_words;
-
+                document.getElementById("currentScore").innerHTML = this.player.score;
+                var playerName = document.getElementById("playerName").innerHTML;
 				//loosin uue sõna
 				this.generateWord();
 			}
