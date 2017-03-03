@@ -16,7 +16,7 @@
         // KÕIK muuutujad, mida muudetakse ja on rakendusega seotud defineeritakse siin
         this.currentRoute = null;
 
-    
+
 
         // Kui tahan Moosipurgile referenci siis kasutan THIS = MOOSIPURGI RAKENDUS ISE
         this.init();
@@ -28,17 +28,33 @@
         'home-view': {
             'render': function() {
                 // käivitame siis kui lehte laeme
+                document.getElementById('home-view').style.visibility = 'visible';
+                document.getElementById('game-view').style.visibility = 'hidden';
+                document.getElementById('end-view').style.visibility = 'hidden';
                 console.log('>>>>avaleht');
             }
         },
         'game-view': {
             'render': function() {
                 // käivitame siis kui lehte laeme
-                console.log('>>>>loend');
+                document.getElementById('home-view').style.visibility = 'hidden';
+                document.getElementById('game-view').style.visibility = 'visible';
+                document.getElementById('end-view').style.visibility = 'hidden';
 
+
+                console.log('>>>>loend');
                 var typerGame = new TYPER();
                 window.typerGame = typerGame;
               }
+        },
+        'end-view':{
+          'render': function(){
+            document.getElementById('home-view').style.visibility = 'hidden';
+            document.getElementById('game-view').style.visibility = 'hidden';
+            document.getElementById('end-view').style.visibility = 'visible';
+
+            console.log(">>>>game_end");
+          }
         },
     };
 

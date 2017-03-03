@@ -19,10 +19,12 @@ var TYPER = function(){
 
 	//mängija objekt, hoiame nime ja skoori
 	this.player = {name: null, score: 0};
-  this.playerId = 0;
+  this.player_id = 0;
 
   // hakkan hoidma siin kõiki purke
-  this.players = [];
+  this.scoreBoard = [];
+
+
 	this.init();
 };
 
@@ -54,7 +56,6 @@ TYPER.prototype = {
 
 		// küsime mängija nime ja muudame objektis nime
 		var p_name = document.getElementById('name').value;
-
 		// Kui ei kirjutanud nime või jättis tühjaks
 		if(p_name === null || p_name === ""){
 			p_name = "Tundmatu";
@@ -122,8 +123,33 @@ TYPER.prototype = {
         //joonista sõna
 		this.word.Draw();
 
+    this.mistake = 0;
+
 		// Kuulame klahvivajutusi
 		window.addEventListener('keypress', this.keyPressed.bind(this));
+
+    // if(localStorage.scoreBoard){
+    //   this.scoreBoard = JSON.parse(localStorage.scoreBoard);
+    //   console.log('laadisin localStorageist massiiivi ' + this.scoreBoard.length);
+    //
+    //   this.scoreBoard.forEach(function(player){
+    //
+    //       var new_score = new Score(player.id, player.name, player.score);
+    //
+    //       //uuendad moosipurgi id'd et hiljem jätkata kus pooleli jäi
+    //       TYPER.instance.player_id = player.id;
+    //
+    //       // eraldi funktsioonis tekitan <li> elemendi ja lisan loendisse
+    //       // var li = new_score.createHtmlElement();
+    //       // document.querySelector('.list-of-jars').appendChild(li);
+    //
+    //   });
+    //
+    // }
+
+
+    this.player_id++;
+    console.log("Uue m2ngija id: "+ this.player_id);
 
 	},
 
@@ -141,6 +167,15 @@ TYPER.prototype = {
 
     	// Word on defineeritud eraldi Word.js failis
         this.word = new Word(word, this.canvas, this.ctx);
+
+        //update player score
+        this.player.score = this.guessed_words;
+        document.getElementById("currentScore").innerHTML = this.player.score;
+        var playerName = document.getElementById("playerName").innerHTML;
+        var playerScore = document.getElementById("currentScore").innerHTML;
+        console.log("name: "+playerName + " score: " + playerScore);
+
+
     },
 
 	keyPressed: function(event){
@@ -163,17 +198,23 @@ TYPER.prototype = {
 
 				this.guessed_words += 1;
 
-                //update player score
-                this.player.score = this.guessed_words;
-                document.getElementById("currentScore").innerHTML = this.player.score;
-                var playerName = document.getElementById("playerName").innerHTML;
 				//loosin uue sõna
 				this.generateWord();
 			}
 
 			//joonistan uuesti
 			this.word.Draw();
-		}
+		}else{
+      this.mistake++;
+      document.getElementById("mistake").innerHTML = this.mistake;
+      if(this.mistake>10){
+        location.href = '#end-view';
+
+        
+        localStorage.addItem();
+
+      }
+    }
 
 	} // keypress end
 
