@@ -1,0 +1,36 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html, body, canvas {
+    width: 100%;
+    height: 100%;
+    font-size: 100%;
+}
+
+canvas {
+    position: absolute;
+}
+
+h1 {
+    font-family: 'PT Serif', 'PT Sans', serif, sans-serif;
+    font-size: 250%;
+    text-align: center;
+}
+
+p {
+    font-family: 'PT Serif', 'PT Sans', serif, sans-serif;
+    font-size: 125%;
+    text-align: center;
+}
+
+.wrapper {
+    height: 100%;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+}
