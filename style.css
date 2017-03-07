@@ -1,0 +1,47 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+html, body canvas{
+	width: 100%;
+	height: 100%;
+}
+canvas {
+	position: absolute;
+	border: 1px solid black;
+	left: 1%;
+	top: 15%;
+	float: right;
+	/*animation: keyError 0.5s;*/
+}
+#kaka{
+	position: center;
+}
+
+@keyframes keyError {
+	0%{border: 1px solid black;}
+	6%{border: 10px solid red;}
+	40%{border: 10px solid red;}
+	80%{border: 2px solid red;}
+	100%{border: 1px solid red;}
+}
+@keyframes normaalne {
+	0%{border: 1px solid black;}
+	1%{border: 1px solid black;}
+	100%{border: 1px solid black;}
+}
+
+#scoretable{
+	border: 1px solid black;
+	width: 300px;
+	height: 395px;
+	position: absolute;
+	top: 15%;
+	left: 70%;
+}
+
+#scorebox {
+	margin: 10px;
+
+}
+
