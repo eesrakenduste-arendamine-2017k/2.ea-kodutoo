@@ -220,12 +220,15 @@ window.onload = function () {
 
 // Nightmode
 var checkIfNight = 0;
+var nightModeActive = 0;
 function nightMode() {
     checkIfNight = (checkIfNight + 1);
     if (checkIfNight % 2 == 1) {
         document.getElementById('nightMode').innerHTML = '<style>canvas{background-color: #142634;};</style>';
+        nightModeActive = 1;
     }
     if (checkIfNight % 2 == 0) {
         document.getElementById('nightMode').innerHTML = '<style>canvas{background-color: white;};</style>';
+        nightModeActive = 0;
     }
 }
