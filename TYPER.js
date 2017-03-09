@@ -18,6 +18,7 @@ var TYPER = function () {
     this.guessed_words = 0; // arvatud sõnade arv
 
     //mängija objekt, hoiame nime ja skoori
+    
     this.player = {name: null, score: 0};
 
     this.init();
@@ -59,6 +60,7 @@ TYPER.prototype = {
         // Mänigja objektis muudame nime
         this.player.name = p_name; // player =>>> {name:"Romil", score: 0}
         console.log(this.player);
+
     },
 
     loadWords: function () {
@@ -227,8 +229,20 @@ function nightMode() {
         document.getElementById('nightMode').innerHTML = '<style>canvas{background-color: #142634;};</style>';
         nightModeActive = 1;
     }
-    if (checkIfNight % 2 == 0) {
+    if (checkIfNight % 2 === 0) {
         document.getElementById('nightMode').innerHTML = '<style>canvas{background-color: white;};</style>';
         nightModeActive = 0;
     }
+}
+
+function storeNameAndScore() {
+        if (typeof(Storage) !== "undefined") {
+            // Store
+            localStorage.setItem("playerName", this.player.name);
+            localStorage.setItem("playerScore", this.player.score);
+            // Retrieve
+            document.getElementById("result").innerHTML = localStorage.getItem("playerName" + "playerScore");
+        } else {
+            document.getElementById("result").innerHTML = "Sorry, your browser does not support Web Storage...";
+        }
 }
