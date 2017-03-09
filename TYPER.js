@@ -209,7 +209,7 @@ TYPER.prototype = {
                 this.word.Draw();
             } else {
                 transparency = this.mistake * 0.1;
-                console.log("prozra4nostj" + transparency);
+                // console.log("prozra4nostj" + transparency);
                 typerGame.canvas.style.background = "rgba(255, 0, 0, " + transparency + ")";
                 // console.log(mistake);
                 this.mistake++;
@@ -224,6 +224,12 @@ TYPER.prototype = {
                     var newScore = new Score(name, score);
 
                     this.scoreBoard.push(newScore);
+                    console.log(JSON.stringify(this.scoreBoard));
+
+                    var li = newScore.createHtmlElement();
+                    document.querySelector('.list-of-jars').appendChild(li);
+                    console.log(li);
+
 
 
                 }
@@ -265,4 +271,22 @@ var Score = function(new_name, new_score) {
     this.score = new_score;
     console.log('created new jar');
     console.log(this);
+};
+
+Score.prototype = {
+  createHtmlElement: function(){
+    var li = document.createElement('li');
+
+    var span = document.createElement('span');
+
+    var span_with_content = document.createElement('span');
+    span_with_content.className = 'content';
+
+    // console.log(this.name);
+    var content = document.createTextNode(this.name);
+    console.log("CONTENT"+content);
+
+    return li;
+
+  }
 };
