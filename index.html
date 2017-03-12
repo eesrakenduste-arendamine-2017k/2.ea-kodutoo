@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="style.css" />
+	<script type="text/javascript" src="scripts.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+
+	
+</head>
+
+
+<body>
+
+	
+	<nav role="navigation" id="navBar">
+		
+		<div id="nav_wrapper">
+			<div id="nav">
+				<ul class="navList">
+					<li><a href="#1view">Score</a></li><li> <!--li on rea lõpus, et teha enter effect, sest muidu cursor muutub hoveril -->
+					<a href="#2view">Mäng</a></li><li>
+					<a href="#3view">Main</a></li>
+					<a id="typerLogo">TYPER Game</a>
+				</ul>
+			</div>	
+		</div>		
+	</nav>
+	
+
+	<main role="main">
+		
+		<div id="1view" animated fadeIn>
+			  <p>SCORE TABLE</p>
+		</div>
+
+		
+		
+		<div id="2view" class="animated fadeIn">
+			<canvas id="kast"></canvas>
+			<div id="scores">
+				<div>kasutajanimi: <span id="username"></span></div>
+				<div>skoor: <span id="score">0</span></div>
+				<div>vigu: <span id="missed">0</span></div>
+			</div>
+					
+					
+		</div>
+
+		
+		
+		
+		<div id="3view" class="animated slideInLeft">
+			
+			<div id="intro">
+				<h2>Mängu Tutvustus:</h2>
+				<p id="introTxt">Tere tulemast! "Typer Game" on kiiruse peale mäng, kus peab 2 minuti jooksul võimalikult kiiresti etteantud sõnu klaviatuurile trükkima. Iga valesti trükitud sümboli eest kaotab mängija punkte. Mängus kasutatavad sõnad on võetud Eesti Keele Instituudi lehelt http://www.eki.ee/tarkvara/wordlist/ 				</p>
+				<div id="buttons">
+					<form>
+						<button formaction="#2view" class="myButton" id="myBtn1">Alusta Mängu</button>
+						<button formaction="#1view" class="myButton" id="myBtn2">Edetabel</button>
+					</form>
+				</div>	
+			</div>
+		
+		</div>
+		
+		
+		<div id="4view">
+			<h1 id="typerSign">TYPER Game</h1>
+			<div id="signUp">
+				<form action="#3view">
+						
+						<div class="signUp">Sisesta kasutajatunnus</div><input type="text" name="fname" id="userN" class="signUp"><br>
+						
+						<button id="btn" class="myButton">Salvesta</button>
+						
+				</form>
+			</div>		
+		</div>
+		
+	</main>
+	<script src="TYPER.js"></script>
+    <script src="Word.js"></script>
+
+</body>
+
+
+</html>

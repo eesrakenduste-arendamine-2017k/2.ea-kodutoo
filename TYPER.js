@@ -19,7 +19,7 @@ var TYPER = function(){
 
 	//mängija objekt, hoiame nime ja skoori
 	this.player = {name: null, score: 0};
-	
+
 	this.init();
 };
 
@@ -33,8 +33,8 @@ TYPER.prototype = {
 		this.ctx = this.canvas.getContext('2d');
 
 		// canvase laius ja kõrgus veebisirvija akna suuruseks (nii style, kui reso)
-		this.canvas.style.width = this.WIDTH / 1.5 + 'px';
-		this.canvas.style.height = this.HEIGHT/ 2 + 'px';
+		this.canvas.style.width = this.WIDTH/1.3+ 'px';
+		this.canvas.style.height = this.HEIGHT/1.3+ 'px';
 
 		//resolutsioon 
 		// kui retina ekraan, siis võib ja peaks olema 2 korda suurem
@@ -47,25 +47,27 @@ TYPER.prototype = {
 
 	loadPlayerData: function(){
 
+		//et saada kasutaja sisestatud username
+		document.getElementById("btn").addEventListener("click", function(){
+			var p = document.getElementById("userN").value;
+			localStorage.setItem("username", p); 
+			
+		})
+	
+	
 		// küsime mängija nime ja muudame objektis nime
-		var p_name = prompt("Sisesta mängija nimi");
+		var p_name = localStorage.getItem("username"); //prompt("Sisesta mängija nimi");
 		
-		
-		
+			
 		// Kui ei kirjutanud nime või jättis tühjaks
 		if(p_name === null || p_name === ""){
 			p_name = "Tundmatu";
+			
 		}
-
+		document.getElementById("username").textContent = p_name;
 		// Mänigja objektis muudame nime
 		this.player.name = p_name; // player =>>> {name:"Romil", score: 0}
         console.log(this.player);
-		
-		
-		//MINU KOOD
-		localStorage.setItem("username", p_name);
-		document.getElementById("username").textContent = p_name;
-		
 	}, 
 
 	loadWords: function(){
@@ -147,14 +149,12 @@ TYPER.prototype = {
 		//console.log(event);
 		// event.which annab koodi ja fromcharcode tagastab tähe
 		var letter = String.fromCharCode(event.which);
-		console.log(letter);
-		
-		
+		//console.log(letter);
+
 		// Võrdlen kas meie kirjutatud täht on sama mis järele jäänud sõna esimene
 		//console.log(this.word);
 		if(letter === this.word.left.charAt(0)){
-			
-			document.getElementById("kast").style.border = "1px solid black";
+
 			// Võtame ühe tähe maha
 			this.word.removeFirstLetter();
 
@@ -166,34 +166,34 @@ TYPER.prototype = {
 
                 //update player score
                 this.player.score = this.guessed_words;
-				console.log(this.player.score);
-				//MINU KOOD
-				localStorage.setItem("score", this.player.score);
+				
 				document.getElementById("score").textContent = this.player.score;
 				//loosin uue sõna
 				this.generateWord();
-				
-				//KAST NORMAALSUURUSELE TAGASI, KUI ON ÕITESTI VAJUTATUD KLAHVI
-				document.getElementById("kast").style.webkitAnimation = "normaalne 0.1s";
 			}
-
+			//KAST NORMAALSUURUSELE TAGASI, KUI ON ÕITESTI VAJUTATUD KLAHVI
+			document.getElementById("kast").style.webkitAnimation = "normaalne 0.1s";
 			//joonistan uuesti
 			this.word.Draw();
-		} else {
+		} 
+		
+		else {
 			//document.getElementById("kast").style.border = "thick solid red";
 			//KAST HAKKAB PUNASELT VILKUMA, KUI VAJUTADA VALET KLAHVI, CSS ANIMATSIOON TRIGGER
 			document.getElementById("kast").style.webkitAnimation = "keyError 0.5s infinite";
 			// ARVUTAB VALESTI VAJUTATUD KEYD
 			var wrong = 0;
-			var wrongCount = document.getElementById("vale").textContent;
+			var wrongCount = document.getElementById("missed").textContent;
 			wrong = Number(wrongCount);
-			
-			document.getElementById("vale").textContent = wrong +1;
+			document.getElementById("missed").textContent = wrong +1;
 			console.log(wrongCount);
-		}
+ 		}
+		
+		
+		
+		
 
 	} // keypress end
-	
 
 };
 
@@ -227,4 +227,18 @@ function structureArrayByWordLength(words){
 window.onload = function(){
 	var typerGame = new TYPER();
 	window.typerGame = typerGame;
+	
+	var url = window.location.href;
+	var array = url.split('/');
+	var lastsegment = array[array.length-1];
+	
+	if(lastsegment == "index.html"){
+		document.getElementById("nav").style.display = "none";	
+	}
+	
 };
+
+
+
+
+
