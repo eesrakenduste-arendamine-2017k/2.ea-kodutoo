@@ -24,6 +24,7 @@ var TYPER = function () {
     this.init();
 };
 
+
 TYPER.prototype = {
 
     // Funktsioon, mille käivitame alguses
@@ -44,12 +45,14 @@ TYPER.prototype = {
 
         // laeme sõnad
         this.loadWords();
+
+
     },
 
     loadPlayerData: function () {
 
         // küsime mängija nime ja muudame objektis nime
-        var p_name = prompt("Sisesta mängija nimi");
+        var p_name = prompt("Player name");
 
         // Kui ei kirjutanud nime või jättis tühjaks
         if (p_name === null || p_name === "") {
@@ -113,6 +116,7 @@ TYPER.prototype = {
         this.generateWord();
         //console.log(this.word);
         this.drawAll();
+        this.gameStop = parseInt(new Date().getTime()/1000+10);
 
         // Kuulame klahvivajutusi
         window.addEventListener('keypress', this.keyPressed.bind(this));
@@ -167,8 +171,28 @@ TYPER.prototype = {
                 //update player score
                 this.player.score = this.guessed_words;
 
+                storeNameAndScore(this.player.name, this.player.score);
+
                 //loosin uue sõna
-                this.generateWord();
+                var currentTime = parseInt(new Date().getTime()/1000);
+                var timeLeft = this.gameStop - currentTime;
+                console.log(timeLeft);
+                if (currentTime < this.gameStop){
+                    this.generateWord();
+                } else {
+                    var again = confirm("Score: " + this.player.score +
+                        "\nPlay again?");
+                    if (again){
+                        this.generateWord();
+                        this.drawAll();
+                        this.gameStop = parseInt(new Date().getTime()/1000+10);
+                        this.player.score = 0;
+                        console.log(this.player.score);
+                    } else {
+                        location.href = "index.html"
+                    }
+                }
+
             }
 
             //joonistan uuesti
@@ -235,13 +259,19 @@ function nightMode() {
     }
 }
 
-function storeNameAndScore() {
+// Local Storage
+function storeNameAndScore(playerName, playerScore) {
+    var playerNameFromStorage = localStorage.getItem('playerName');
+    var playerScoreFromStorage = localStorage.getItem('playerScore');
         if (typeof(Storage) !== "undefined") {
             // Store
-            localStorage.setItem("playerName", this.player.name);
-            localStorage.setItem("playerScore", this.player.score);
+            localStorage.setItem("playerName", JSON.stringify(playerName));
+            localStorage.setItem("playerScore", JSON.stringify(playerScore));
             // Retrieve
-            document.getElementById("result").innerHTML = localStorage.getItem("playerName" + "playerScore");
+            console.log('playerName: ', JSON.parse(playerNameFromStorage));
+            console.log('playerScore: ', JSON.parse(playerScoreFromStorage));
+
+           // document.getElementById("result").innerHTML = localStorage.getItem("playerName") + localStorage.getItem('');
         } else {
             document.getElementById("result").innerHTML = "Sorry, your browser does not support Web Storage...";
         }
