@@ -1,0 +1,15 @@
+view-source:http://minitorn.cs.tlu.ee/~romil/hw/localstorage.html
+romili koodi näide
+
+
+typerGame.scores.push({name: "Romil", score:100})
+et ma saan uued andmed sisestada tabelisse
+
+
+drawTable();
+drawin uue table 
+
+
+this.scores = [{name: "nimetu", score:100},{name:"Random", score:100}];
+faili alguses on see koodirida, kust praegune table võtab andmed 
+see tuleb asendada localstorega

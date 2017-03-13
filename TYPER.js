@@ -19,6 +19,9 @@ var TYPER = function(){
 
 	//mängija objekt, hoiame nime ja skoori
 	this.player = {name: null, score: 0};
+	
+	
+	this.scores = [{name: "nimetu", score:100},{name:"Random", score:100}];
 
 	this.init();
 };
@@ -146,6 +149,12 @@ TYPER.prototype = {
     
 	keyPressed: function(event){
 
+	
+	
+		if(window.location.hash != "#2view"){ return; }
+			
+		
+
 		//console.log(event);
 		// event.which annab koodi ja fromcharcode tagastab tähe
 		var letter = String.fromCharCode(event.which);
@@ -170,6 +179,9 @@ TYPER.prototype = {
 				document.getElementById("score").textContent = this.player.score;
 				//loosin uue sõna
 				this.generateWord();
+				
+				
+				
 			}
 			//KAST NORMAALSUURUSELE TAGASI, KUI ON ÕITESTI VAJUTATUD KLAHVI
 			document.getElementById("kast").style.webkitAnimation = "normaalne 0.1s";
@@ -194,6 +206,8 @@ TYPER.prototype = {
 		
 
 	} // keypress end
+	
+	
 
 };
 
@@ -224,6 +238,44 @@ function structureArrayByWordLength(words){
     return temp_array;
 }
 
+function drawTable(){
+	var table =	document.querySelector("#table");
+	var tr = document.createElement("tr");
+	var th1 = document.createElement("th");
+	th1.innerHTML = "Kasutajanimi";	
+	var th2 = document.createElement("th");
+	th2.innerHTML = "Skoor";	
+	var th3 = document.createElement("th");
+	th3.innerHTML = "Vigu";
+	
+	table.innerHTML = "";
+	
+	tr.appendChild(th1);
+	tr.appendChild(th2);
+	tr.appendChild(th3);
+	
+	table.appendChild(tr);
+	
+	
+	typerGame.scores.forEach(function(game, key){
+		var tr = document.createElement("tr");
+		var td1 = document.createElement("td");
+		td1.innerHTML = game.name;	
+		var td2 = document.createElement("td");
+		td2.innerHTML = game.score;	
+		var td3 = document.createElement("td");
+		td3.innerHTML = parseInt(Math.random()*10);
+		
+		tr.appendChild(td1);
+		tr.appendChild(td2);
+		tr.appendChild(td3);
+		
+		table.appendChild(tr);
+		
+		
+	});
+}
+
 window.onload = function(){
 	var typerGame = new TYPER();
 	window.typerGame = typerGame;
@@ -236,7 +288,48 @@ window.onload = function(){
 		document.getElementById("nav").style.display = "none";	
 	}
 	
+	typerGame.scores.push({name: "Mark", score:100});
+	typerGame.scores.push({name: "Kätlin", score:100});
+	typerGame.scores.push({name: "LOL", score:100});
+	drawTable();
+	
+	
+	
+	
+	
+	//TIMER
+	
+	function startTimer(duration, display) {
+		if(window.location.hash != "#2view"){ return; }
+		var timer = duration, minutes, seconds;
+		setInterval(function () {
+			minutes = parseInt(timer / 60, 10);
+			seconds = parseInt(timer % 60, 10);
+
+			minutes = minutes < 10 ? "0" + minutes : minutes;
+			seconds = seconds < 10 ? "0" + seconds : seconds;
+
+			display.textContent = minutes + ":" + seconds;
+			
+			if (--timer < 0) {
+				timer = duration;
+				window.location.hash = "#1view";
+			}
+		}, 1000);
+		
+	}
+    var twoMinutes = 60 * 2,
+    display = document.querySelector('#time');
+    
+	startTimer(twoMinutes, display);
+	
+	
+	
 };
+
+
+
+
 
 
 

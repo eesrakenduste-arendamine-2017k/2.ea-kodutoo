@@ -19,9 +19,9 @@
 		<div id="nav_wrapper">
 			<div id="nav">
 				<ul class="navList">
-					<li><a href="#1view">Score</a></li><li> <!--li on rea lõpus, et teha enter effect, sest muidu cursor muutub hoveril -->
-					<a href="#2view">Mäng</a></li><li>
-					<a href="#3view">Main</a></li>
+					<li><a href="#1view">Skoor</a></li><li> <!--li on rea lõpus, et teha enter effect, sest muidu cursor muutub hoveril -->
+					<a href="#2view">Mängi</a></li><li>
+					<a href="#3view">Algus</a></li>
 					<a id="typerLogo">TYPER Game</a>
 				</ul>
 			</div>	
@@ -32,17 +32,41 @@
 	<main role="main">
 		
 		<div id="1view" animated fadeIn>
-			  <p>SCORE TABLE</p>
+				 <div id="scoreTable">  
+				   <table id="table">
+					  <tr>
+						<th>Kasutajanimi</th>
+						<th>Skoor</th>
+						<th>Vigu</th>
+					  </tr>
+					  <tr>
+						<td>Nimetu</td>
+						<td>100</td>
+						<td>1</td>
+					  </tr>
+					  <tr>
+						<td>Random</td>
+						<td>22</td>
+						<td>94</td>
+					  </tr>
+					</table> 
+			
+					<form>
+						<button formaction="#2view" class="myButton" id="myBtn3">Alusta Uut Mängu</button>
+					</form>
+				</div>
 		</div>
-
+		
 		
 		
 		<div id="2view" class="animated fadeIn">
 			<canvas id="kast"></canvas>
+			
 			<div id="scores">
 				<div>kasutajanimi: <span id="username"></span></div>
 				<div>skoor: <span id="score">0</span></div>
 				<div>vigu: <span id="missed">0</span></div>
+				<div>aeg: <span id="time">02:00</span></div>
 			</div>
 					
 					
@@ -84,6 +108,8 @@
 	<script src="TYPER.js"></script>
     <script src="Word.js"></script>
 
+
+	
 </body>
 
 

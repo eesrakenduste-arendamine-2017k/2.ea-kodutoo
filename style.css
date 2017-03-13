@@ -55,7 +55,7 @@ canvas {
 }
 #scores{
 	position: absolute;
-	top: 200px;
+	top: 160px;
 	left: 12%;
 	
 }
@@ -64,7 +64,7 @@ canvas {
 }
 #kast{
 	position: absolute;
-	top: 160px;
+	top: 120px;
 }
 
 #nav{
@@ -139,7 +139,7 @@ li {
 	font-family: OCR A Std, monospace;
 	font-size: 110px;
 	top: 140px;	
-	left: 15%;
+	left: 25%;
 	
 }
 
@@ -159,11 +159,11 @@ li {
 
 
 @keyframes keyError {
-	0%{border: 1px solid black;}
-	6%{border: 10px solid red;}
-	40%{border: 10px solid red;}
-	80%{border: 2px solid red;}
-	100%{border: 1px solid red;}
+	0%{border: 1px solid black; margin-left: -1px; margin-top: -1px; margin-bottom: -1px; margin-left: -1px; margin-right: -1px;}
+	6%{border: 10px solid red; margin-left: -10px; margin-top: -10px; margin-bottom: -10px; margin-left: -10px; margin-right: -10px;}
+	40%{border: 10px solid red; margin-left: -10px; margin-top: -10px; margin-bottom: -10px; margin-left: -10px; margin-right: -10px;}
+	80%{border: 2px solid red; margin-left: -2px; margin-top: -2px; margin-bottom: -2px; margin-left: -2px; margin-right: -2px;}
+	100%{border: 1px solid red; margin-left: -1px; margin-top: -1px; margin-bottom: -1px; margin-left: -1px; margin-right: -1px;}
 }
 @keyframes normaalne {
 	0%{border: 1px solid black;}
@@ -182,7 +182,7 @@ h2{
 
 
 
-#myBtn1, #myBtn2{
+#myBtn1, #myBtn2, #myBtn3{
 	width: 155px;
 }
 #buttons{
@@ -192,7 +192,30 @@ h2{
 	width: 100%;
 }
 
-
+#myBtn3{
+	position: absolute;
+	top: 160px;
+	width: 60%;
+	left: 20%;
+}
+#table{
+	position: absolute; 
+	top: 200px;
+	width: 60%;
+	left: 20%;
+	border-collapse: collapse;
+	background-color: white;
+	box-shadow: 1px 1px 1px 1px #888888;
+	
+	
+	
+	
+}
+#table *{
+	border: 1px solid black;
+	border-collapse: collapse;
+	padding: 7px;
+}
 
 
 
