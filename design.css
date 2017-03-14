@@ -10,4 +10,11 @@
 
      animation: movebar;
      animation-duration: 2s;
- }
+ }.topTen{
+    height: 0%;
+    transition-duration: 1s;
+    animation: topten 1s;
+   }@keyframes topten{
+        from{height: 0%;};
+        to{height: 100%;};
+       }
