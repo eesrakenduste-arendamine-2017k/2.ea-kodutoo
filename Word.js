@@ -6,9 +6,9 @@ function Word(word, canvas, ctx){
 
     this.word = word;
     this.letters = [];
-    
+
     // lisaks mis on sõnast järel, mida alguses hakkame hakkima ja pärast joonistame
-    // esialgne sõna säilib, nt saab kasutada pärast skoori arvutamisel 
+    // esialgne sõna säilib, nt saab kasutada pärast skoori arvutamisel
 
 	this.left = this.word;
 	this.first = this.left.charAt(0);
@@ -34,7 +34,7 @@ function Word(word, canvas, ctx){
 
 
     if(timeChange!=1){
-        time=1000;
+        time=1800;
         timeChange=1;
     }
 
@@ -63,7 +63,7 @@ Word.prototype = {
         // if(flyAway!='') {
         if(this.animSize>0) {
             this.animSize -= 9;
-            this.pos-=6
+            this.pos-=6;
         }else if(this.animSize<=0){
             this.alpha-=0.1;
         }
@@ -90,7 +90,7 @@ Word.prototype = {
         this.showTime= Math.round(time/60);
 
         if(this.showTime<=0){
-            if(gameFinished==1 && this.gameFinished==0){
+            if(gameFinished==1 && this.gameFinished===0){
                 this.gameMistakes=mistakes;
                 this.gameScore=typerGame.player.score;
                 this.gameFinished=1;
@@ -194,7 +194,7 @@ Word.prototype = {
             this.ctx.fillStyle = 'green';
             this.ctx.fillText("Skoor: " + typerGame.player.score, this.canvas.width / 2, this.canvas.height / 1.01);
             this.greenDuration+=1;
-        }else if(this.showTime>0 && this.newWord==0) {
+        }else if(this.showTime>0 && this.newWord===0) {
             this.ctx.font = 'bold 50px Courier';
             this.ctx.fillStyle = 'rgba(128, 0, 0, 0.73)';
             // Joonistame sõna, mis on järel / tekst, x, y

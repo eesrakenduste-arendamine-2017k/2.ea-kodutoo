@@ -23,7 +23,7 @@ var TYPER = function(){
 	this.word_min_length = 4;
 	this.guessed_words = 0; // arvatud sõnade arv
 	//mängija objekt, hoiame nime ja skoori
-	this.player;
+	this.player=0;
 	this.init();
 
 };
@@ -63,7 +63,7 @@ TYPER.prototype = {
 
         this.playerNameArray = JSON.parse(localStorage.getItem('playerName'));
 
-        if(!this.playerNameArray || this.playerNameArray.length==0){
+        if(!this.playerNameArray || this.playerNameArray.length===0){
             this.playerNameArray=[];
         }
 
@@ -194,7 +194,7 @@ TYPER.prototype = {
 
 				//loosin uue sõna
 				this.generateWord();
-				console.log("skoor: "+this.player.score)
+				console.log("skoor: "+this.player.score);
 			}
 			//joonistan uuesti
 			this.word.Draw();
@@ -202,7 +202,7 @@ TYPER.prototype = {
 		    mistakesCount+=0.1;
             mistakes+=1+mistakesCount;
             mistakesnr+=1;
-			if(this.varv3<100 && gameFinished==0) {
+			if(this.varv3<100 && gameFinished===0) {
 				if(this.varv2<=255 && this.up===0) {
                     document.getElementById('bg').innerHTML = '<style>canvas{background-color:  rgba(' + this.varv2 + ',0,0,1);};</style>';
                     window.setTimeout(function () {
@@ -212,7 +212,7 @@ TYPER.prototype = {
                     if(this.varv2>=255){
                     	this.up=1;
 					}
-                }else if(this.up==1 && gameFinished==0){
+        }else if(this.up==1 && gameFinished===0){
                     document.getElementById('bg').innerHTML = '<style>canvas{background-color:  rgba(' + this.varv2 + ',0,0,1);};</style>';
                     window.setTimeout(function () {
                         document.getElementById('bg').innerHTML = '<style>canvas{background-color: '+NColor+';};</style>';
@@ -324,7 +324,7 @@ function hide(id) {
     document.getElementById(id).style.visibility = "hidden";
 }
 var count = 0;
-window.onload = function playerName(){
+function playerName(){
     console.log("SIIIIINNN");
 
     var playerNameData = JSON.parse(localStorage.getItem("playerName"));
@@ -343,4 +343,4 @@ window.onload = function playerName(){
         document.getElementById("playerName").innerHTML +=count+1+" ) "+ player.name+"<a style='float: right;color: maroon;padding-top: 0px'>"+player.score+"</a><hr style='padding: 0px'>";
         count+=1;
     });
-};
+}

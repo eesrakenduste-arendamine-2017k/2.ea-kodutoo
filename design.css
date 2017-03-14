@@ -6,10 +6,8 @@
 @keyframes movebar{
     from{width: 0%;}
     to{width: 100%;}
-}.click{
+}.click {
 
-        animation: movebar;
-        animation-duration: 2s;
-}asd{
-    color: rgb(192, 192, 192);
-  }
+     animation: movebar;
+     animation-duration: 2s;
+ }
