@@ -19,6 +19,9 @@ var TYPER = function(){
 
 	//mängija objekt, hoiame nime ja skoori
 	this.player = {name: null, score: 0};
+	
+	
+	this.scores = JSON.parse(localStorage.getItem("games"));
 
 	this.init();
 };
@@ -146,6 +149,12 @@ TYPER.prototype = {
     
 	keyPressed: function(event){
 
+	
+	
+		if(window.location.hash != "#2view"){ return; }
+			
+		
+
 		//console.log(event);
 		// event.which annab koodi ja fromcharcode tagastab tähe
 		var letter = String.fromCharCode(event.which);
@@ -170,9 +179,71 @@ TYPER.prototype = {
 				document.getElementById("score").textContent = this.player.score;
 				//loosin uue sõna
 				this.generateWord();
+				
+			
+
+
+
+
+
+			//LOCALSTORAGE SALVESTAMINE
+			if(this.guessed_words > 2){
+				alert("suurem kui 2");
+				var gamer = this.p_name;
+				
+				var games = [];
+				
+				var game = {
+					id: parseInt(1000+Math.random()*999),
+					gamer: gamer,
+					score: document.getElementById("score").textContent,
+					mistakes: document.getElementById("missed").textContent
+				};
+				
+				console.log(game);
+				
+				var gamesFromStorage = null;
+				
+				if(localStorage.getItem("games")){
+					gamesFromStorage = JSON.parse(localStorage.getItem("games"));
+					
+					if(gamesFromStorage){
+						games = gamesFromStorage;
+					}
+					
+				}
+						
+				games.push(game);
+				
+				localStorage.setItem("games", JSON.stringify(games));
+				
+				function savescore(gameId, newScore){
+
+					games.forEach(function(game){
+						
+						console.log(game);
+						
+						if(gameId == game.id){
+							
+							game.score = newScore;
+							
+							console.log("updated");
+							console.log(game);
+						
+						}
+						
+					});
+					
+					
+					localStorage.setItem("games", JSON.stringify(gamesFromStorage));
+				
+				}
+			}
+
+				
 			}
 			//KAST NORMAALSUURUSELE TAGASI, KUI ON ÕITESTI VAJUTATUD KLAHVI
-			document.getElementById("kast").style.webkitAnimation = "normaalne 0.1s";
+			document.getElementById("kast").style.webkitAnimation = "normaalne 0s";
 			//joonistan uuesti
 			this.word.Draw();
 		} 
@@ -194,6 +265,8 @@ TYPER.prototype = {
 		
 
 	} // keypress end
+	
+	
 
 };
 
@@ -224,6 +297,44 @@ function structureArrayByWordLength(words){
     return temp_array;
 }
 
+function drawTable(){
+	var table =	document.querySelector("#table");
+	var tr = document.createElement("tr");
+	var th1 = document.createElement("th");
+	th1.innerHTML = "Kasutajanimi";	
+	var th2 = document.createElement("th");
+	th2.innerHTML = "Skoor";	
+	var th3 = document.createElement("th");
+	th3.innerHTML = "Vigu";
+	
+	table.innerHTML = "";
+	
+	tr.appendChild(th1);
+	tr.appendChild(th2);
+	tr.appendChild(th3);
+	
+	table.appendChild(tr);
+	
+	
+	typerGame.scores.forEach(function(game, key){
+		var tr = document.createElement("tr");
+		var td1 = document.createElement("td");
+		td1.innerHTML = game.name;	
+		var td2 = document.createElement("td");
+		td2.innerHTML = game.score;	
+		var td3 = document.createElement("td");
+		td3.innerHTML = parseInt(Math.random()*10);
+		
+		tr.appendChild(td1);
+		tr.appendChild(td2);
+		tr.appendChild(td3);
+		
+		table.appendChild(tr);
+		
+		
+	});
+}
+
 window.onload = function(){
 	var typerGame = new TYPER();
 	window.typerGame = typerGame;
@@ -236,7 +347,66 @@ window.onload = function(){
 		document.getElementById("nav").style.display = "none";	
 	}
 	
+	
+	drawTable();
+	
+	
+	//TEE SIIA KORRALIK SÜSTEEM TABELIVÄRVIDE MUUTMISEKS
+	document.getElementsByTagName("tr")[0].style.backgroundColor = "#607d8b";
+	document.getElementsByTagName("tr")[0].style.color = "white";
+	document.getElementsByTagName("tr")[2].style.backgroundColor = "#cfd8dc";
+	document.getElementsByTagName("tr")[4].style.backgroundColor = "#cfd8dc";
+	document.getElementsByTagName("tr")[6].style.backgroundColor = "#cfd8dc";
+	document.getElementsByTagName("tr")[8].style.backgroundColor = "#cfd8dc";
+	document.getElementsByTagName("tr")[10].style.backgroundColor = "#cfd8dc";
+	document.getElementsByTagName("tr")[12].style.backgroundColor = "#cfd8dc";
+	
+	
+	
+	
+	//TIMER
+	
+	function startTimer(duration, display) {
+		if(window.location.hash != "#2view"){ return; }
+		var timer = duration, minutes, seconds;
+		setInterval(function () {
+			minutes = parseInt(timer / 60, 10);
+			seconds = parseInt(timer % 60, 10);
+
+			minutes = minutes < 10 ? "0" + minutes : minutes;
+			seconds = seconds < 10 ? "0" + seconds : seconds;
+
+			display.textContent = minutes + ":" + seconds;
+			
+			if (--timer < 0) {
+				timer = duration;
+				window.location.hash = "#1view";
+			}
+		}, 1000);
+		
+	}
+    var twoMinutes = 60 * 2,
+    display = document.querySelector('#time');
+    
+	startTimer(twoMinutes, display);
+	
+	
+	
 };
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
 
 
 
