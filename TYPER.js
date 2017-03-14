@@ -21,7 +21,7 @@ var TYPER = function(){
 	this.player = {name: null, score: 0};
 	
 	
-	this.scores = [{name: "nimetu", score:100},{name:"Random", score:100}];
+	this.scores = JSON.parse(localStorage.getItem("games"));
 
 	this.init();
 };
@@ -180,11 +180,70 @@ TYPER.prototype = {
 				//loosin uue sõna
 				this.generateWord();
 				
+			
+
+
+
+
+
+			//LOCALSTORAGE SALVESTAMINE
+			if(this.guessed_words > 2){
+				alert("suurem kui 2");
+				var gamer = this.p_name;
 				
+				var games = [];
+				
+				var game = {
+					id: parseInt(1000+Math.random()*999),
+					gamer: gamer,
+					score: document.getElementById("score").textContent,
+					mistakes: document.getElementById("missed").textContent
+				};
+				
+				console.log(game);
+				
+				var gamesFromStorage = null;
+				
+				if(localStorage.getItem("games")){
+					gamesFromStorage = JSON.parse(localStorage.getItem("games"));
+					
+					if(gamesFromStorage){
+						games = gamesFromStorage;
+					}
+					
+				}
+						
+				games.push(game);
+				
+				localStorage.setItem("games", JSON.stringify(games));
+				
+				function savescore(gameId, newScore){
+
+					games.forEach(function(game){
+						
+						console.log(game);
+						
+						if(gameId == game.id){
+							
+							game.score = newScore;
+							
+							console.log("updated");
+							console.log(game);
+						
+						}
+						
+					});
+					
+					
+					localStorage.setItem("games", JSON.stringify(gamesFromStorage));
+				
+				}
+			}
+
 				
 			}
 			//KAST NORMAALSUURUSELE TAGASI, KUI ON ÕITESTI VAJUTATUD KLAHVI
-			document.getElementById("kast").style.webkitAnimation = "normaalne 0.1s";
+			document.getElementById("kast").style.webkitAnimation = "normaalne 0s";
 			//joonistan uuesti
 			this.word.Draw();
 		} 
@@ -288,11 +347,19 @@ window.onload = function(){
 		document.getElementById("nav").style.display = "none";	
 	}
 	
-	typerGame.scores.push({name: "Mark", score:100});
-	typerGame.scores.push({name: "Kätlin", score:100});
-	typerGame.scores.push({name: "LOL", score:100});
+	
 	drawTable();
 	
+	
+	//TEE SIIA KORRALIK SÜSTEEM TABELIVÄRVIDE MUUTMISEKS
+	document.getElementsByTagName("tr")[0].style.backgroundColor = "#607d8b";
+	document.getElementsByTagName("tr")[0].style.color = "white";
+	document.getElementsByTagName("tr")[2].style.backgroundColor = "#cfd8dc";
+	document.getElementsByTagName("tr")[4].style.backgroundColor = "#cfd8dc";
+	document.getElementsByTagName("tr")[6].style.backgroundColor = "#cfd8dc";
+	document.getElementsByTagName("tr")[8].style.backgroundColor = "#cfd8dc";
+	document.getElementsByTagName("tr")[10].style.backgroundColor = "#cfd8dc";
+	document.getElementsByTagName("tr")[12].style.backgroundColor = "#cfd8dc";
 	
 	
 	
@@ -327,6 +394,16 @@ window.onload = function(){
 	
 };
 
+
+
+
+
+
+
+
+
+
+	
 
 
 

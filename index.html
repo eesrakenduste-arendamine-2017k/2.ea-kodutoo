@@ -31,30 +31,23 @@
 
 	<main role="main">
 		
-		<div id="1view" animated fadeIn>
+		<div id="1view" class="animated zoomIn">
 				 <div id="scoreTable">  
 				   <table id="table">
 					  <tr>
-						<th>Kasutajanimi</th>
-						<th>Skoor</th>
-						<th>Vigu</th>
+						<th class="tableHead">Kasutajanimi</th>
+						<th class="tableHead">Skoor</th>
+						<th class="tableHead">Vigu</th>
 					  </tr>
-					  <tr>
-						<td>Nimetu</td>
-						<td>100</td>
-						<td>1</td>
-					  </tr>
-					  <tr>
-						<td>Random</td>
-						<td>22</td>
-						<td>94</td>
-					  </tr>
+					
+				
 					</table> 
 			
 					<form>
 						<button formaction="#2view" class="myButton" id="myBtn3">Alusta Uut Mängu</button>
 					</form>
 				</div>
+			<button class="myButton2" id="clearTable">Tühjenda tabel</button>	
 		</div>
 		
 		
@@ -87,14 +80,14 @@
 					</form>
 				</div>	
 			</div>
-		
+			
 		</div>
 		
 		
 		<div id="4view">
 			<h1 id="typerSign">TYPER Game</h1>
 			<div id="signUp">
-				<form action="#3view">
+				<form action="#3view" id="sForm">
 						
 						<div class="signUp">Sisesta kasutajatunnus</div><input type="text" name="fname" id="userN" class="signUp"><br>
 						

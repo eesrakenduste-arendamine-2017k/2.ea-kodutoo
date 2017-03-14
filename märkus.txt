@@ -13,3 +13,7 @@ drawin uue table
 this.scores = [{name: "nimetu", score:100},{name:"Random", score:100}];
 faili alguses on see koodirida, kust praegune table võtab andmed 
 see tuleb asendada localstorega
+
+
+array.shift
+array.push
