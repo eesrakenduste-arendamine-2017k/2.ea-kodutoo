@@ -26,7 +26,7 @@ var TYPER = function(){
 TYPER.prototype = {
 
 	// Funktsioon, mille käivitame alguses
-	init: function(){
+	init: function () {
 
 		// Lisame canvas elemendi ja contexti
 		this.canvas = document.getElementsByTagName('canvas')[0];
@@ -50,6 +50,12 @@ TYPER.prototype = {
 		// küsime mängija nime ja muudame objektis nime
 		var p_name = prompt("Sisesta mängija nimi");
 
+		//kui üritatakse sisestada liiga palju teksti
+		if(p_name.length >= 10){
+			p_name = prompt("Liiga pikk nimi!");
+
+		}
+
 		// Kui ei kirjutanud nime või jättis tühjaks
 		if(p_name === null || p_name === ""){
 			p_name = "Tundmatu";
@@ -61,7 +67,7 @@ TYPER.prototype = {
         console.log(this.player);
 	},
 
-	loadWords: function(){
+	loadWords: function(ctx, canvas){
 
         console.log('loading...');
 
@@ -97,7 +103,9 @@ TYPER.prototype = {
                 typerGame.loadPlayerData();
 
 				// kõik sõnad olemas, alustame mänguga
-				typerGame.start();
+					typerGame.start();
+
+
 			}
 		};
 
@@ -110,12 +118,21 @@ TYPER.prototype = {
 		// Tekitame sõna objekti Word
 		this.generateWord();
 		//console.log(this.word);
-
-        //joonista sõna
-		this.word.Draw();
+		this.drawAll();
+		this.gameStop = parseInt(new Date().getTime()/1000+10);
 
 		// Kuulame klahvivajutusi
 		window.addEventListener('keypress', this.keyPressed.bind(this));
+
+	},
+
+	drawAll: function () {
+
+		requestAnimFrame(window.typerGame.drawAll.bind(window.typerGame));
+
+		//console.log('joonistab');
+		//joonista sõna
+		this.word.Draw();
 
 	},
 
@@ -157,17 +174,39 @@ TYPER.prototype = {
                   //update player score
                   this.player.score = this.guessed_words;
 
-  				//loosin uue sõna
-  				this.generateWord();
-  			}
+				storeNameAndScore(this.player.name, this.player.score);
 
-  			//joonistan uuesti
-  			this.word.Draw();
-  		}
+				//loosin uue sõna
+				var currentTime = parseInt(new Date().getTime()/1000);
+				var timeLeft = this.gameStop - currentTime;
+				console.log(timeLeft);
+				if (currentTime < this.gameStop){
+					this.generateWord();
+				} else {
+					var again = confirm("Score: " + this.player.score +
+						"\nPlay again?");
+					if (again){
+						this.generateWord();
+						this.drawAll();
+						this.gameStop = parseInt(new Date().getTime()/1000+10);
+						this.player.score = 0;
+						console.log(this.player.score);
+					} else {
+						location.href = "index.html"
+					}
+				}
 
-  	} // keypress end
+			}
 
-  };
+			//joonistan uuesti
+			this.word.Draw();
+		}
+
+	} // keypress end
+
+};
+
+
 
 
 
@@ -197,36 +236,52 @@ function structureArrayByWordLength(words){
     return temp_array;
 }
 
-var requestAnimFrame = (function(){
-    return  window.requestAnimationFrame       ||
-        window.webkitRequestAnimationFrame ||
-        window.mozRequestAnimationFrame    ||
-        function( callback ){
-            window.setTimeout(callback, 1000 / 60);
-        };
-}
-)();
+var requestAnimFrame = (function () {
+	return window.requestAnimationFrame ||
+		window.webkitRequestAnimationFrame ||
+		window.mozRequestAnimationFrame ||
+		function (callback) {
+			window.setTimeout(callback, 1000 / 60);
+		};
+})();
 
-window.onload = function(){
+window.onload = function () {
 	var typerGame = new TYPER();
 	window.typerGame = typerGame;
 };
 
+// Nightmode
+
 var night=0;
-var NColor='black';
+var NColor='darkgrey';
 function darkMode(){
 	night=(night+1);
 	if(night%2==1) {
 	    console.log("NightMode ON");
-		NColor='black';
-        document.getElementById('bg').innerHTML = '<style>canvas{  background-color: black;};</style>';
+		NColor='darkgrey';
+        document.getElementById('bg').innerHTML = '<style>canvas{  background-color: darkgrey;};</style>';
     }
     if(night%2===0) {
         console.log("NightMode OFF");
         NColor='#F1C40F';
         document.getElementById('bg').innerHTML = '<style>canvas{background-color: #F1C40F;};</style>';
     }
-    if(gameFinished==1) {
-        location.href = "index.html";
-    }
+}
+
+// Local Storage
+function storeNameAndScore(playerName, playerScore) {
+	var playerNameFromStorage = localStorage.getItem('playerName');
+	var playerScoreFromStorage = localStorage.getItem('playerScore');
+	if (typeof(Storage) !== "undefined") {
+		// Store
+		localStorage.setItem("playerName", JSON.stringify(playerName));
+		localStorage.setItem("playerScore", JSON.stringify(playerScore));
+		// Retrieve
+		console.log('playerName: ', JSON.parse(playerNameFromStorage));
+		console.log('playerScore: ', JSON.parse(playerScoreFromStorage));
+
+		// document.getElementById("result").innerHTML = localStorage.getItem("playerName") + localStorage.getItem('');
+	} else {
+		document.getElementById("result").innerHTML = "Sorry, your browser does not support Web Storage...";
+	}
 }

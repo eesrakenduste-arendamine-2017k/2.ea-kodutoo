@@ -1,0 +1,146 @@
+html, body {
+  height: 100%;
+  background: #313;
+  font-family: lato, sans-serif;
+  font-weight: 400;
+  width: 100%;
+  overflow: hidden;
+}
+
+.page {
+  position: relative;
+  height: 100%;
+}
+
+.control-menu {
+  position: absolute;
+  font-size: 24px;
+  top: 10px;
+  border-radius: 24px;
+  right: 10px;
+  color: white;
+  z-index: 200;
+  text-decoration: none;
+}
+.control-menu .fa {
+  width: 32px;
+  height: 32px;
+  display: block;
+  line-height: 32px;
+  border-radius: 32px;
+  text-align: center;
+}
+.control-menu.open .fa-bars {
+  display: block;
+}
+.control-menu.open .fa-times {
+  display: none;
+}
+.control-menu.close .fa-bars {
+  display: none;
+}
+
+
+.menu {
+  width: 100%;
+  float: left;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.3s ease;
+  height: 100%;
+
+  opacity: 1;
+  height: 100px;
+  transform: translateY(0);
+  transition: all 0.2s 0.3s ease;
+
+  display: block;
+  padding-top: 10px;
+  font-size: 28px;
+  text-decoration: none;
+  opacity: 0;
+  height: 0;
+  text-transform: uppercase;
+  transform: translateY(200px);
+  width: 100%;
+}
+
+.menu-wrapper {
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.menu.closed {
+  transform: translateX(100%) scale(0.6) !important;
+  transform-origin: top right;
+  transition: all 0.4s ease;
+}
+
+.element {
+  display: block;
+  height: 25%;
+  width: 100%;
+  font-size: 32px;
+  text-align: center;
+  color: white;
+  display: table;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+.element.one {
+  background-color: #F1C40F;
+}
+.element.two {
+  background-color: #E67E22;
+}
+.element.three {
+  background-color: #E74C3C;
+}
+.element.four {
+  background-color: #E30E82;
+}
+.element .element-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+  position: relative;
+}
+.element .icon {
+  display: block;
+}
+.element .tag {
+  display: block;
+  padding-top: 10px;
+  font-size: 28px;
+  text-decoration: none;
+  opacity: 0;
+  height: 0;
+  text-transform: uppercase;
+  transform: translateY(200px);
+  width: 100%;
+}
+
+.element.element--closed {
+  height: 0%;
+  overflow: hidden;
+  display: block;
+}
+.element.element--closed * {
+  opacity: 0;
+  transition: all 1s ease;
+}
+
+.element.element--active {
+  font-size: 64px;
+  transition: all 0.3s;
+  height: 100%;
+}
+.element.element--active .tag {
+  opacity: 1;
+  height: 100px;
+  transform: translateY(0);
+  transition: all 0.2s 0.3s ease;
+}
+.element.element--active .tag small {
+  font-size: 0.4em;
+  display: block;
+}
