@@ -46,8 +46,10 @@
 					<form>
 						<button formaction="#2view" class="myButton" id="myBtn3">Alusta Uut Mängu</button>
 					</form>
+					
+					<button class="myButton2" id="clearTable">Tühjenda tabel</button>
 				</div>
-			<button class="myButton2" id="clearTable">Tühjenda tabel</button>	
+				
 		</div>
 		
 		
@@ -57,9 +59,8 @@
 			
 			<div id="scores">
 				<div>kasutajanimi: <span id="username"></span></div>
-				<div>skoor: <span id="score">0</span></div>
+				<div>sõnu alles: <span id="score">0</span>/30</div>
 				<div>vigu: <span id="missed">0</span></div>
-				<div>aeg: <span id="time">02:00</span></div>
 			</div>
 					
 					
@@ -89,7 +90,7 @@
 			<div id="signUp">
 				<form action="#3view" id="sForm">
 						
-						<div class="signUp">Sisesta kasutajatunnus</div><input type="text" name="fname" id="userN" class="signUp"><br>
+						<div class="signUp">Sisesta kasutajatunnus</div><input type="text" name="fname" id="userN" class="signUp" placeholder="kasutajanimi" autofocus><br>
 						
 						<button id="btn" class="myButton">Salvesta</button>
 						

@@ -1,5 +1,6 @@
 main > * {
     display: none;
+	font-family: "Arial Black", Gadget, sans-serif;
 }
 
 main > *:last-child {
@@ -120,7 +121,8 @@ li {
 	position: absolute;
 	top: 350px;
 	text-align: center;
-	left: 30%;
+	left: 50%;
+	margin-left: -185px;
 	background-color: white;
 	box-shadow: 0.5px 0.5px 0.5px 1px #888888;
 
@@ -138,8 +140,12 @@ li {
 	position: absolute;
 	font-family: OCR A Std, monospace;
 	font-size: 110px;
+	width: 900px;
 	top: 140px;	
-	left: 25%;
+	left: 50%;
+	margin-left: -450px;
+	
+	
 }
 
 #intro{
@@ -155,7 +161,9 @@ li {
 	background-color: white;
 }
 
-
+.idField{
+	width: 15px;
+}
 
 @keyframes keyError {
 	0%{border: 1px solid black; margin-left: -1px; margin-top: -1px; margin-bottom: -1px; margin-left: -1px; margin-right: -1px;}
@@ -211,9 +219,13 @@ h2{
 	border: 1px solid black;
 	border-collapse: collapse;
 	padding: 7px;
+	text-align: center;
 }
 #table < tr {
 	background-color: black;
+}
+tr:hover{
+	background-color: #eceff1;
 }
 
 
@@ -285,7 +297,8 @@ h2{
 	text-decoration:none;
 	text-shadow:0px 1px 0px #810e05;
 	position: absolute;
-	top: 400px;
+	top: 592px;
+	left: 20%;	
 }
 .myButton2:hover {
 	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #c62d1f), color-stop(1, #f24537));
@@ -297,13 +310,14 @@ h2{
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#c62d1f', endColorstr='#f24537',GradientType=0);
 	background-color:#c62d1f;
 	position: absolute;
-	top: 400px;
+	top: 592px;
+	left: 20%;
+	
 }
 .myButton2:active {
-	position:relative;
-	top:1px;
 	position: absolute;
-	top: 400px;
+	top: 592px;
+	left: 20%;
 }
 
 

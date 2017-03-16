@@ -19,8 +19,7 @@ var TYPER = function(){
 
 	//mängija objekt, hoiame nime ja skoori
 	this.player = {name: null, score: 0};
-	
-	
+
 	this.scores = JSON.parse(localStorage.getItem("games"));
 
 	this.init();
@@ -56,21 +55,18 @@ TYPER.prototype = {
 			localStorage.setItem("username", p); 
 			
 		})
-	
-	
+
 		// küsime mängija nime ja muudame objektis nime
 		var p_name = localStorage.getItem("username"); //prompt("Sisesta mängija nimi");
 		
-			
 		// Kui ei kirjutanud nime või jättis tühjaks
 		if(p_name === null || p_name === ""){
 			p_name = "Tundmatu";
-			
 		}
 		document.getElementById("username").textContent = p_name;
 		// Mänigja objektis muudame nime
-		this.player.name = p_name; // player =>>> {name:"Romil", score: 0}
-        console.log(this.player);
+		this.player.name = p_name; 
+        
 	}, 
 
 	loadWords: function(){
@@ -193,11 +189,13 @@ TYPER.prototype = {
 				
 				var games = [];
 				
+				
+				
 				var game = {
 					id: parseInt(1000+Math.random()*999),
-					gamer: gamer,
-					score: document.getElementById("score").textContent,
-					mistakes: document.getElementById("missed").textContent
+					gamerR: localStorage.getItem("username") || "Tundmatu",
+					score: document.getElementById("score").textContent || 0,
+					mistakes: document.getElementById("missed").textContent || 0
 				};
 				
 				console.log(game);
@@ -219,7 +217,7 @@ TYPER.prototype = {
 				
 				function savescore(gameId, newScore){
 
-					games.forEach(function(game){
+					games.forEach(function(game, key){
 						
 						console.log(game);
 						
@@ -229,7 +227,7 @@ TYPER.prototype = {
 							
 							console.log("updated");
 							console.log(game);
-						
+							
 						}
 						
 					});
@@ -271,6 +269,8 @@ TYPER.prototype = {
 };
 
 
+
+
 /* HELPERS */
 function structureArrayByWordLength(words){
     // TEEN massiivi ümber, et oleksid jaotatud pikkuse järgi
@@ -300,6 +300,12 @@ function structureArrayByWordLength(words){
 function drawTable(){
 	var table =	document.querySelector("#table");
 	var tr = document.createElement("tr");
+	tr.style.backgroundColor = "#b0bec5"; 
+	
+	var th0 = document.createElement("th");
+	th0.innerHTML = "id";	
+	th0.setAttribute("class", "idField");
+	
 	var th1 = document.createElement("th");
 	th1.innerHTML = "Kasutajanimi";	
 	var th2 = document.createElement("th");
@@ -309,31 +315,146 @@ function drawTable(){
 	
 	table.innerHTML = "";
 	
+	tr.appendChild(th0);
 	tr.appendChild(th1);
 	tr.appendChild(th2);
 	tr.appendChild(th3);
 	
+	
 	table.appendChild(tr);
 	
+	var userId = 0; 
+	
+	
+		//tabeli sortimine
+		typerGame.scores.sort(function(a, b){
+		return b.score-a.score || a.mistakes-b.mistakes;
+		})
+		
 	
 	typerGame.scores.forEach(function(game, key){
+		
+		var td0 = document.createElement("td");
+		td0.innerHTML = ++userId;
 		var tr = document.createElement("tr");
 		var td1 = document.createElement("td");
-		td1.innerHTML = game.name;	
+		td1.innerHTML = game.gamerR;	
 		var td2 = document.createElement("td");
 		td2.innerHTML = game.score;	
 		var td3 = document.createElement("td");
-		td3.innerHTML = parseInt(Math.random()*10);
+		td3.innerHTML = game.mistakes;
 		
+		
+		
+		
+		//kui id läheb suuremaks kui 10, siis lõpetab loopimise
+		if(userId > 10){
+			return;
+		}
+		td0.setAttribute("class", "idField");
+		
+		tr.appendChild(td0);
 		tr.appendChild(td1);
 		tr.appendChild(td2);
 		tr.appendChild(td3);
 		
-		table.appendChild(tr);
-		
+		table.appendChild(tr);	
 		
 	});
-}
+	
+	//vaatab et kui tabelis on vähem väärtuseid kui 10tk, siis teeb tühjad lahtrid juurde
+	if(userId < 10){
+			for(i = userId; i < 10; i++){
+				
+			var td0 = document.createElement("td");
+			td0.innerHTML = ++userId;
+			var tr = document.createElement("tr");
+			var td1 = document.createElement("td");
+			td1.innerHTML = "";	
+			var td2 = document.createElement("td");
+			td2.innerHTML = "";	
+			var td3 = document.createElement("td");
+			td3.innerHTML = "";	
+			
+			td0.setAttribute("class", "idField");
+			
+			tr.appendChild(td0);
+			tr.appendChild(td1);
+			tr.appendChild(td2);
+			tr.appendChild(td3);
+			
+			table.appendChild(tr);
+			} 
+			
+	}
+	
+		
+}// function drawTable() lõppeb
+
+
+
+
+document.getElementById("clearTable").addEventListener("click", function(){
+	confirm("oled kindel, et soovid jätkata?");
+	localStorage.clear();
+	
+	document.getElementById("table").innerHTML = "";
+	
+	var table =	document.querySelector("#table");
+	var tr = document.createElement("tr");
+	tr.style.backgroundColor = "#b0bec5"; 
+	
+	var th0 = document.createElement("th");
+	th0.innerHTML = "id";	
+	th0.setAttribute("class", "idField");
+	
+	var th1 = document.createElement("th");
+	th1.innerHTML = "Kasutajanimi";	
+	var th2 = document.createElement("th");
+	th2.innerHTML = "Skoor";	
+	var th3 = document.createElement("th");
+	th3.innerHTML = "Vigu";
+	
+	table.innerHTML = "";
+	
+	tr.appendChild(th0);
+	tr.appendChild(th1);
+	tr.appendChild(th2);
+	tr.appendChild(th3);
+	
+	
+	table.appendChild(tr);
+	
+	var counter = 0;
+	for(i = counter; i < 10; i++){
+				
+			var td0 = document.createElement("td");
+			td0.innerHTML = ++counter;
+			var tr = document.createElement("tr");
+			var td1 = document.createElement("td");
+			td1.innerHTML = "";	
+			var td2 = document.createElement("td");
+			td2.innerHTML = "";	
+			var td3 = document.createElement("td");
+			td3.innerHTML = "";	
+			
+			td0.setAttribute("class", "idField");
+			
+			tr.appendChild(td0);
+			tr.appendChild(td1);
+			tr.appendChild(td2);
+			tr.appendChild(td3);
+			
+			table.appendChild(tr);
+			
+	} // for loop lõppeb 
+	
+	typerGame.scores[0] = {id:1, gameR: "", score: "", mistakes: ""};
+	
+			
+});
+
+
 
 window.onload = function(){
 	var typerGame = new TYPER();
@@ -347,49 +468,12 @@ window.onload = function(){
 		document.getElementById("nav").style.display = "none";	
 	}
 	
-	
 	drawTable();
 	
-	
-	//TEE SIIA KORRALIK SÜSTEEM TABELIVÄRVIDE MUUTMISEKS
-	document.getElementsByTagName("tr")[0].style.backgroundColor = "#607d8b";
-	document.getElementsByTagName("tr")[0].style.color = "white";
-	document.getElementsByTagName("tr")[2].style.backgroundColor = "#cfd8dc";
-	document.getElementsByTagName("tr")[4].style.backgroundColor = "#cfd8dc";
-	document.getElementsByTagName("tr")[6].style.backgroundColor = "#cfd8dc";
-	document.getElementsByTagName("tr")[8].style.backgroundColor = "#cfd8dc";
-	document.getElementsByTagName("tr")[10].style.backgroundColor = "#cfd8dc";
-	document.getElementsByTagName("tr")[12].style.backgroundColor = "#cfd8dc";
-	
-	
-	
-	
-	//TIMER
-	
-	function startTimer(duration, display) {
-		if(window.location.hash != "#2view"){ return; }
-		var timer = duration, minutes, seconds;
-		setInterval(function () {
-			minutes = parseInt(timer / 60, 10);
-			seconds = parseInt(timer % 60, 10);
-
-			minutes = minutes < 10 ? "0" + minutes : minutes;
-			seconds = seconds < 10 ? "0" + seconds : seconds;
-
-			display.textContent = minutes + ":" + seconds;
-			
-			if (--timer < 0) {
-				timer = duration;
-				window.location.hash = "#1view";
-			}
-		}, 1000);
+	window.addEventListener("hashchange",function(){
+		console.log("leht muutus");
 		
-	}
-    var twoMinutes = 60 * 2,
-    display = document.querySelector('#time');
-    
-	startTimer(twoMinutes, display);
-	
+	})
 	
 	
 };
