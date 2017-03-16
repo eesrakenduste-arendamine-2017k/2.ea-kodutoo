@@ -1,6 +1,5 @@
 var lives;
 var score;
-var tulemus ="";
 
 var TYPER = function(){
 
@@ -132,6 +131,7 @@ TYPER.prototype = {
 
 	},
 
+//error->
   restart: function(){
 
       lives = 5;
@@ -156,6 +156,22 @@ TYPER.prototype = {
 
   	// Word on defineeritud eraldi Word.js failis
       this.word = new Word(word, this.canvas, this.ctx);
+  },
+
+  saveLocal: function(){
+
+    var tulemused = [];
+
+    if (tulemused[0] === 0){
+        tulemused.push(this.player.name, this.player.score);
+
+    } else {
+        tulemused = JSON.parse(localStorage.getItem("Score"));
+        tulemused.push(this.player.name, this.player.score);
+
+    }
+    localStorage.setItem('Score', JSON.stringify(tulemused));
+
   },
 
 	keyPressed: function(event){
@@ -198,11 +214,9 @@ TYPER.prototype = {
       lives=0;
       document.getElementById('gameOver').innerHTML = "Mäng läbi! Sinu skoor: "+this.player.score;
       document.getElementById('game').style.visibility = "hidden";
-      tulemus = this.player.name+" "+ this.player.score;
 
+      typerGame.saveLocal();
     }
-
-    localStorage.setItem('Score', JSON.stringify(tulemus));
 
 	} // keypress end
 
@@ -240,6 +254,9 @@ window.onload = function(){
 	var typerGame = new TYPER();
 	window.typerGame = typerGame;
 
-  document.getElementById("restart").addEventListener('click', restart());
+  //document.getElementById("restart").addEventListener('click', restart());
+  document.getElementById("topPlayers").innerHTML = localStorage.getItem("Score");
+
+
 
 };
