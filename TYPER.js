@@ -11,6 +11,8 @@ var TYPER = function(){
 	this.HEIGHT = window.innerHeight;
 	this.canvas = null;
 	this.ctx = null;
+	
+	this.pages = TYPER.pages;
 
 	this.words = []; // kõik sõnad
 	this.word = null; // preagu arvamisel olev sõna
@@ -23,10 +25,38 @@ var TYPER = function(){
 	this.init();
 };
 
+TYPER.pages = {
+	'home-view': {
+		'render': function(){
+			console.log('Home');
+		}
+	},
+	
+	'game-view':{
+		'render': function(){
+			console.log('Game');
+		}
+	},
+	
+	'statistics-view':{
+		'render': function(){
+			console.log('Statistics');
+		}
+	}
+}
+
 TYPER.prototype = {
 
 	// Funktsioon, mille käivitame alguses
 	init: function(){
+		
+		window.addEventListener('hashchange', this.ChangePage.bind(this));
+		
+		if(!window.location.hash){
+			window.location.hash = 'home-view';
+		} else {
+			this.ChangePage();
+		}
 
 		// Lisame canvas elemendi ja contexti
 		this.canvas = document.getElementsByTagName('canvas')[0];
@@ -48,11 +78,11 @@ TYPER.prototype = {
 	loadPlayerData: function(){
 
 		// küsime mängija nime ja muudame objektis nime
-		var p_name = prompt("Sisesta mängija nimi");
+		var p_name = prompt("Enter your player name");
 
 		// Kui ei kirjutanud nime või jättis tühjaks
 		if(p_name === null || p_name === ""){
-			p_name = "Tundmatu";
+			p_name = "Unknown";
 		
 		}
 
@@ -63,7 +93,7 @@ TYPER.prototype = {
 
 	loadWords: function(){
 
-        console.log('loading...');
+        console.log('Loading...');
 
 		// AJAX http://www.w3schools.com/ajax/tryit.asp?filename=tryajax_first
 		var xmlhttp = new XMLHttpRequest();
@@ -87,17 +117,17 @@ TYPER.prototype = {
 				//console.log(words_from_file);
                 
                 // Kuna this viitab siin xmlhttp päringule siis tuleb läheneda läbi avaliku muutuja
-                // ehk this.words asemel tuleb kasutada typerGame.words
+                // ehk this.words asemel tuleb kasutada TYPERGame.words
                 
 				//asendan massiivi
-				typerGame.words = structureArrayByWordLength(words_from_file);
-				console.log(typerGame.words);
+				TYPERGame.words = structureArrayByWordLength(words_from_file);
+				console.log(TYPERGame.words);
 				
 				// küsime mängija andmed
-                typerGame.loadPlayerData();
+                TYPERGame.loadPlayerData();
 
 				// kõik sõnad olemas, alustame mänguga
-				typerGame.start();
+				TYPERGame.start();
 			}
 		};
 
@@ -166,7 +196,31 @@ TYPER.prototype = {
 			this.word.Draw();
 		}
 
-	} // keypress end
+	}, // keypress end
+	
+	ChangePage: function(event){
+		
+		this.currentPage = location.hash.slice(1);
+		console.log(this.currentPage);
+		
+		if(this.pages[this.currentPage]){
+			
+			this.updateNavigation();
+			this.pages[this.currentPage].render();
+			
+		} else {
+			
+			console.log("An error occured");
+			
+		}
+	},
+	
+	updateNavigation: function(){
+		
+		document.querySelector('.active-menu').className = document.querySelector('.active-menu').className.replace('active-menu', '');
+		document.querySelector('.' + this.currentPage).className += ' active-menu';
+		
+	}
 
 };
 
@@ -198,6 +252,6 @@ function structureArrayByWordLength(words){
 }
 
 window.onload = function(){
-	var typerGame = new TYPER();
-	window.typerGame = typerGame;
+	var TYPERGame = new TYPER();
+	window.TYPERGame = TYPERGame;
 };
