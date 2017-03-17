@@ -11,6 +11,8 @@ function Word(word, canvas, ctx){
     this.ctx = ctx;
 }
 
+
+
 Word.prototype = {
 	Draw: function(){
 
@@ -33,3 +35,6 @@ Word.prototype = {
 		//console.log(this.left);
 	}
 };
+
+
+
