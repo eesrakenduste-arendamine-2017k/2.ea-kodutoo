@@ -135,7 +135,14 @@ TYPER.prototype = {
 
       lives = 5;
       score = 0;
+      this.player.score = 0;
       document.getElementById('game').style.visibility = "visible";
+      document.getElementById('gameOver').style.visibility = "hidden";
+      this.guessed_words = 0;
+      this.generateWord();
+      this.word.Draw();
+      document.getElementById('gamerLives').innerHTML = "Elud: "+ lives;
+      document.getElementById('gamerScore').innerHTML = "Skoor: "+this.player.score;
 
   },
 
@@ -172,11 +179,8 @@ TYPER.prototype = {
           Score = gamesFromStorage;
         }
     }
-
     Score.push(game);
-
     localStorage.setItem('Score', JSON.stringify(Score));
-
   },
 
 	keyPressed: function(event){
@@ -217,6 +221,7 @@ TYPER.prototype = {
     if (lives <= 0){
       //alert("Mäng läbi!\nSinu skoor: "+this.player.score);
       lives=0;
+      document.getElementById('gameOver').style.visibility = "visible";
       document.getElementById('gameOver').innerHTML = "Mäng läbi! Sinu skoor: "+this.player.score;
       document.getElementById('game').style.visibility = "hidden";
 
@@ -259,7 +264,9 @@ window.onload = function(){
 	var typerGame = new TYPER();
 	window.typerGame = typerGame;
 
-  document.getElementById("restartBTN").addEventListener('click', restart());
+  document.getElementById("restartBTN").addEventListener('click', function(){
+    typerGame.restart();
+  });
   document.getElementById("topPlayers").innerHTML = localStorage.getItem("Score");
 
 };
