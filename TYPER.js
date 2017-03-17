@@ -131,14 +131,11 @@ TYPER.prototype = {
 
 	},
 
-//error->
   restart: function(){
 
       lives = 5;
       score = 0;
-      tulemus ="";
       document.getElementById('game').style.visibility = "visible";
-
 
   },
 
@@ -160,17 +157,25 @@ TYPER.prototype = {
 
   saveLocal: function(){
 
-    var tulemused = [];
+    var Score = [];
 
-    if (tulemused[0] === 0){
-        tulemused.push(this.player.name, this.player.score);
+    var game ={
+      player : this.player.name,
+      score : this.player.score
+    };
 
-    } else {
-        tulemused = JSON.parse(localStorage.getItem("Score"));
-        tulemused.push(this.player.name, this.player.score);
+    var gamesFromStorage = null;
 
+    if(localStorage.getItem("Score")){
+      gamesFromStorage = JSON.parse(localStorage.getItem("Score"));
+        if(gamesFromStorage){
+          Score = gamesFromStorage;
+        }
     }
-    localStorage.setItem('Score', JSON.stringify(tulemused));
+
+    Score.push(game);
+
+    localStorage.setItem('Score', JSON.stringify(Score));
 
   },
 
@@ -254,9 +259,7 @@ window.onload = function(){
 	var typerGame = new TYPER();
 	window.typerGame = typerGame;
 
-  //document.getElementById("restart").addEventListener('click', restart());
+  document.getElementById("restartBTN").addEventListener('click', restart());
   document.getElementById("topPlayers").innerHTML = localStorage.getItem("Score");
-
-
 
 };
