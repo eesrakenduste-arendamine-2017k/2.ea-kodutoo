@@ -20,6 +20,7 @@ var TYPER = function(){
 	//mängija objekt, hoiame nime ja skoori
 	this.player = {name: null, score: 0};
 
+	
 	this.scores = JSON.parse(localStorage.getItem("games"));
 
 	this.init();
@@ -183,8 +184,9 @@ TYPER.prototype = {
 
 
 			//LOCALSTORAGE SALVESTAMINE
-			if(this.guessed_words > 2){
-				alert("suurem kui 2");
+			if(this.guessed_words > 30){
+				
+				window.location.hash = "#1view";
 				var gamer = this.p_name;
 				
 				var games = [];
@@ -213,7 +215,12 @@ TYPER.prototype = {
 						
 				games.push(game);
 				
+				
+				
 				localStorage.setItem("games", JSON.stringify(games));
+				this.scores = JSON.parse(localStorage.getItem("games"));
+				
+				drawTable();
 				
 				function savescore(gameId, newScore){
 
@@ -297,70 +304,136 @@ function structureArrayByWordLength(words){
     return temp_array;
 }
 
+// DRAW TABLE FUNCTION
+
 function drawTable(){
+	
+	
+		
 	var table =	document.querySelector("#table");
 	var tr = document.createElement("tr");
 	tr.style.backgroundColor = "#b0bec5"; 
+	table.InnerHTML = "";
+	//kui localStorage on olemas, siis joonista andmetega tabel
 	
-	var th0 = document.createElement("th");
-	th0.innerHTML = "id";	
-	th0.setAttribute("class", "idField");
-	
-	var th1 = document.createElement("th");
-	th1.innerHTML = "Kasutajanimi";	
-	var th2 = document.createElement("th");
-	th2.innerHTML = "Skoor";	
-	var th3 = document.createElement("th");
-	th3.innerHTML = "Vigu";
-	
-	table.innerHTML = "";
-	
-	tr.appendChild(th0);
-	tr.appendChild(th1);
-	tr.appendChild(th2);
-	tr.appendChild(th3);
-	
-	
-	table.appendChild(tr);
-	
-	var userId = 0; 
-	
-	
-		//tabeli sortimine
-		typerGame.scores.sort(function(a, b){
-		return b.score-a.score || a.mistakes-b.mistakes;
-		})
+	if(typerGame.scores && typerGame.scores.length > 0){
+			
+		var th0 = document.createElement("th");
+		th0.innerHTML = "id";	
+		th0.setAttribute("class", "idField");
 		
-	
-	typerGame.scores.forEach(function(game, key){
+		var th1 = document.createElement("th");
+		th1.innerHTML = "Kasutajanimi";	
+		var th2 = document.createElement("th");
+		th2.innerHTML = "Skoor";	
+		var th3 = document.createElement("th");
+		th3.innerHTML = "Vigu";
 		
-		var td0 = document.createElement("td");
-		td0.innerHTML = ++userId;
+		table.innerHTML = "";
+		
+		tr.appendChild(th0);
+		tr.appendChild(th1);
+		tr.appendChild(th2);
+		tr.appendChild(th3);
+		
+		
+		table.appendChild(tr);
+		
+		var userId = 0; 
+		
+		
+			
+			
+			//tabeli sortimine
+			typerGame.scores.sort(function(a, b){
+			return b.score-a.score || a.mistakes-b.mistakes;
+			})
+			
+		
+		typerGame.scores.forEach(function(game, key){
+			
+			var td0 = document.createElement("td");
+			td0.innerHTML = ++userId;
+			var tr = document.createElement("tr");
+			var td1 = document.createElement("td");
+			td1.innerHTML = game.gamerR;	
+			var td2 = document.createElement("td");
+			td2.innerHTML = game.score;	
+			var td3 = document.createElement("td");
+			td3.innerHTML = game.mistakes;
+			
+			
+			
+			
+			//kui id läheb suuremaks kui 10, siis lõpetab loopimise
+			if(userId > 10){
+				return;
+			}
+			td0.setAttribute("class", "idField");
+			
+			tr.appendChild(td0);
+			tr.appendChild(td1);
+			tr.appendChild(td2);
+			tr.appendChild(td3);
+			
+			table.appendChild(tr);	
+			
+		});
+		//ku localstorage on tühi, siis joonista tühi tabel
+	}	else	{
+		
+		document.getElementById("table").innerHTML = "";
+		
+		var table =	document.querySelector("#table");
 		var tr = document.createElement("tr");
-		var td1 = document.createElement("td");
-		td1.innerHTML = game.gamerR;	
-		var td2 = document.createElement("td");
-		td2.innerHTML = game.score;	
-		var td3 = document.createElement("td");
-		td3.innerHTML = game.mistakes;
+		tr.style.backgroundColor = "#b0bec5"; 
+		
+		var th0 = document.createElement("th");
+		th0.innerHTML = "id";	
+		th0.setAttribute("class", "idField");
+		
+		var th1 = document.createElement("th");
+		th1.innerHTML = "Kasutajanimi";	
+		var th2 = document.createElement("th");
+		th2.innerHTML = "Skoor";	
+		var th3 = document.createElement("th");
+		th3.innerHTML = "Vigu";
+		
+		table.innerHTML = "";
+		
+		tr.appendChild(th0);
+		tr.appendChild(th1);
+		tr.appendChild(th2);
+		tr.appendChild(th3);
 		
 		
+		table.appendChild(tr);
 		
-		
-		//kui id läheb suuremaks kui 10, siis lõpetab loopimise
-		if(userId > 10){
-			return;
+		var counter = 0;
+		for(i = counter; i < 10; i++){
+					
+				var td0 = document.createElement("td");
+				td0.innerHTML = ++counter;
+				var tr = document.createElement("tr");
+				var td1 = document.createElement("td");
+				td1.innerHTML = "";	
+				var td2 = document.createElement("td");
+				td2.innerHTML = "";	
+				var td3 = document.createElement("td");
+				td3.innerHTML = "";	
+				
+				td0.setAttribute("class", "idField");
+				
+				tr.appendChild(td0);
+				tr.appendChild(td1);
+				tr.appendChild(td2);
+				tr.appendChild(td3);
+				
+				table.appendChild(tr);
+				
 		}
-		td0.setAttribute("class", "idField");
-		
-		tr.appendChild(td0);
-		tr.appendChild(td1);
-		tr.appendChild(td2);
-		tr.appendChild(td3);
-		
-		table.appendChild(tr);	
-		
-	});
+		userId = 10;
+	}
 	
 	//vaatab et kui tabelis on vähem väärtuseid kui 10tk, siis teeb tühjad lahtrid juurde
 	if(userId < 10){
@@ -388,7 +461,7 @@ function drawTable(){
 			
 	}
 	
-		
+	console.log("draw table tehtud");
 }// function drawTable() lõppeb
 
 
@@ -397,61 +470,11 @@ function drawTable(){
 document.getElementById("clearTable").addEventListener("click", function(){
 	confirm("oled kindel, et soovid jätkata?");
 	localStorage.clear();
+	typerGame.scores = [];
 	
-	document.getElementById("table").innerHTML = "";
+	drawTable();
+	 
 	
-	var table =	document.querySelector("#table");
-	var tr = document.createElement("tr");
-	tr.style.backgroundColor = "#b0bec5"; 
-	
-	var th0 = document.createElement("th");
-	th0.innerHTML = "id";	
-	th0.setAttribute("class", "idField");
-	
-	var th1 = document.createElement("th");
-	th1.innerHTML = "Kasutajanimi";	
-	var th2 = document.createElement("th");
-	th2.innerHTML = "Skoor";	
-	var th3 = document.createElement("th");
-	th3.innerHTML = "Vigu";
-	
-	table.innerHTML = "";
-	
-	tr.appendChild(th0);
-	tr.appendChild(th1);
-	tr.appendChild(th2);
-	tr.appendChild(th3);
-	
-	
-	table.appendChild(tr);
-	
-	var counter = 0;
-	for(i = counter; i < 10; i++){
-				
-			var td0 = document.createElement("td");
-			td0.innerHTML = ++counter;
-			var tr = document.createElement("tr");
-			var td1 = document.createElement("td");
-			td1.innerHTML = "";	
-			var td2 = document.createElement("td");
-			td2.innerHTML = "";	
-			var td3 = document.createElement("td");
-			td3.innerHTML = "";	
-			
-			td0.setAttribute("class", "idField");
-			
-			tr.appendChild(td0);
-			tr.appendChild(td1);
-			tr.appendChild(td2);
-			tr.appendChild(td3);
-			
-			table.appendChild(tr);
-			
-	} // for loop lõppeb 
-	
-	typerGame.scores[0] = {id:1, gameR: "", score: "", mistakes: ""};
-	
-			
 });
 
 
@@ -472,7 +495,7 @@ window.onload = function(){
 	
 	window.addEventListener("hashchange",function(){
 		console.log("leht muutus");
-		
+		drawTable();
 	})
 	
 	
