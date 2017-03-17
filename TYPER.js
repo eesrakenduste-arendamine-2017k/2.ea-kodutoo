@@ -134,6 +134,8 @@ TYPER.prototype = {
 
     generateWord: function () {
 
+        console.log(this.guessed_words);
+
         // kui pikk peab sõna tulema, + min pikkus + äraarvatud sõnade arvul jääk 5 jagamisel
         // iga viie sõna tagant suureneb sõna pikkus ühe võrra
         var generated_word_length = this.word_min_length + parseInt(this.guessed_words / 5);
@@ -167,6 +169,7 @@ TYPER.prototype = {
             if (this.word.left.length === 0) {
 
                 this.guessed_words += 1;
+                console.log(this.player.score);
 
                 //update player score
                 this.player.score = this.guessed_words;
@@ -179,16 +182,23 @@ TYPER.prototype = {
                 console.log(timeLeft);
                 if (currentTime < this.gameStop){
                     this.generateWord();
+                    console.log(this.player.score);
                 } else {
                     var again = confirm("Score: " + this.player.score +
                         "\nPlay again?");
                     if (again){
+                        console.log(this.guessed_words);
+                        this.guessed_words = 0;
+                        this.player.score = 0;
+                        storeNameAndScore(this.player.name, this.player.score);
+
                         this.generateWord();
                         this.drawAll();
                         this.gameStop = parseInt(new Date().getTime()/1000+10);
-                        this.player.score = 0;
+
                         console.log(this.player.score);
                     } else {
+                        console.log(this.guessed_words);
                         location.href = "index.html"
                     }
                 }
