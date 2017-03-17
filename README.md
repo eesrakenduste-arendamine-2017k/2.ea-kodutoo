@@ -1,6 +1,6 @@
 # 2. kodutöö 
 
-[Live versioon](http://www.ponks.me/typer)
+[Live versioon](http://www.tlu.ee/~gregn/typer/)
 
 - 30 sekundit aega
 - sõna pikkus kasvab 1 tähe võrra peale igat sõna
