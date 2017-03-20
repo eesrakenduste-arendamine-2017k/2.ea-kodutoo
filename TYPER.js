@@ -249,10 +249,16 @@ var requestAnimFrame = (function () {
         };
 })();
 
+/*
 window.onload = function () {
     var typerGame = new TYPER();
     window.typerGame = typerGame;
 };
+*/
+function startNewGame (){
+    var typerGame = new TYPER();
+    window.typerGame = typerGame;
+}
 
 // Nightmode
 var checkIfNight = 0;

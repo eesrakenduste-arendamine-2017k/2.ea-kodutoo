@@ -17,7 +17,11 @@
 <main role="main">
 
     <div id="typer">
-     <!--  <canvas id="nightMode" onclick="nightMode()"></canvas> -->
+        <canvas id="nightMode"></canvas>
+        <div align="center">
+            <a href="#typer" class="button" onclick="startNewGame()">>>Start Typ3r!<<</a>
+            <a href="#typer" class="button" onclick="nightMode()">>>Night Mod3!<<</a>
+        </div>
     </div>
     <div id="scores">
         <!-- Scores page goes here -->
