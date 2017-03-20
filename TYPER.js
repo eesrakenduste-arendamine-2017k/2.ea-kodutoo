@@ -24,11 +24,64 @@ var TYPER = function () {
     this.init();
 };
 
+TYPER.routes = {
+    "home": {
+        "render": function(){
+            console.log("Laeti avaleht")
+        }
+    },
+
+    "typer": {
+        "render": function(){
+            console.log("Laeti mäng")
+            // küsime mängija andmed
+            typerGame.loadPlayerData();
+
+            // kõik sõnad olemas, alustame mänguga
+            typerGame.start();
+        }
+    },
+
+    "scores": {
+        "render": function(){
+            console.log("Laeti edetabel")
+            console.log(typerGame.player);
+        }
+    }
+};
+
+function routeChange(event){
+    currentRoute = location.hash.slice(1);
+    console.log(currentRoute);
+
+    if(TYPER.routes[currentRoute]){
+
+        //muudan menüü lingi aktiivseks
+        updateMenu();
+
+        TYPER.routes[currentRoute].render();
+
+
+    }else{
+        /// 404 - ei olnud
+        console.log("Ei leidnud hashi " + currentRoute);
+    }
+};
 
 TYPER.prototype = {
 
     // Funktsioon, mille käivitame alguses
     init: function () {
+
+        window.addEventListener("hashchange", routeChange.bind(this));
+
+        if(!window.location.hash){
+            window.location.hash = 'home';
+            // routechange siin ei ole vaja sest käsitsi muutmine käivitab routechange event'i ikka
+        }else{
+            //esimesel käivitamisel vaatame urli üle ja uuendame menüüd
+            this.routeChange();
+        }
 
         // Lisame canvas elemendi ja contexti
         this.canvas = document.getElementsByTagName('canvas')[0];
@@ -62,7 +115,6 @@ TYPER.prototype = {
 
         // Mänigja objektis muudame nime
         this.player.name = p_name; // player =>>> {name:"Romil", score: 0}
-        console.log(this.player);
 
     },
 
@@ -98,11 +150,6 @@ TYPER.prototype = {
                 typerGame.words = structureArrayByWordLength(words_from_file);
                 console.log(typerGame.words);
 
-                // küsime mängija andmed
-                typerGame.loadPlayerData();
-
-                // kõik sõnad olemas, alustame mänguga
-                typerGame.start();
             }
         };
 
@@ -199,7 +246,7 @@ TYPER.prototype = {
                         console.log(this.player.score);
                     } else {
                         console.log(this.guessed_words);
-                        location.href = "index.html"
+                        location.href = "#home"
                     }
                 }
 
