@@ -36,7 +36,7 @@ p {
     text-align: center;
 }
 
-.btn {
+a.button {
     font-family: 'PT Serif', 'PT Sans', serif, sans-serif;
     color: #000000;
     font-size: 125%;
@@ -46,18 +46,27 @@ p {
     border: none;
 }
 
-.btn:hover {
+a.button:hover {
     background: #000000;
     color: #ffffff;
     text-decoration: none;
 }
 
+main {
+    width: 100%;
+    height: 100%;
+}
+
 main > * {
     display: none;
+    width: 100%;
+    height: 100%;
 }
 
 main > *:last-child {
     display: block;
+    width: 100%;
+    height: 100%;
 }
 
 @keyframes pulse {
@@ -69,8 +78,12 @@ main > *:last-child {
 main > *:target {
     display: block;
     animation: pulse 0.5s linear 1;
+    width: 100%;
+    height: 100%;
 }
 
 main > *:target ~ * {
     display: none;
+    width: 100%;
+    height: 100%;
 }
