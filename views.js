@@ -8,9 +8,6 @@
             'typer': {
                 'rendered': function() {
                     console.log('typer');
-                   /* app.routeElem.innerHTML = '<canvas id="nightMode" onclick="nightMode()">' +
-                        '<a href="#" class="button" onclick="startNewGame()">>>Start Typ3r!<<</a></canvas>';
-                        */
                 }
             },
             'scores': {

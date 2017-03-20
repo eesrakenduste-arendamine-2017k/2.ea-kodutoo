@@ -249,12 +249,13 @@ var requestAnimFrame = (function () {
         };
 })();
 
-/*
+/* loads game when canvas gets loaded (crap)
 window.onload = function () {
     var typerGame = new TYPER();
     window.typerGame = typerGame;
 };
 */
+
 function startNewGame (){
     var typerGame = new TYPER();
     window.typerGame = typerGame;
