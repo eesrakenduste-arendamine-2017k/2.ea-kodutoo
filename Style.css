@@ -19,9 +19,5 @@ li a {
 }
 
 li a:hover {
-	background-color: green;
-}
-
-.navigation-item {
-	
+	background-color: grey;
 }

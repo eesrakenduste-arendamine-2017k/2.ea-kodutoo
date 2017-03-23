@@ -1,3 +1,9 @@
+var timer = document.getElementById("time_left");
+var score = document.querySelector("#score");
+var g_words = 0;
+var mistakes = 0;
+
+
 var TYPER = function(){
 
 	//singleton
@@ -12,6 +18,7 @@ var TYPER = function(){
 	this.canvas = null;
 	this.ctx = null;
 	
+	
 	this.pages = TYPER.pages;
 
 	this.words = []; // kõik sõnad
@@ -20,30 +27,86 @@ var TYPER = function(){
 	this.guessed_words = 0; // arvatud sõnade arv
 
 	//mängija objekt, hoiame nime ja skoori
-	this.player = {name: null, score: 0};
+	this.player = {name: null, score: 0, mistakes: 0};
 
 	this.init();
 };
+
 
 TYPER.pages = {
 	'home-view': {
 		'render': function(){
 			console.log('Home');
+			document.querySelector("#game-view").style.display = "none";
+			document.querySelector("#statistics-view").style.display = "none";
+			document.querySelector("#home-view").style.display = "block";
 		}
 	},
 	
 	'game-view':{
-		'render': function(){
+		'render': function(){	
 			console.log('Game');
+			document.querySelector("#game-view").style.display = "block";
+			document.querySelector(".loading").style.display = "block";
+			document.querySelector(".message").style.display = "block";
+			document.querySelector(".words-display").style.display = "none";
+			document.querySelector("#score").style.display = "none";
+			document.getElementById("statistics-view").style.display = "none";
+			document.getElementById("home-view").style.display = "none";
+			
+			function pageHashChanged() {
+                if (location.hash === "#home-view" || location.hash === "#statistics-view") {
+                    location.reload();
+                }
+            }
+			
+			window.onhashchange = pageHashChanged;
+			
+			window.setTimeout(function(){
+				
+				document.querySelector(".loading").style.display = "none";
+				document.querySelector(".message").style.display = "none";
+				document.querySelector(".words-display").style.display = "block";
+				document.querySelector("#score").style.display = "block";
+				
+				function Timer(){
+					timer.innerHTML--;
+					if(timer.innerHTML < 0){
+						timer.innerHTML = 0;
+					}
+					
+					if(timer.innerHTML <= 0){
+						if(timer.innerHTML <= 0 && g_words !== 0){
+						}
+						
+						alert("Game Over! Your final score is: " + g_words);
+						timer.innerHTML = 10;
+						mistakes = 0;
+						g_words = 0;
+						window.location.hash = 'home-view';
+						setTimeout(function(){
+						}, 1000);
+						
+					} else {
+						setTimeout(Timer, 1000);
+					}
+				}
+				
+				setTimeout(Timer, 1000);
+				
+			}, 5000);
 		}
 	},
 	
 	'statistics-view':{
 		'render': function(){
 			console.log('Statistics');
+			document.querySelector("#statistics-view").style.display = "block";
+			document.querySelector("#home-view").style.display = "none";
+			document.querySelector("#game-view").style.display = "none";
 		}
 	}
-}
+};
 
 TYPER.prototype = {
 
@@ -88,7 +151,7 @@ TYPER.prototype = {
 
 		// Mänigja objektis muudame nime
 		this.player.name = p_name; // player =>>> {name:"Romil", score: 0}
-        console.log(this.player);
+        //console.log(this.player);
 	}, 
 
 	loadWords: function(){
@@ -121,7 +184,7 @@ TYPER.prototype = {
                 
 				//asendan massiivi
 				TYPERGame.words = structureArrayByWordLength(words_from_file);
-				console.log(TYPERGame.words);
+				//console.log(TYPERGame.words);
 				
 				// küsime mängija andmed
                 TYPERGame.loadPlayerData();
@@ -184,9 +247,13 @@ TYPER.prototype = {
 			if(this.word.left.length === 0){
 
 				this.guessed_words += 1;
+				
+				timer.innerHTML = parseInt(timer.innerHTML) + 2;
 
                 //update player score
                 this.player.score = this.guessed_words;
+				g_words = this.guessed_words;
+				document.getElementById("score").innerHTML = "Score: " + this.player.score;
 
 				//loosin uue sõna
 				this.generateWord();
@@ -194,6 +261,17 @@ TYPER.prototype = {
 
 			//joonistan uuesti
 			this.word.Draw();
+			
+		} else {
+			
+			mistakes++;
+			document.body.style.background = "red";
+			window.setTimeout(function(){
+				document.body.style.background = "white";
+			}, 50);
+			
+			timer.innerHTML = parseInt(timer.innerHTML) - 2;
+			
 		}
 
 	}, // keypress end
@@ -205,7 +283,7 @@ TYPER.prototype = {
 		
 		if(this.pages[this.currentPage]){
 			
-			this.updateNavigation();
+			this.UpdateNavigation();
 			this.pages[this.currentPage].render();
 			
 		} else {
@@ -215,7 +293,7 @@ TYPER.prototype = {
 		}
 	},
 	
-	updateNavigation: function(){
+	UpdateNavigation: function(){
 		
 		document.querySelector('.active-menu').className = document.querySelector('.active-menu').className.replace('active-menu', '');
 		document.querySelector('.' + this.currentPage).className += ' active-menu';

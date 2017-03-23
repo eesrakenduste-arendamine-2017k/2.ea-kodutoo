@@ -4,7 +4,6 @@
 	<meta charset="UTF-8">
 	<title>The TYPER Game</title>
 	<link rel="stylesheet" href="Style.css">
-	<script src="TYPER.js" charset="utf-8"></script>
 </head>
 <body>
 	
@@ -17,21 +16,49 @@
 		</ul>
 	</nav>
 	
-	<!-- Home -->
-	<div id="home-view">
-		<h1>Welcome To TYPER!</h1>
-		<p>What is TYPER you may ask? Well to put it simply it's just a normal typing game but with Estonian words.</p>
-		<h1>How the game works:</h1>
-		<p>1.You start with 10 secs</p>
-		<p>2.Each word that you type in correctly gives you 1 point</p>
-		<p>3.Each word that you type in correctly adds an extra 2 seconds to your timer</p>
-		<p>4.If you make a mistake while typing, you lose 2 seconds</p>
-		<p>5.Simple as that - now go and have fun!</p>
-	</div>
+	<main role="main">
 	
-	<!-- Statistics -->
-	<div id="statistics-view">
-		<h1>Statistics</h1>
-	</div>
+		<!-- Home -->
+		<div id="home-view">
+			<h1>Welcome To TYPER!</h1>
+			<p>What is TYPER you may ask? Well to put it simply it's just a normal typing game but with Estonian words.</p>
+			<h1>How the game works:</h1>
+			<p>1.You start with 10 secs</p>
+			<p>2.Each word that you type in correctly gives you 1 point</p>
+			<p>3.Each word that you type in correctly adds an extra 2 seconds to your timer</p>
+			<p>4.If you make a mistake while typing, you lose 2 seconds</p>
+			<p>5.Simple as that - now go and have fun!</p>
+		</div>
+
+		<!-- Game -->
+		<div id="game-view">
+			<p class="loading">Loading....</p>
+			<br>
+			<p class="message">Get ready to start typing!</p>
+			<p id="score">Score: 0</p>
+			<p class="words-display">
+				<canvas>
+			</p>
+			<p>Time left:</p>
+			<div id="time_left">10</div>
+		</div>
+
+		<!-- Statistics -->
+		<div id="statistics-view">
+			<h1>Statistics</h1>
+			<table>
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Player</th>
+						<th>Score</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</main>
+	
 </body>
+<script src="TYPER.js" charset="utf-8"></script>
+<script src="Word.js" charset="utf-8"></script>
 </html>
