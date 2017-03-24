@@ -1,7 +1,26 @@
+//Extra variables
 var timer = document.getElementById("time_left");
 var score = document.querySelector("#score");
 var g_words = 0;
 var mistakes = 0;
+var temp_arr = [];
+
+
+
+//Function to compare scores
+function compareScores(p1, p2){
+	
+	if(p1.score > p2.score){
+		return -1;
+	}
+	
+	if(p1.score < p2.score){
+		return 1;
+	}
+	
+	return 0;
+	
+}
 
 
 var TYPER = function(){
@@ -11,13 +30,12 @@ var TYPER = function(){
         return TYPER.instance_;
     }
     TYPER.instance_ = this;
-
+		
 	// Muutujad
 	this.WIDTH = window.innerWidth;
 	this.HEIGHT = window.innerHeight;
 	this.canvas = null;
 	this.ctx = null;
-	
 	
 	this.pages = TYPER.pages;
 
@@ -47,20 +65,12 @@ TYPER.pages = {
 		'render': function(){	
 			console.log('Game');
 			document.querySelector("#game-view").style.display = "block";
-			document.querySelector(".loading").style.display = "block";
+			document.querySelector(".loading").style.display = "none";
 			document.querySelector(".message").style.display = "block";
 			document.querySelector(".words-display").style.display = "none";
 			document.querySelector("#score").style.display = "none";
 			document.getElementById("statistics-view").style.display = "none";
 			document.getElementById("home-view").style.display = "none";
-			
-			function pageHashChanged() {
-                if (location.hash === "#home-view" || location.hash === "#statistics-view") {
-                    location.reload();
-                }
-            }
-			
-			window.onhashchange = pageHashChanged;
 			
 			window.setTimeout(function(){
 				
@@ -77,12 +87,15 @@ TYPER.pages = {
 					
 					if(timer.innerHTML <= 0){
 						if(timer.innerHTML <= 0 && g_words !== 0){
+							
+							var n_player = new Scoreboard(player, g_words, mistakes);
+							temp_arr.push(n_player);
+							localStorage.setItem('PlayerData', JSON.stringify(temp_arr));
+							
 						}
 						
 						alert("Game Over! Your final score is: " + g_words);
 						timer.innerHTML = 10;
-						mistakes = 0;
-						g_words = 0;
 						window.location.hash = 'home-view';
 						setTimeout(function(){
 						}, 1000);
@@ -136,6 +149,7 @@ TYPER.prototype = {
 
 		// laeme sõnad
 		this.loadWords();
+		
 	}, 
 
 	loadPlayerData: function(){
@@ -151,7 +165,8 @@ TYPER.prototype = {
 
 		// Mänigja objektis muudame nime
 		this.player.name = p_name; // player =>>> {name:"Romil", score: 0}
-        //console.log(this.player);
+		player = this.player.name;
+        console.log(this.player);
 	}, 
 
 	loadWords: function(){
@@ -253,7 +268,7 @@ TYPER.prototype = {
                 //update player score
                 this.player.score = this.guessed_words;
 				g_words = this.guessed_words;
-				document.getElementById("score").innerHTML = "Score: " + this.player.score;
+				document.getElementById("score").innerHTML = "Score: " + g_words;
 
 				//loosin uue sõna
 				this.generateWord();
@@ -271,6 +286,10 @@ TYPER.prototype = {
 			}, 50);
 			
 			timer.innerHTML = parseInt(timer.innerHTML) - 2;
+			
+			if(timer.innerHTML < 0){
+				timer.innerHTML = 0;
+			}
 			
 		}
 
@@ -302,6 +321,14 @@ TYPER.prototype = {
 
 };
 
+var Scoreboard = function(name, score, mistakes){
+	
+	this.name = name;
+	this.score = score;
+	this.mistakes = mistakes;
+	
+	console.log(this);
+};
 
 /* HELPERS */
 function structureArrayByWordLength(words){
