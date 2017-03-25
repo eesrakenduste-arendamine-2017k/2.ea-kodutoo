@@ -4,7 +4,7 @@ var score = document.querySelector("#score");
 var g_words = 0;
 var mistakes = 0;
 var player_array = JSON.parse(localStorage.getItem('PlayerData')) || [];
-
+this.top10 = [];
 
 
 //Function to compare scores
@@ -98,7 +98,7 @@ TYPER.pages = {
 					if(timer.innerHTML <= 0){
 						if(timer.innerHTML <= 0 && g_words !== 0){
 							
-							var n_player = new Scoreboard(player, g_words, mistakes);
+							var n_player = new Leaderboard(player, g_words, mistakes);
 							player_array.push(n_player);
 							localStorage.setItem('PlayerData', JSON.stringify(player_array));
 							
@@ -160,7 +160,18 @@ TYPER.prototype = {
 		// laeme sõnad
 		this.loadWords();
 		
-	}, 
+		//Creating the top 10 player list
+		
+		if(localStorage.PlayerData){
+			
+			this.top10 = JSON.parse(localStorage.PlayerData).slice(0, 10);
+			this.top10.sort(compareScores);
+			console.log(this.top10);
+		
+		}
+		
+		
+	},
 
 	loadPlayerData: function(){
 
@@ -331,7 +342,7 @@ TYPER.prototype = {
 
 };
 
-var Scoreboard = function(name, score, mistakes){
+var Leaderboard = function(name, score, mistakes){
 	
 	this.name = name;
 	this.score = score;
@@ -340,13 +351,14 @@ var Scoreboard = function(name, score, mistakes){
 	console.log(this);
 };
 
+
 /* HELPERS */
 function structureArrayByWordLength(words){
     // TEEN massiivi ümber, et oleksid jaotatud pikkuse järgi
     // NT this.words[3] on kõik kolmetähelised
 
     // defineerin ajutise massiivi, kus kõik on õiges jrk
-    var player_arrayay = [];
+    var temp_array = [];
 
     // Käime läbi kõik sõnad
     for(var i = 0; i < words.length; i++){
@@ -354,16 +366,16 @@ function structureArrayByWordLength(words){
         var word_length = words[i].length;
 
         // Kui pole veel seda array'd olemas, tegu esimese just selle pikkusega sõnaga
-        if(player_arrayay[word_length] === undefined){
+        if(temp_array[word_length] === undefined){
             // Teen uue
-            player_arrayay[word_length] = [];
+            temp_array[word_length] = [];
         }
 
         // Lisan sõna juurde
-        player_arrayay[word_length].push(words[i]);
+        temp_array[word_length].push(words[i]);
     }
 
-    return player_arrayay;
+    return temp_array;
 }
 
 window.onload = function(){
