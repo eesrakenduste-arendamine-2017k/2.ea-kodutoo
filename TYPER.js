@@ -3,7 +3,7 @@ var timer = document.getElementById("time_left");
 var score = document.querySelector("#score");
 var g_words = 0;
 var mistakes = 0;
-var temp_arr = [];
+var player_array = JSON.parse(localStorage.getItem('PlayerData')) || [];
 
 
 
@@ -79,6 +79,16 @@ TYPER.pages = {
 				document.querySelector(".words-display").style.display = "block";
 				document.querySelector("#score").style.display = "block";
 				
+				//Function to refresh the home page after the game ends
+				//So that players can enter their name again
+				function pageHashChanged(){
+					if(location.hash === '#home-view'){
+						location.reload();
+					}
+				}
+				
+				window.onhashchange = pageHashChanged;
+				
 				function Timer(){
 					timer.innerHTML--;
 					if(timer.innerHTML < 0){
@@ -89,8 +99,8 @@ TYPER.pages = {
 						if(timer.innerHTML <= 0 && g_words !== 0){
 							
 							var n_player = new Scoreboard(player, g_words, mistakes);
-							temp_arr.push(n_player);
-							localStorage.setItem('PlayerData', JSON.stringify(temp_arr));
+							player_array.push(n_player);
+							localStorage.setItem('PlayerData', JSON.stringify(player_array));
 							
 						}
 						
@@ -336,7 +346,7 @@ function structureArrayByWordLength(words){
     // NT this.words[3] on kõik kolmetähelised
 
     // defineerin ajutise massiivi, kus kõik on õiges jrk
-    var temp_array = [];
+    var player_arrayay = [];
 
     // Käime läbi kõik sõnad
     for(var i = 0; i < words.length; i++){
@@ -344,16 +354,16 @@ function structureArrayByWordLength(words){
         var word_length = words[i].length;
 
         // Kui pole veel seda array'd olemas, tegu esimese just selle pikkusega sõnaga
-        if(temp_array[word_length] === undefined){
+        if(player_arrayay[word_length] === undefined){
             // Teen uue
-            temp_array[word_length] = [];
+            player_arrayay[word_length] = [];
         }
 
         // Lisan sõna juurde
-        temp_array[word_length].push(words[i]);
+        player_arrayay[word_length].push(words[i]);
     }
 
-    return temp_array;
+    return player_arrayay;
 }
 
 window.onload = function(){
