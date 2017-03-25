@@ -1,25 +1,45 @@
-<!doctype html>
+<!DOCTYPE HTML>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>typer</title>
-	<style> 
-		* {
-			margin: 0;
-			padding: 0;
-		}
-		html, body, canvas {
-			width: 100%;
-			height: 100%;
-		}
-		canvas {
-			position: absolute;
-		}
-	</style>
-	<script src="TYPER.js"></script>
-    <script src="Word.js"></script>
-</head>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="style.css">
+		<title>Mängu tutvustus</title>
+		<script src="TYPER.js"></script>
+		<script src="Word.js"></script>
+	</head>
 <body>
-	<canvas></canvas>
+
+	<div id="color">
+	<nav class="menu">
+		<ul class="menu-list">
+			<li class="menu-item"><a href="#home-view" class="menu-link home-view active-menu">Avaleht</a></li>
+			<li class="menu-item"><a href="#game-view" class="menu-link game-view">Mäng</a></li>
+			<li class="menu-item"><a href="#scores-view" class="menu-link scores-view">Statistika</a></li>
+		</ul>
+	</nav>
+
+		<main role="main">
+
+			<div id="scores-view">
+				<h1>Statistika</h1>
+				<table id="statistics"></table>
+			</div>
+
+			<div id="game-view">
+				<H1>Mäng</h1>
+				<canvas id="NightMode"></canvas>
+			</div>
+
+			<div id="home-view">
+				<h1>Avaleht</h1>
+				<h3>Tere tulemast mängima eestikeelsete sõnade trükimis mängu.</h3>
+				<p>Mäng ise on väga lihtne. Sistesta enda nimi ja mäng algab. Ekraanile ilmuvad sõnad ja siis tüki neid.</p>
+				<p>Aega on 1 minut ja mängida võid nii mitu korda kui tahad.</p>
+				<button id="nightmode" type="button" onClick="nightmode();">Öö režiim</button>
+				<button id="begingame" type="button" onClick="begingame();">Alusta mängu</button> <br><br>
+				<table id="tablePrint"></table>
+			</div>
+		</main>
+	</div>
 </body>
 </html>
