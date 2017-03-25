@@ -4,7 +4,8 @@ var score = document.querySelector("#score");
 var g_words = 0;
 var mistakes = 0;
 var player_array = JSON.parse(localStorage.getItem('PlayerData')) || [];
-this.top10 = [];
+this.top10 = [10];
+var top10_counter = 0;
 
 
 //Function to compare scores
@@ -38,6 +39,8 @@ var TYPER = function(){
 	this.ctx = null;
 	
 	this.pages = TYPER.pages;
+	
+	this.top10 = [];
 
 	this.words = []; // kõik sõnad
 	this.word = null; // preagu arvamisel olev sõna
@@ -46,7 +49,7 @@ var TYPER = function(){
 
 	//mängija objekt, hoiame nime ja skoori
 	this.player = {name: null, score: 0, mistakes: 0};
-
+	
 	this.init();
 };
 
@@ -131,6 +134,52 @@ TYPER.pages = {
 	}
 };
 
+//Creating the top 10 player list
+if(localStorage.PlayerData){
+			
+	this.top10 = JSON.parse(localStorage.PlayerData);
+	this.top10.sort(compareScores);
+	//console.log(this.top10);
+	
+	for(i=0; i<this.top10.length; i++){
+		
+		this.top10 = JSON.parse(localStorage.PlayerData);
+		this.top10.sort(compareScores).slice(0, 10);
+		
+		var list_top10 = document.createElement('li');
+		var playername = document.createElement('span');
+		var linebreak = document.createElement('br');
+		var playerscore = document.createElement('span');
+		
+		var p_content = document.createTextNode(this.top10[i].name + " ");
+		var s_content = document.createTextNode(this.top10[i].score);
+		
+		playername.appendChild(p_content);
+		playerscore.appendChild(s_content);
+		
+		list_top10.appendChild(playername);
+		list_top10.appendChild(playerscore);
+		
+		var element_attach = document.getElementById("home-view");
+		
+		element_attach.appendChild(list_top10);
+		element_attach.appendChild(linebreak);
+		
+		if(top10_counter == 10){
+			
+		}
+	}
+	
+	for(i=0; i<player_array.length; i++){
+		
+		
+		
+	}
+	
+	
+		
+}
+
 TYPER.prototype = {
 
 	// Funktsioon, mille käivitame alguses
@@ -159,17 +208,6 @@ TYPER.prototype = {
 
 		// laeme sõnad
 		this.loadWords();
-		
-		//Creating the top 10 player list
-		
-		if(localStorage.PlayerData){
-			
-			this.top10 = JSON.parse(localStorage.PlayerData).slice(0, 10);
-			this.top10.sort(compareScores);
-			console.log(this.top10);
-		
-		}
-		
 		
 	},
 
@@ -348,7 +386,7 @@ var Leaderboard = function(name, score, mistakes){
 	this.score = score;
 	this.mistakes = mistakes;
 	
-	console.log(this);
+	//console.log(this);
 };
 
 
