@@ -4,8 +4,7 @@ var score = document.querySelector("#score");
 var g_words = 0;
 var mistakes = 0;
 var player_array = JSON.parse(localStorage.getItem('PlayerData')) || [];
-this.top10 = [10];
-var top10_counter = 0;
+this.top10 = [];
 
 
 //Function to compare scores
@@ -136,15 +135,13 @@ TYPER.pages = {
 
 //Creating the top 10 player list
 if(localStorage.PlayerData){
-			
-	this.top10 = JSON.parse(localStorage.PlayerData);
-	this.top10.sort(compareScores);
+
+	player_array = JSON.parse(localStorage.PlayerData);
+	player_array.sort(compareScores);
+	this.top10 = player_array.slice(0, 10);
 	//console.log(this.top10);
 	
 	for(i=0; i<this.top10.length; i++){
-		
-		this.top10 = JSON.parse(localStorage.PlayerData);
-		this.top10.sort(compareScores).slice(0, 10);
 		
 		var list_top10 = document.createElement('li');
 		var playername = document.createElement('span');
@@ -165,9 +162,6 @@ if(localStorage.PlayerData){
 		element_attach.appendChild(list_top10);
 		element_attach.appendChild(linebreak);
 		
-		if(top10_counter == 10){
-			
-		}
 	}
 	
 	for(i=0; i<player_array.length; i++){
@@ -243,7 +237,7 @@ TYPER.prototype = {
 			// Sai faili tervenisti kätte
 			if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
 
-                console.log('successfully loaded');
+                console.log('Successfully loaded');
 
 				// serveri vastuse sisu
 				var response = xmlhttp.responseText;
