@@ -4,7 +4,9 @@ var score = document.querySelector("#score");
 var g_words = 0;
 var mistakes = 0;
 var player_array = JSON.parse(localStorage.getItem('PlayerData')) || [];
-this.top10 = [];
+var chars_typed = 0;
+var chars_typed_correctly = 0;
+var accuracy = 0;
 
 
 //Function to compare scores
@@ -47,7 +49,7 @@ var TYPER = function(){
 	this.guessed_words = 0; // arvatud sõnade arv
 
 	//mängija objekt, hoiame nime ja skoori
-	this.player = {name: null, score: 0, mistakes: 0};
+	this.player = {name: null, score: 0, mistakes: 0, accuracy: 0};
 	
 	this.init();
 };
@@ -84,7 +86,7 @@ TYPER.pages = {
 				//Function to refresh the home page after the game ends
 				//So that players can enter their name again
 				function pageHashChanged(){
-					if(location.hash === '#home-view'){
+					if(location.hash === '#home-view' || location.hash === '#statistics-view'){
 						location.reload();
 					}
 				}
@@ -100,7 +102,9 @@ TYPER.pages = {
 					if(timer.innerHTML <= 0){
 						if(timer.innerHTML <= 0 && g_words !== 0){
 							
-							var n_player = new Leaderboard(player, g_words, mistakes);
+							accuracy = (chars_typed_correctly/chars_typed * 100);
+							accuracy = Math.round((accuracy) * 100) / 100;
+							var n_player = new Leaderboard(player, g_words, mistakes, accuracy);
 							player_array.push(n_player);
 							localStorage.setItem('PlayerData', JSON.stringify(player_array));
 							
@@ -140,15 +144,25 @@ if(localStorage.PlayerData){
 	player_array.sort(compareScores);
 	this.top10 = player_array.slice(0, 10);
 	//console.log(this.top10);
+	var counter = 0;
 	
 	for(i=0; i<this.top10.length; i++){
 		
-		var list_top10 = document.createElement('li');
-		var playername = document.createElement('span');
-		var linebreak = document.createElement('br');
-		var playerscore = document.createElement('span');
+		counter += 1;
 		
-		var p_content = document.createTextNode(this.top10[i].name + " ");
+		var list_top10 = document.createElement('li');
+		list_top10.className = 'top10_player';
+		
+		var playername = document.createElement('span');
+		playername.className = 'player_content';
+		
+		var linebreak = document.createElement('br');
+		var linebrak2 = document.createElement('br');
+		
+		var playerscore = document.createElement('span');
+		playerscore.className = 'score_content';
+		
+		var p_content = document.createTextNode(counter + ". " + this.top10[i].name + " ");
 		var s_content = document.createTextNode(this.top10[i].score);
 		
 		playername.appendChild(p_content);
@@ -157,21 +171,45 @@ if(localStorage.PlayerData){
 		list_top10.appendChild(playername);
 		list_top10.appendChild(playerscore);
 		
-		var element_attach = document.getElementById("home-view");
+		var element_attach = document.querySelector(".top10_players");
 		
 		element_attach.appendChild(list_top10);
 		element_attach.appendChild(linebreak);
+		element_attach.appendChild(linebrak2);
 		
 	}
+	
+	//Creating a table for all players
 	
 	for(i=0; i<player_array.length; i++){
 		
+		var table_row = document.createElement('tr');
 		
+		var Name = document.createElement('td');
+		var Score = document.createElement('td');
+		var Mistakes = document.createElement('td');
+		var Accuracy = document.createElement('td');
+		
+		var p_content = document.createTextNode(player_array[i].name);
+		var s_content = document.createTextNode(player_array[i].score);
+		var m_content = document.createTextNode(player_array[i].mistakes);
+		var a_content = document.createTextNode(player_array[i].accuracy + "%");
+		
+		Name.appendChild(p_content);
+		Score.appendChild(s_content);
+		Mistakes.appendChild(m_content);
+		Accuracy.appendChild(a_content);
+		
+		table_row.appendChild(Name);
+		table_row.appendChild(Score);
+		table_row.appendChild(Mistakes);
+		table_row.appendChild(Accuracy);
+		
+		var connect_table = document.querySelector(".players_table");
+		
+		connect_table.appendChild(table_row);
 		
 	}
-	
-	
-		
 }
 
 TYPER.prototype = {
@@ -309,7 +347,10 @@ TYPER.prototype = {
 
 			// Võtame ühe tähe maha
 			this.word.removeFirstLetter();
-
+			
+			chars_typed_correctly += 1;
+			chars_typed += 1;
+			
 			// kas sõna sai otsa, kui jah - loosite uue sõna
 
 			if(this.word.left.length === 0){
@@ -332,6 +373,7 @@ TYPER.prototype = {
 			
 		} else {
 			
+			chars_typed += 1;
 			mistakes++;
 			document.body.style.background = "red";
 			window.setTimeout(function(){
@@ -374,11 +416,12 @@ TYPER.prototype = {
 
 };
 
-var Leaderboard = function(name, score, mistakes){
+var Leaderboard = function(name, score, mistakes, accuracy){
 	
 	this.name = name;
 	this.score = score;
 	this.mistakes = mistakes;
+	this.accuracy = accuracy;
 	
 	//console.log(this);
 };
