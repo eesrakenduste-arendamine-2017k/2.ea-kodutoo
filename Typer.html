@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>The TYPER Game</title>
+	<link rel="stylesheet" href="Style.css">
+</head>
+<body>
+	
+	<!-- Navigation -->
+	<nav class="menu">
+		<ul class="menu-list">
+			<li class="menu-item"><a href="#home-view" class="menu-link home-view active-menu">Home</a></li>
+			<li class="menu-item"><a href="#game-view" class="menu-link game-view">Game</a></li>
+			<li class="menu-item"><a href="#statistics-view" class="menu-link statistics-view">Statistics</a></li>
+		</ul>
+	</nav>
+	
+	<main role="main">
+	
+		<!-- Home -->
+		<div id="home-view">
+			<div class="introduction">
+				<h1>Welcome To TYPER!</h1>
+				<p>What is TYPER you may ask? Well to put it simply it's just a normal typing game but with Estonian words.</p>
+				<h2>How the game works:</h2>
+				<p>1.You start with 10 secs</p>
+				<p>2.Each word that you type in correctly gives you 1 point</p>
+				<p>3.Each word that you type in correctly adds an extra 2 seconds to your timer</p>
+				<p>4.If you make a mistake while typing, you lose 2 seconds</p>
+				<p>5.Simple as that - now go and have fun!</p>
+			</div>
+				<div id="top10" style="float: right;">
+					<h2 class="top10_header">The Top 10</h2>
+						<ul class="top10_players">
+					</ul>
+				</div>
+		</div>
+
+		<!-- Game -->
+		<div id="game-view">
+			<p class="loading">Loading....</p>
+			<p class="message">Get ready to start typing!</p>
+			<p id="score">Score: 0</p>
+			<p class="words-display">
+				<canvas>
+			</p>
+			<p>Time left:</p>
+			<div id="time_left">10</div>
+		</div>
+
+		<!-- Statistics -->
+		<div id="statistics-view">
+			<h1>Statistics</h1>
+			<table class="players_table">
+				<thead>
+					<tr>
+						<th>Player</th>
+						<th>Score</th>
+						<th>Mistakes</th>
+						<th>Accuracy</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</main>
+	
+</body>
+<script src="TYPER.js" charset="utf-8"></script>
+<script src="Word.js" charset="utf-8"></script>
+</html>
