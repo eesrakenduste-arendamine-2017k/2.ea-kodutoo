@@ -17,7 +17,7 @@ var TYPER = function(){
 	//this.WIDTH = window.innerWidth; //Ei saa olla window.innerWidth, kuna siis läbeb kõik asjad kokku
 	//this.HEIGHT = window.innerHeight;//Ei saa olla window.innerHeight, kuna siis läbeb kõik asjad kokku
 	
-	this.seconds = 5;
+	this.seconds = 60;
 	this.mistakes = 0;
 
 	this.canvas = null;
@@ -91,7 +91,7 @@ TYPER.prototype = {
 	},
 	
 	begingame: function (){
-		this.seconds = 5;
+		this.seconds = 60;
 		//this.player.score = 0;
 		//console.log("This skoor: "+this.player.score);
 		typerGame.player.score = 0;
@@ -306,7 +306,7 @@ TYPER.prototype = {
 	
 	again: function () {
 		this.player.score = 0;
-		this.seconds = 5;
+		this.seconds = 60;
 		console.log("Tühi skoor: "+this.player.score);
 		this.mistakes = 0;
 		typerGame.mistakes = 0;
@@ -383,7 +383,37 @@ function data(){
 	//playerdata2.sort(function(a, b){return a - b});
 	//playerdata2.reverse();
 	//console.log("Test sort: "+playerdata2);
-	
+/*	
+var biggest = -Infinity;
+var biggest_index = -1; {
+    for (i = 0; i < playerdata2.length; i++) {
+        if (playerdata2[i] > biggest) {
+            biggest = playerdata2[i];
+            biggest_index = i;
+        }
+    }
+    console.log("The biggest element is " + biggest);
+}
+*/
+
+/*
+var list = [];
+for (var j = 0; j < playerdata.length; j++) 
+    list.push({'nimi': playerdata[j], 'tulemus': playerdata2[j]})
+
+list.sort(function(a, b) {
+    return ((a.playerdata < b.playerdata) ? -1 : ((a.playerdata == b.playerdata) ? 0 : 1));
+})
+
+//3) separate them back out:
+for (var k = 0; k < list.length; k++) {
+    playerdata[k] = list[k].playerdata;
+    playerdata2[k] = list[k].playerdata2;
+}
+
+console.log("Sorteerimie playerdata: "+playerdata);
+console.log("Sorteerimie playerdata2: "+playerdata2);
+*/
 	
 	var table = "<table>";
 	table = table + "<tr><th>" + "Mänigja nimi" + "</th><th>" + "Tulemus" + "</th><tr>";
