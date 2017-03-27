@@ -21,6 +21,7 @@
         <div align="center">
             <a href="#typer" class="button" onclick="startNewGame()">>>Start Typ3r!<<</a>
             <a href="#typer" class="button" onclick="nightMode()">>>Night Mod3!<<</a>
+            <p id="timer"></p>
         </div>
     </div>
     <div id="scores">

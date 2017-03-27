@@ -127,9 +127,12 @@ TYPER.prototype = {
 
         requestAnimFrame(window.typerGame.drawAll.bind(window.typerGame));
 
-        //console.log('joonistab');
         //joonista sõna
         this.word.Draw();
+
+        var currentTime = parseInt(new Date().getTime()/1000);
+        var timeLeft = this.gameStop - currentTime;
+        document.getElementById("timer").innerHTML = "Timeleft: " + timeLeft;
     },
 
     generateWord: function () {
@@ -178,8 +181,6 @@ TYPER.prototype = {
 
                 //loosin uue sõna
                 var currentTime = parseInt(new Date().getTime()/1000);
-                var timeLeft = this.gameStop - currentTime;
-                console.log(timeLeft);
                 if (currentTime < this.gameStop){
                     this.generateWord();
                     console.log(this.player.score);
@@ -199,7 +200,8 @@ TYPER.prototype = {
                         console.log(this.player.score);
                     } else {
                         console.log(this.guessed_words);
-                        location.href = "#home"
+                        location.href = "#home";
+                        location.reload(true)
                     }
                 }
 
@@ -256,6 +258,7 @@ window.onload = function () {
 };
 */
 
+// If new game
 function startNewGame (){
     var typerGame = new TYPER();
     window.typerGame = typerGame;
