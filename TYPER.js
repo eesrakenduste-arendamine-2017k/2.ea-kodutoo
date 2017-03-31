@@ -17,7 +17,7 @@ var TYPER = function(){
 	//this.WIDTH = window.innerWidth; //Ei saa olla window.innerWidth, kuna siis läbeb kõik asjad kokku
 	//this.HEIGHT = window.innerHeight;//Ei saa olla window.innerHeight, kuna siis läbeb kõik asjad kokku
 	
-	this.seconds = 60;
+	this.seconds = 5;
 	this.mistakes = 0;
 
 	this.canvas = null;
@@ -88,10 +88,12 @@ TYPER.prototype = {
 			startgame.addEventListener("click",this.begingame.bind(this));
 			//console.log("TEST");
 		}
+		window.addEventListener('keypress', this.keyPressed.bind(this));							
+
 	},
 	
 	begingame: function (){
-		this.seconds = 60;
+		this.seconds = 5;
 		//this.player.score = 0;
 		//console.log("This skoor: "+this.player.score);
 		typerGame.player.score = 0;
@@ -159,7 +161,7 @@ TYPER.prototype = {
 		xmlhttp.open('GET','./lemmad2013.txt',true);
 		xmlhttp.send();
 	},
-
+	
 	start: function(){
 
 		// Tekitame sõna objekti Word
@@ -169,8 +171,12 @@ TYPER.prototype = {
 		//joonista sõna
 		this.word.Draw();
 		// Kuulame klahvivajutusi
+		
+		//NULLI SIIN SKOOR ÄRA
+		typerGame.player.score = 0;
+		//this.palyer.score = 0;
+		
 
-		window.addEventListener('keypress', this.keyPressed.bind(this));							
 		this.counter = window.setInterval(function(){
 			typerGame.word.Draw();
 			typerGame.seconds--;
@@ -306,7 +312,7 @@ TYPER.prototype = {
 	
 	again: function () {
 		this.player.score = 0;
-		this.seconds = 60;
+		this.seconds = 5;
 		console.log("Tühi skoor: "+this.player.score);
 		this.mistakes = 0;
 		typerGame.mistakes = 0;
