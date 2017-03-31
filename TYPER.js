@@ -19,7 +19,7 @@ var TYPER = function () {
 
     //mängija objekt, hoiame nime ja skoori
 
-    this.player = {name: null, score: 0};
+    this.player = { name: null, score: 0 };
 
     this.init();
 };
@@ -116,7 +116,7 @@ TYPER.prototype = {
         this.generateWord();
         //console.log(this.word);
         this.drawAll();
-        this.gameStop = parseInt(new Date().getTime()/1000+10);
+        this.gameStop = parseInt(new Date().getTime() / 1000 + 10);
 
         // Kuulame klahvivajutusi
         window.addEventListener('keypress', this.keyPressed.bind(this));
@@ -130,9 +130,18 @@ TYPER.prototype = {
         //joonista sõna
         this.word.Draw();
 
-        var currentTime = parseInt(new Date().getTime()/1000);
+        var currentTime = parseInt(new Date().getTime() / 1000);
         var timeLeft = this.gameStop - currentTime;
-        document.getElementById("timer").innerHTML = "Timeleft: " + timeLeft;
+
+        //Nightmode for timer text
+        if (nightModeActive == 1) {
+            document.getElementById("timer").style.color = '#BDC7C1';
+            document.getElementById("timer").innerHTML = "Timeleft: " + timeLeft;
+        } else {
+            document.getElementById("timer").style.color = 'black';
+            document.getElementById("timer").innerHTML = "Timeleft: " + timeLeft;
+        }
+
     },
 
     generateWord: function () {
@@ -180,14 +189,14 @@ TYPER.prototype = {
                 storeNameAndScore(this.player.name, this.player.score);
 
                 //loosin uue sõna
-                var currentTime = parseInt(new Date().getTime()/1000);
-                if (currentTime < this.gameStop){
+                var currentTime = parseInt(new Date().getTime() / 1000);
+                if (currentTime < this.gameStop) {
                     this.generateWord();
                     console.log(this.player.score);
                 } else {
                     var again = confirm("Score: " + this.player.score +
                         "\nPlay again?");
-                    if (again){
+                    if (again) {
                         console.log(this.guessed_words);
                         this.guessed_words = 0;
                         this.player.score = 0;
@@ -195,7 +204,7 @@ TYPER.prototype = {
 
                         this.generateWord();
                         this.drawAll();
-                        this.gameStop = parseInt(new Date().getTime()/1000+10);
+                        this.gameStop = parseInt(new Date().getTime() / 1000 + 10);
 
                         console.log(this.player.score);
                     } else {
@@ -259,7 +268,7 @@ window.onload = function () {
 */
 
 // If new game
-function startNewGame (){
+function startNewGame() {
     var typerGame = new TYPER();
     window.typerGame = typerGame;
 }
@@ -283,15 +292,15 @@ function nightMode() {
 function storeNameAndScore(playerName, playerScore) {
     var playerNameFromStorage = localStorage.getItem('playerName');
     var playerScoreFromStorage = localStorage.getItem('playerScore');
-        if (typeof(Storage) !== "undefined") {
-            // Store
-            localStorage.setItem("playerName", JSON.stringify(playerName));
-            localStorage.setItem("playerScore", JSON.stringify(playerScore));
-            // Retrieve
-            console.log('playerName: ', JSON.parse(playerNameFromStorage));
-            console.log('playerScore: ', JSON.parse(playerScoreFromStorage));
+    if (typeof (Storage) !== "undefined") {
+        // Store
+        localStorage.setItem("playerName", JSON.stringify(playerName));
+        localStorage.setItem("playerScore", JSON.stringify(playerScore));
+        // Retrieve
+        console.log('playerName: ', JSON.parse(playerNameFromStorage));
+        console.log('playerScore: ', JSON.parse(playerScoreFromStorage));
 
-        } else {
-            document.getElementById("result").innerHTML = "Sorry, your browser does not support Web Storage...";
-        }
+    } else {
+        document.getElementById("result").innerHTML = "Sorry, your browser does not support Web Storage...";
+    }
 }

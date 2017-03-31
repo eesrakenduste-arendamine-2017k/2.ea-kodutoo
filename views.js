@@ -1,17 +1,17 @@
 /**
  * Created by hinrek on 20/03/2017.
  */
-(function() {
+(function () {
     var app = {
         // routes (ie. views and their functionality) defined here
         'routes': {
             'typer': {
-                'rendered': function() {
+                'rendered': function () {
                     console.log('typer');
                 }
             },
             'scores': {
-                'rendered': function() {
+                'rendered': function () {
                     console.log('scores');
                     app.routeElem.innerHTML = '<p>This javascript content overrides the static content for this view.</p>';
                 }
@@ -20,7 +20,7 @@
         // The default view is recorded here. A more advanced implementation
         // might query the DOM to define it on the fly
         'default': 'home',
-        'routeChange': function() {
+        'routeChange': function () {
             app.routeID = location.hash.slice(1);
             app.route = app.routes[app.routeID];
             app.routeElem = document.getElementById(app.routeID);
@@ -29,8 +29,8 @@
             }
         },
         // The function to start the app.
-        'init': function() {
-            window.addEventListener('hashchange', function() {
+        'init': function () {
+            window.addEventListener('hashchange', function () {
                 app.routeChange();
             });
             // If there's no hash in the URL, change the URL to

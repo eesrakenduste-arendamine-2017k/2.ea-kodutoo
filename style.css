@@ -37,6 +37,14 @@ p {
     text-align: center;
 }
 
+.newGame {
+    height: 15%;
+    align-content: center;
+    align-items: center;
+    text-align: center;
+    padding-top: 5%;
+}
+
 a.button {
     font-family: 'PT Serif', 'PT Sans', serif, sans-serif;
     color: #000000;
@@ -97,4 +105,9 @@ main > *:target ~ * {
 br {
     display: block;
     content: " ";
+}
+
+#timer {
+    font-family: 'PT Serif', 'PT Sans', serif, sans-serif;
+    font-size: 125%;
 }
