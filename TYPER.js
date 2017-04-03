@@ -186,7 +186,8 @@ TYPER.prototype = {
                 //update player score
                 this.player.score = this.guessed_words;
 
-                storeNameAndScore(this.player.name, this.player.score);
+                // storeNameAndScore(this.player.name, this.player.score);
+                savescore();
 
                 //loosin uue sõna
                 var currentTime = parseInt(new Date().getTime() / 1000);
@@ -200,7 +201,7 @@ TYPER.prototype = {
                         console.log(this.guessed_words);
                         this.guessed_words = 0;
                         this.player.score = 0;
-                        storeNameAndScore(this.player.name, this.player.score);
+                        // storeNameAndScore(this.player.name, this.player.score);
 
                         this.generateWord();
                         this.drawAll();
@@ -303,4 +304,43 @@ function storeNameAndScore(playerName, playerScore) {
     } else {
         document.getElementById("result").innerHTML = "Sorry, your browser does not support Web Storage...";
     }
+}
+
+// Local Storage store games
+var player = prompt("Sisesta nimi");
+var games = [];
+var game = {
+    id: parseInt(1000+Math.random()*999),
+    player: player,
+    score: 0
+};
+
+console.log(game);
+
+var gamesFromStorage = null;
+
+if (localStorage.getItem("games")){
+    gamesFromStorage = JSON.parse(localStorage.getItem("games"));
+
+    if(gamesFromStorage)
+        games = gamesFromStorage;
+}
+
+games.push(game);
+localStorage.setItem("games", JSON.stringify(games));
+
+function savescore(gameId, newScore) {
+    games.forEach(function (game, key) {
+        console.log(game);
+
+        if(gameId == game.id){
+            game.score = newScore;
+
+            console.log("updated");
+            console.log(game)
+        }
+    });
+
+    localStorage.setItem("games", JSON.stringify(gamesFromStorage));
+
 }
