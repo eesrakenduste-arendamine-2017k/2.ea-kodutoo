@@ -1,0 +1,113 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html, body, canvas {
+    width: 100%;
+    height: 100%;
+    font-size: 100%;
+}
+
+canvas {
+    position: absolute;
+    z-index: -1;
+}
+
+h1 {
+    font-family: 'PT Serif', 'PT Sans', serif, sans-serif;
+    font-size: 250%;
+    text-align: center;
+}
+
+p {
+    font-family: 'PT Serif', 'PT Sans', serif, sans-serif;
+    font-size: 125%;
+    text-align: center;
+}
+
+.wrapper {
+    height: 100%;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.newGame {
+    height: 15%;
+    align-content: center;
+    align-items: center;
+    text-align: center;
+    padding-top: 5%;
+}
+
+a.button {
+    font-family: 'PT Serif', 'PT Sans', serif, sans-serif;
+    color: #000000;
+    font-size: 125%;
+    background: none;
+    text-decoration: none;
+    border: none;
+}
+
+a.button:hover {
+    background: #000000;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+main {
+    width: 100%;
+    height: 100%;
+}
+
+main > * {
+    display: none;
+    width: 100%;
+    height: 100%;
+}
+
+main > *:last-child {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1)
+    }
+    50% {
+        transform: scale(1.05)
+    }
+    100% {
+        transform: scale(1)
+    }
+}
+
+main > *:target {
+    display: block;
+    animation: pulse 0.5s linear 1;
+    width: 100%;
+    height: 100%;
+}
+
+main > *:target ~ * {
+    display: none;
+    width: 100%;
+    height: 100%;
+}
+
+br {
+    display: block;
+    content: " ";
+}
+
+#timer {
+    font-family: 'PT Serif', 'PT Sans', serif, sans-serif;
+    font-size: 125%;
+}
