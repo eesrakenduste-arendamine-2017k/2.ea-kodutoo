@@ -25,7 +25,15 @@
         </div>
     </div>
     <div id="scores">
-        <!-- Scores page goes here -->
+        <div class="wrapper">
+            <div>
+                <h1>Top Scor3s!</h1>
+                <p id="player"></p>
+                <br>
+                <a href="#typer" class="button">>>Play Typ3r!<<</a><br>
+                <a href="#home" class="button">..::Typ3r Hom3::..</a>
+            </div>
+        </div>
     </div>
     <div id="home">
         <div class="wrapper">
@@ -34,7 +42,7 @@
                 <p>Typ3r is a word typing game</p>
                 <br>
                 <a href="#typer" class="button">>>Play Typ3r!<<</a><br>
-                <a href="#scores" class="button">..::Top Scor3s::..</a>
+                <a href="#scores" onclick="playerName()" class="button">..::Top Scor3s::..</a>
             </div>
         </div>
     </div>

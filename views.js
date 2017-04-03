@@ -13,7 +13,6 @@
             'scores': {
                 'rendered': function () {
                     console.log('scores');
-                    app.routeElem.innerHTML = '<p>This javascript content overrides the static content for this view.</p>';
                 }
             }
         },

@@ -27,6 +27,30 @@ var TYPER = function () {
 
 TYPER.prototype = {
 
+    saveScore: function() {
+
+        //this.playerNameArray = JSON.parse(localStorage.getItem('playerName'));
+        //gamesFromStorage = JSON.parse(localStorage.getItem("games"));
+
+        this.playerArray.forEach(function (player, key) {
+            //gamesFromStorage.forEach(function(game, key){
+
+            console.log(player);
+            console.log(typerGame.player);
+
+            if (player.Id == typerGame.player.Id) {
+
+                player.score = typerGame.player.score;
+
+                console.log("updated");
+                console.log(player);
+
+            }
+
+        });
+        localStorage.setItem("player", JSON.stringify(this.playerArray));
+    },
+
     // Funktsioon, mille käivitame alguses
     init: function () {
 
@@ -49,21 +73,32 @@ TYPER.prototype = {
 
     },
 
-    loadPlayerData: function () {
+    loadPlayerData: function(){
 
         // küsime mängija nime ja muudame objektis nime
-        var p_name = prompt("Player name");
+        var p_name = prompt("Sisesta mängija nimi");
 
         // Kui ei kirjutanud nime või jättis tühjaks
-        if (p_name === null || p_name === "") {
+        if(p_name === null || p_name === ""){
             p_name = "Tundmatu";
-
         }
+
+        this.player = {name: p_name, score: 0, Id: parseInt(1000+Math.random()*999999)};
+        this.playerArray=JSON.parse(localStorage.getItem('player'));
+
+        if(!this.playerArray || this.playerArray.length===0){
+            this.playerArray=[];
+        }
+
+        this.playerArray.push(this.player);
+        console.log("lisatud");
+
+        localStorage.setItem("player", JSON.stringify(this.playerArray));
+
 
         // Mänigja objektis muudame nime
         this.player.name = p_name; // player =>>> {name:"Romil", score: 0}
         console.log(this.player);
-
     },
 
     loadWords: function () {
@@ -186,8 +221,7 @@ TYPER.prototype = {
                 //update player score
                 this.player.score = this.guessed_words;
 
-                // storeNameAndScore(this.player.name, this.player.score);
-                savescore();
+                this.saveScore();
 
                 //loosin uue sõna
                 var currentTime = parseInt(new Date().getTime() / 1000);
@@ -201,7 +235,8 @@ TYPER.prototype = {
                         console.log(this.guessed_words);
                         this.guessed_words = 0;
                         this.player.score = 0;
-                        // storeNameAndScore(this.player.name, this.player.score);
+
+                        this.saveScore();
 
                         this.generateWord();
                         this.drawAll();
@@ -261,13 +296,6 @@ var requestAnimFrame = (function () {
         };
 })();
 
-/* loads game when canvas gets loaded (crap)
-window.onload = function () {
-    var typerGame = new TYPER();
-    window.typerGame = typerGame;
-};
-*/
-
 // If new game
 function startNewGame() {
     var typerGame = new TYPER();
@@ -289,58 +317,22 @@ function nightMode() {
     }
 }
 
-// Local Storage
-function storeNameAndScore(playerName, playerScore) {
-    var playerNameFromStorage = localStorage.getItem('playerName');
-    var playerScoreFromStorage = localStorage.getItem('playerScore');
-    if (typeof (Storage) !== "undefined") {
-        // Store
-        localStorage.setItem("playerName", JSON.stringify(playerName));
-        localStorage.setItem("playerScore", JSON.stringify(playerScore));
-        // Retrieve
-        console.log('playerName: ', JSON.parse(playerNameFromStorage));
-        console.log('playerScore: ', JSON.parse(playerScoreFromStorage));
+var count = 0;
+function playerName(){
+    console.log("playerName");
 
-    } else {
-        document.getElementById("result").innerHTML = "Sorry, your browser does not support Web Storage...";
-    }
-}
+    var playerData = JSON.parse(localStorage.getItem("player"));
 
-// Local Storage store games
-var player = prompt("Sisesta nimi");
-var games = [];
-var game = {
-    id: parseInt(1000+Math.random()*999),
-    player: player,
-    score: 0
-};
 
-console.log(game);
-
-var gamesFromStorage = null;
-
-if (localStorage.getItem("games")){
-    gamesFromStorage = JSON.parse(localStorage.getItem("games"));
-
-    if(gamesFromStorage)
-        games = gamesFromStorage;
-}
-
-games.push(game);
-localStorage.setItem("games", JSON.stringify(games));
-
-function savescore(gameId, newScore) {
-    games.forEach(function (game, key) {
-        console.log(game);
-
-        if(gameId == game.id){
-            game.score = newScore;
-
-            console.log("updated");
-            console.log(game)
-        }
+    playerData.sort(function(a, b) {
+        return b.score - a.score;
     });
 
-    localStorage.setItem("games", JSON.stringify(gamesFromStorage));
-
+    playerData.forEach(function (player, key) {
+        if(count>=10){
+            return;
+        }
+        document.getElementById("player").innerHTML +="<br>"+(count+1)+" . "+ player.name+""+" "+player.score+"";
+        count+=1;
+    });
 }
