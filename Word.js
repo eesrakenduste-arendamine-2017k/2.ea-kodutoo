@@ -14,7 +14,7 @@ function Word(word, canvas, ctx){
 
 Word.prototype = {
 	Draw: function(){
-
+	
 		//Tühjendame canvase
 		this.ctx.clearRect( 0, 0, this.canvas.width, this.canvas.height);
 

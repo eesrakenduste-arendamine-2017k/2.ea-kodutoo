@@ -11,11 +11,11 @@ var TYPER = function(){
 	//this.timer = TYPER.timer;
 
 	// Muutujad
-	this.WIDTH = 1350;
-	this.HEIGHT = 700;
+	//this.WIDTH = 1350;
+	//this.HEIGHT = 700;
 
-	//this.WIDTH = window.innerWidth; //Ei saa olla window.innerWidth, kuna siis läbeb kõik asjad kokku
-	//this.HEIGHT = window.innerHeight;//Ei saa olla window.innerHeight, kuna siis läbeb kõik asjad kokku
+	this.WIDTH = window.innerWidth;
+	this.HEIGHT = window.innerHeight;
 	
 	this.seconds = 60;
 	this.mistakes = 0;
