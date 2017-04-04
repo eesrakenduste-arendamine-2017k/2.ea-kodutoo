@@ -17,7 +17,7 @@ var TYPER = function(){
 	//this.WIDTH = window.innerWidth; //Ei saa olla window.innerWidth, kuna siis läbeb kõik asjad kokku
 	//this.HEIGHT = window.innerHeight;//Ei saa olla window.innerHeight, kuna siis läbeb kõik asjad kokku
 	
-	this.seconds = 5;
+	this.seconds = 60;
 	this.mistakes = 0;
 
 	this.canvas = null;
@@ -93,12 +93,9 @@ TYPER.prototype = {
 	},
 	
 	begingame: function (){
-		this.seconds = 5;
-		//this.player.score = 0;
-		//console.log("This skoor: "+this.player.score);
+		this.seconds = 60;
 		typerGame.player.score = 0;
 		typerGame.mistakes = 0;
-		//console.log("typerGame skoor: "+typerGame.player.score);
 		location.hash = "#game-view";
 		typerGame.start();
 		typerGame.loadPlayerData();
@@ -246,7 +243,6 @@ TYPER.prototype = {
 				} else {
 					window.clearInterval(typerGame.counter);
 					typerGame.player.score = 0;
-					//console.log("Uus skoor peaks olema: "+typerGame.player.score);
 					data();
 					statistics();
 					location.hash = "#homw-view";
@@ -272,11 +268,8 @@ TYPER.prototype = {
 	},
 
 	keyPressed: function(event){
-		//console.log("siin");
-		//console.log(event);
 		// event.which annab koodi ja fromcharcode tagastab tähe
 		var letter = String.fromCharCode(event.which);
-		//console.log(letter);
 
 		// Võrdlen kas meie kirjutatud täht on sama mis järele jäänud sõna esimene
 		//console.log(this.word);
@@ -312,7 +305,7 @@ TYPER.prototype = {
 	
 	again: function () {
 		this.player.score = 0;
-		this.seconds = 5;
+		this.seconds = 60;
 		console.log("Tühi skoor: "+this.player.score);
 		this.mistakes = 0;
 		typerGame.mistakes = 0;
@@ -350,9 +343,7 @@ function structureArrayByWordLength(words){
 
 function nightmode(){
 	var color = document.getElementById('color').style.color;
-	//console.log("Fondi värv: "+color);
 	var backgroundColor = document.body.style.backgroundColor;
-	//console.log("Tagatausta värv: "+backgroundColor);
 
 	if (color == "black" && backgroundColor == "white") {
 		document.getElementById('color').style.color="white";
@@ -385,42 +376,6 @@ function data(){
 	playerdata = playerdata.split(',');
 	playerdata2 = playerdata2.split(',');
 	
-	
-	//playerdata2.sort(function(a, b){return a - b});
-	//playerdata2.reverse();
-	//console.log("Test sort: "+playerdata2);
-/*	
-var biggest = -Infinity;
-var biggest_index = -1; {
-    for (i = 0; i < playerdata2.length; i++) {
-        if (playerdata2[i] > biggest) {
-            biggest = playerdata2[i];
-            biggest_index = i;
-        }
-    }
-    console.log("The biggest element is " + biggest);
-}
-*/
-
-/*
-var list = [];
-for (var j = 0; j < playerdata.length; j++) 
-    list.push({'nimi': playerdata[j], 'tulemus': playerdata2[j]})
-
-list.sort(function(a, b) {
-    return ((a.playerdata < b.playerdata) ? -1 : ((a.playerdata == b.playerdata) ? 0 : 1));
-})
-
-//3) separate them back out:
-for (var k = 0; k < list.length; k++) {
-    playerdata[k] = list[k].playerdata;
-    playerdata2[k] = list[k].playerdata2;
-}
-
-console.log("Sorteerimie playerdata: "+playerdata);
-console.log("Sorteerimie playerdata2: "+playerdata2);
-*/
-	
 	var table = "<table>";
 	table = table + "<tr><th>" + "Mänigja nimi" + "</th><th>" + "Tulemus" + "</th><tr>";
 	for (var i=0; i< playerdata.length; i++) {
@@ -438,7 +393,7 @@ function statistics() {
 	var playerdata = localStorage.getItem("game");
 	var playerdata3 = localStorage.getItem("game3");
 	
-	var specialChars = '"!@#$^&%*()+=-[]\/{}|:<>?.'; //Tee see korda
+	var specialChars = '"!@#$^&%*()+=-[]\/{}|:<>?.';
 	for (var i = 0; i < specialChars.length; i++) {
 		playerdata = playerdata .replace(new RegExp("\\" + specialChars[i], 'gi'), '');
 		playerdata3 = playerdata3 .replace(new RegExp("\\" + specialChars[i], 'gi'), '');
