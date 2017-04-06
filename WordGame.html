@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sõnamäng</title>
+    <script src="Word.js"></script>
+    <script src="TYPER.js"></script>
+    <link rel="stylesheet" href="testikas.css">
+</head>
+<body onload="loadTop()">
+
+            
+
+    <main role="main">
+
+            <div id="home-view">
+                <div class="container">
+                    <div class="column column-one">
+                        <h1>Mängu kirjeldus</h1>
+						<p class="info">  Mängus pead võimalikult palju erinevaid sõnu kirjutama 5 sekundi jooksul.</p>
+                        <p class="info">Punkte saad järgmiselt:</p>
+						<p class="info">+1 punkti iga tähe eest</p>
+                        <p class="info">+2 punkti iga sõna eest</p>
+                        <p class="info">-1 punkti iga vale tähe eest</p>
+                    </div>
+                    <div class="column column-two">
+                        <h1>Registreerimine</h1>
+                        <p>Kasutajanimi: <input class="userName"></p>
+                        <p onclick="startNewGame()" id="start"><a href="#play-view">Alusta mängu</a></p>
+                    </div>
+                    <div class="column column-three">
+                        <h1>Edetabel</h1>
+                        <ol>               
+                            <li id="top1"></li>
+                            <li id="top2"></li>
+                            <li id="top3"></li>
+                            <li id="top4"></li>
+                            <li id="top5"></li>
+                            <li id="top6"></li>
+                            <li id="top7"></li>
+                            <li id="top8"></li>
+                            <li id="top9"></li>
+                            <li id="top10"></li>
+                        </ol> 
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="play-view">
+                <p id="userN" class="userN" ></p> 
+                <p id="sec" class="sec">5</p>   
+                <canvas></canvas>
+            </div>
+    </main>
+</body>
+</html>
