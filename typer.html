@@ -1,9 +1,53 @@
 <!doctype html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<title>typer</title>
-	<style> 
+  <script
+    src="https://code.jquery.com/jquery-3.2.0.min.js"
+    integrity="sha256-JAW99MJVpJBGcbzEuXk4Az05s/XyDdBomFqNlM3ic+I="
+    crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js">
+    </script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+    <!-- Material Design fonts -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/css/tether.min.css">
+
+    <!-- Bootstrap Material Design -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/4.0.2/bootstrap-material-design.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/4.0.2/bootstrap-material-design.iife.js">
+
+    </script>
+		<script type="text/javascript">
+		function showKeyCode(e)
+				{
+				//alert("Inside function showKeyCode(e)");
+				var keycode =(window.event) ? event.keyCode : e.keyCode;
+
+				if(keycode == 116)
+					{
+					event.keyCode = 0;
+					event.returnValue = false;
+					return false;
+					}
+				}
+		</script>
+    <link rel="stylesheet" href="style.css">
+	<style>
 		* {
 			margin: 0;
 			padding: 0;
@@ -11,15 +55,24 @@
 		html, body, canvas {
 			width: 100%;
 			height: 100%;
+			 position: relative;
 		}
 		canvas {
 			position: absolute;
 		}
 	</style>
 	<script src="TYPER.js"></script>
-    <script src="Word.js"></script>
+  <script src="Word.js"></script>
 </head>
-<body>
-	<canvas></canvas>
+<body onkeydown="showKeyCode();">
+	<div class="loader loading"></div>
+	<div class="play-ground loading">
+		<div class="tools">
+				<p class="data">Player<span id="playerName"></span></p>
+				<p class="data">Score<span id="playerScore">0</span></p>
+				<a href="index.html" class="btn btn-primary btn-raised finish-game" onclick="TYPER.prototype.endGame();">End game</a>
+		</div>
+		<canvas></canvas>
+	</div>
 </body>
 </html>

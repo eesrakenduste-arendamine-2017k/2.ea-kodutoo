@@ -1,0 +1,183 @@
+.main-content{
+  position: relative;
+}
+.inner-content{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.title{
+  margin-top:25px;
+  margin-bottom:15px;
+}
+.form-control:focus{
+  box-shadow:none;
+}
+.finish-game{
+
+}
+.alert{
+  display:none;
+}
+
+.tools{
+  position:absolute;
+  right:15px;
+  top:15px;
+  z-index: 2000;
+  text-align: center;
+}
+.tools .finish-game{
+  display:block;
+}
+.tools .data{
+  display:inline-block;
+  text-align:center;
+  padding:10px 20px;
+  font-size:0.8em;
+}
+.tools .data span{
+  display:block;
+  font-weight: bolder;
+  font-size:1.5em;
+
+}
+.score-table{
+  margin: 0 auto;
+  margin-top:20px;
+}
+.score-table tbody tr td, .score-table tbody tr th{
+  text-align:right;
+  width:25%;
+}
+.score-table tbody tr td:first-child,.score-table tbody tr th:first-child{
+  text-align:left;
+  width:25%;
+}
+.score {
+  padding-left:25px;
+  color:#009688;
+
+}
+.open-how-to{
+  position:absolute;
+  left:25px;
+  top:25px;
+}
+.open-how-to:hover{
+  cursor:pointer;
+}
+.open-score-board{
+  position:absolute;
+  right:25px;
+  top:25px;
+}
+.open-score-board:hover{
+  cursor:pointer;
+}
+.sidenav-right {
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0;
+    right: 0;
+    background-color: rgba(211,211,211,0.9); /* Black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+    text-align:center;
+    color: #008276;
+}
+.sidenav-left {
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0;
+    left: 0;
+    background-color: rgba(211,211,211,0.9); /* Black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+    text-align:center;
+    color: #008276;
+}
+
+/* The navigation menu links */
+.sidenav a,li {
+    padding: 8px 8px 8px 8px;
+    text-decoration: none;
+    font-size: 18px;
+    color: #000;
+    display: block;
+    transition: 0.3s
+}
+.divider{
+  width:50%;
+  border:1px solid #008276;
+}
+/* When you mouse over the navigation links, change their color */
+.sidenav-left a:hover, .offcanvas a:focus{
+    color: #999;
+}
+.leader-board-from-localStorage{
+  margin:0;
+  padding:0;
+}
+/* Position and style the close button (top right corner) */
+.sidenav-left .closebtn{
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+
+}
+.sidenav-right .closebtn{
+    position: absolute;
+    top: 0;
+    left: 25px;
+    font-size: 36px;
+    margin-right: 50px;
+
+}
+.closebtn:hover{
+  text-decoration:none;
+}
+.loader.loading {
+    border: 2px solid #f3f3f3; /* Light grey */
+    border-top: 2px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    display:block;
+    position: absolute;
+    top: 45%;
+    left: 45%;
+    margin: 25px 0 0 25px;
+}
+.loader{
+  display:none
+}
+
+.play-ground.loading{
+  display:none;
+}
+.play-ground{
+  display:block;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    25% {transform: rotate(20deg);}
+    75% {transform: rotate (240deg);}
+    100% { transform: rotate(360deg); }
+}
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+}
