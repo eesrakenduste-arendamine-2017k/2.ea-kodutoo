@@ -12,7 +12,6 @@ var TYPER = function(){
 	this.HEIGHT = window.innerHeight;
 	this.canvas = null;
 	this.ctx = null;
-
 	this.words = []; // kõik sõnad
 	this.word = null; // preagu arvamisel olev sõna
 	this.word_min_length = 3;
@@ -20,7 +19,7 @@ var TYPER = function(){
 
 
 	//mängija objekt, hoiame nime ja skoori
-	this.player = {name: null, score: 0};
+	this.player = {name: null, score: 0, mistakes: 0};
 
 	this.init();
 
@@ -159,11 +158,12 @@ TYPER.prototype = {
 
 			// Võtame ühe tähe maha
 			this.word.removeFirstLetter();
-      this.player.score = this.player.score + 1; //increase score
+      this.player.score += 1; //increase score
 
 
     } else {
-      this.player.score = this.player.score -1;  //decrease score
+      this.player.score -= 1;  //decrease score
+      this.player.mistakes += 1; //increase mistakes
       document.body.style.background = "red";
         window.setTimeout(function () {
             document.body.style.background = "white";
@@ -247,7 +247,8 @@ function startTimer(duration, display) {
 		        var game = {
 			           id: parseInt(1000+Math.random()*999),
 			           name: typerGame.player.name,
-			           score: typerGame.player.score
+			           score: typerGame.player.score,
+                 mistakes: typerGame.player.mistakes
 		                   };
                        var gamesFromStorage = null;
 
