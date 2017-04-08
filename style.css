@@ -15,13 +15,12 @@ canvas {
 
 .game {
 font-size: 34px;
-text-align: center;
+text-align: right;
 top: 20;
 }
 
-.score {
-  font-size: 34px;
-}
+
+
 
 .welcome {
     height: 100%;
@@ -55,4 +54,11 @@ p {
   font-size: 16px;
   margin-top: 20px;
 
+}
+
+
+.top10 {
+  font-size: 20px;
+  text-align: right;
+  bottom: 20px;
 }

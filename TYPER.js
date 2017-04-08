@@ -23,6 +23,11 @@ var TYPER = function(){
 	this.player = {name: null, score: 0};
 
 	this.init();
+
+  document.getElementById('exitBtn').onclick = function(event) {
+    window.location.href = "frontpage.html";
+  };
+
 };
 
 TYPER.prototype = {
@@ -116,7 +121,7 @@ TYPER.prototype = {
         //joonista sõna
 		this.word.Draw();
 
-    twoMinutes = 60 * 0.2,
+    twoMinutes = 60 * 2,
     display = document.querySelector('#time');
     startTimer(twoMinutes, display);
 
@@ -265,7 +270,7 @@ function startTimer(duration, display) {
            timer = duration;
            location.reload(typerGame.start);
          } else {
-           window.open("frontpage.html", "Thanks for Playing!");
+           window.location.href = "frontpage.html";
          }
 
         }
