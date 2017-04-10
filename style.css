@@ -10,6 +10,7 @@ html, body, canvas {
 }
 canvas {
   position: absolute;
+  
 
 }
 
@@ -59,7 +60,7 @@ p {
 
 .top10 {
   font-size: 20px;
-  bottom: 20px;
-  position:absolute;
   text-align: right;
+  position: fixed;
+  right: 0;
 }
