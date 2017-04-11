@@ -25,6 +25,31 @@ var TYPER = function(){
 
 TYPER.prototype = {
 
+	saveScore: function() {
+
+		//this.playerNameArray = JSON.parse(localStorage.getItem('playerName'));
+		//gamesFromStorage = JSON.parse(localStorage.getItem("games"));
+
+		this.playerArray.forEach(function (player, key) {
+			//gamesFromStorage.forEach(function(game, key){
+
+			console.log(player);
+			console.log(typerGame.player);
+
+			if (player.Id == typerGame.player.Id) {
+
+				player.score = typerGame.player.score;
+
+				console.log("updated");
+				console.log(player);
+
+			}
+
+		});
+		localStorage.setItem("player", JSON.stringify(this.playerArray));
+	},
+
+
 	// Funktsioon, mille käivitame alguses
 	init: function () {
 
@@ -61,6 +86,19 @@ TYPER.prototype = {
 			p_name = "Tundmatu";
 
 		}
+
+		this.player = {name: p_name, score: 0, Id: parseInt(1000+Math.random()*999999)};
+		this.playerArray=JSON.parse(localStorage.getItem('player'));
+
+		if(!this.playerArray || this.playerArray.length===0){
+			this.playerArray=[];
+		}
+
+		this.playerArray.push(this.player);
+		console.log("added");
+
+		localStorage.setItem("player", JSON.stringify(this.playerArray));
+
 
 		// Mänigja objektis muudame nime
 		this.player.name = p_name; // player =>>> {name:"Romil", score: 0}
@@ -119,7 +157,7 @@ TYPER.prototype = {
 		this.generateWord();
 		//console.log(this.word);
 		this.drawAll();
-		this.gameStop = parseInt(new Date().getTime()/1000+10);
+		this.gameStop = parseInt(new Date().getTime()/1000+59);
 
 		// Kuulame klahvivajutusi
 		window.addEventListener('keypress', this.keyPressed.bind(this));
@@ -133,6 +171,9 @@ TYPER.prototype = {
 		//console.log('joonistab');
 		//joonista sõna
 		this.word.Draw();
+
+		var currentTime = parseInt(new Date().getTime() / 1000);
+		var timeLeft = this.gameStop - currentTime;
 
 	},
 
@@ -170,9 +211,12 @@ TYPER.prototype = {
   			if(this.word.left.length === 0){
 
   				this.guessed_words += 1;
+				console.log(this.player.score);
 
                   //update player score
                   this.player.score = this.guessed_words;
+
+				this.saveScore();
 
 				storeNameAndScore(this.player.name, this.player.score);
 
@@ -186,12 +230,19 @@ TYPER.prototype = {
 					var again = confirm("Score: " + this.player.score +
 						"\nPlay again?");
 					if (again){
+						console.log(this.guessed_words);
+						this.guessed_words = 0;
+						this.player.score = 0;
+
+						this.saveScore();
+
 						this.generateWord();
 						this.drawAll();
 						this.gameStop = parseInt(new Date().getTime()/1000+10);
-						this.player.score = 0;
+
 						console.log(this.player.score);
 					} else {
+						console.log(this.guessed_words);
 						location.href = "index.html"
 					}
 				}
@@ -241,6 +292,7 @@ var requestAnimFrame = (function () {
 		window.webkitRequestAnimationFrame ||
 		window.mozRequestAnimationFrame ||
 		function (callback) {
+      //mäng kestab 1 minuti
 			window.setTimeout(callback, 1000 / 60);
 		};
 })();
@@ -267,6 +319,27 @@ function darkMode(){
         document.getElementById('bg').innerHTML = '<style>canvas{background-color: #F1C40F;};</style>';
     }
 }
+
+var count = 0;
+function playerName(){
+	console.log("playerName");
+
+	var playerData = JSON.parse(localStorage.getItem("player"));
+
+
+	playerData.sort(function(a, b) {
+		return b.score - a.score;
+	});
+
+	playerData.forEach(function (player, key) {
+		if(count>=10){
+			return;
+		}
+		document.getElementById("player").innerHTML +="<br>"+(count+1)+" . "+ player.name+""+" "+player.score+"";
+		count+=1;
+	});
+}
+
 
 // Local Storage
 function storeNameAndScore(playerName, playerScore) {

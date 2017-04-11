@@ -33,3 +33,31 @@ Word.prototype = {
 		//console.log(this.left);
 	}
 };
+
+
+	Draw2: function(ctx, canvas){
+
+		var  x= 31;
+
+		(function lugeja() {
+
+			x -= 1;
+			ctx.clearRect( 0, 0, 250, 250);
+			ctx.font = '100px Courier';
+			ctx.fillStyle = 'white';
+			ctx.fillText(x, 100, 100);
+
+			if(x>0){
+
+		    	setTimeout(lugeja, 1000);
+
+			} else {
+
+				ctx.clearRect( 0, 0, canvas.width, canvas.height);
+				typerGame.finish(ctx, canvas);
+
+			}
+
+		})();
+
+	},
