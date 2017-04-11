@@ -207,7 +207,7 @@ function saveUserFn(){
 		console.log("Saved: ",JSON.stringify(usersScore));
 		localStorage.setItem('playerscore', JSON.stringify(usersScore));
 
-		var again = confirm("Mäng läbi!\nPunktid: " + score +"\nSõnu kirjutatui: "+wordscount+"\nVigu: "+(-typo)+"\nUus mäng?");
+		var again = confirm("Mäng läbi!\nPunktid: " + score +"\nSõnu kirjutati: "+wordscount+"\nVigu: "+(-typo)+"\nUus mäng?");
 		if(again){
 			restartGame();
 		}else{
@@ -296,6 +296,8 @@ function sendusername(){
 }
 
 function loadTop(){
+
+	if(!window.location.hash){ window.location.hash = 'home-view';}
 	var len = usersScore.length;
 	for (var i = len-1; i>=0; i--){
 		for(var j = 1; j<=i; j++){
