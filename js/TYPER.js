@@ -341,7 +341,7 @@ function playerName(){
 }
 
 
-// Local Storage
+/* Local Storage
 function storeNameAndScore(playerName, playerScore) {
 	var playerNameFromStorage = localStorage.getItem('playerName');
 	var playerScoreFromStorage = localStorage.getItem('playerScore');
@@ -358,3 +358,4 @@ function storeNameAndScore(playerName, playerScore) {
 		document.getElementById("result").innerHTML = "Sorry, your browser does not support Web Storage...";
 	}
 }
+*/

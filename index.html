@@ -158,6 +158,19 @@
     cursor: pointer;
 }
 
+.button2 {
+    background-color: #E30E82;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
  </style>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
@@ -174,7 +187,9 @@
         </div></a><a class="element two" href="#">
         <div class="element-wrapper"><i class="icon fa fa-question" aria-hidden="true"> Instructions </i><br><br><span class="tag"> Type the Estonian word shown on screen as fast as you can and without making mistakes. You have 1 minute to make the best score you can.</span>
         </div></a><a class="element three" href="#">
-        <div class="element-wrapper"><i class="fa fa-bar-chart" aria-hidden="true"> Top 10 players </i><br><br><span class="tag">scores</span>
+        <div class="element-wrapper"><i class="fa fa-bar-chart" aria-hidden="true"> Top 10 players </i><br><br><span class="tag" href="scores.php">
+          <button class="button2" onclick="window.location.href='scores.php'">View scores</button></span>
+        </span>
 
         </div></a><a class="element four" href="#">
         <div class="element-wrapper"><i class="fa fa-copyright" aria-hidden="true"> Copyright </i><br><br><span class="tag"> Game made for a school project<small>by Kärol-Milaine Jürgenson</small></span></div></a></div>
