@@ -17,6 +17,8 @@ var TYPER = function () {
     this.word_min_length = 3;
     this.guessed_words = 0; // arvatud sõnade arv
 
+    this.timer = 0;
+
     //mängija objekt, hoiame nime ja skoori
     this.player = {name: null, score: 0, highScore: 0};
 
@@ -41,6 +43,7 @@ TYPER.prototype = {
         this.canvas.width = this.WIDTH;
         this.canvas.height = this.HEIGHT;
 
+
         // laeme sõnad
         this.loadWords();
     },
@@ -51,16 +54,25 @@ TYPER.prototype = {
         var p_name;
 
         if (this.player.name === null){
-            p_name = prompt("Sisesta mängija nimi");
-
+            p_name = prompt("Please enter your name. Leave blank for Anonymous");
+            // Kui ei kirjutanud nime või jättis tühjaks
             if (p_name === null || p_name === "") {
-                p_name = "Tundmatu";
+                p_name = "Anonymous";
             }
         } else {
             p_name = this.player.name;
         }
-        // Kui ei kirjutanud nime või jättis tühjaks
 
+        //new session
+        if (localStorage.getItem("highScores") === null) {
+            var newLocalStorage = {};
+            localStorage.setItem("highScores", JSON.stringify(newLocalStorage));
+            newPlayer(p_name);
+            this.data = localStorage.getItem("highScores");
+        } else {
+            if(this.data[p_name] === undefined){
+                newPlayer(p_name);
+        }
 
         // Mänigja objektis muudame nime
         this.player.name = p_name; // player =>>> {name:"Romil", score: 0, highScore:0}
@@ -102,6 +114,7 @@ TYPER.prototype = {
                 // küsime mängija andmed
                 typerGame.loadPlayerData();
 
+
                 // kõik sõnad olemas, alustame mänguga
                 typerGame.start();
             }
@@ -137,8 +150,10 @@ TYPER.prototype = {
         // random sõna, mille salvestame siia algseks
         var word = this.words[generated_word_length][random_index];
 
+        this.timer = 0;
         // Word on defineeritud eraldi Word.js failis
         this.word = new Word(word, this.canvas, this.ctx);
+
     },
 
     keyPressed: function (event) {
@@ -161,7 +176,7 @@ TYPER.prototype = {
                 this.guessed_words += 1;
 
                 //update player score
-                this.player.score = this.guessed_words;
+                this.player.score += /*this.timer * */Math.ceil(this.guessed_words / 5);
 
                 //loosin uue sõna
                 this.generateWord();
@@ -177,12 +192,13 @@ TYPER.prototype = {
                 this.word.removeFirstLetter();
                 this.word.left.length = this.word.left.length;
             }
-            prompt("Game over! \nYour score: " + this.player.score + "\nYour high score: " + this.player.highScore);
+            alert("Game over! \nYour score: " + this.player.score + "\nYour high score: " + this.player.highScore);
             this.guessed_words = 0;
             this.player.score = 0;
+            this.timer = 0;
+            gameOver();
             this.generateWord();
             this.word.Draw();
-
 
         }
 
@@ -217,6 +233,17 @@ function structureArrayByWordLength(words) {
     return temp_array;
 }
 
+void function newPlayer(playerName){
+    newPlayer = {
+        [playerName]: [
+                {"score": 0},
+                {"wordsGuessed": 0}
+            ]
+        }
+    }
+    this.data.add(newPlayer);
+}
+
 var requestAnimFrame = (function () {
     return window.requestAnimationFrame ||
         window.webkitRequestAnimationFrame ||
@@ -226,16 +253,54 @@ var requestAnimFrame = (function () {
         }
 })();
 
-function nightMode() {
-    currentColor = document.getElementsByTagName("canvas").style["background-color"];
+function nightModeToggle() {
+    var currentColor = document.getElementsByTagName("canvas").style["background-color"];
     if (currentColor === "#e8eaf6") {
+        document.getElementById("nightModeToggle").textContent = "Day mode";
+        document.getElementById("nightmodeToggle").style.color = "#e8eaf6";
         document.getElementsByTagName("canvas").style["background-color"] = "#1a237e";
     } else {
+        document.getElementById("nightModeToggle").textContent = "Night mode";
+        document.getElementById("nightmodeToggle").style.color = "#1a237e";
         document.getElementsByTagName("canvas").style["background-color"] = "#e8eaf6";
     }
+}
+
+function gameOver() {
+    //Move to high score table
+    document.getElementById('scores').scrollIntoView();
+    //Update player data, if necessary
+    var playerName = this.player.name;
+    if(this.data.users.playerName)
+    //Update table
+    generateTable();
+}
+
+function generateTable(){
+    //clear table
+    document.getElementById("table").getElementsByTagName('tbody')[0].parentNode
+        .replaceChild(document.createElement('tbody'), table);
+    var table = document.getElementById("table").getElementsByTagName('tbody')[0];
+
+    for (var user in this.data){
+        table.addRow
+    }
+
+}
+
+function sortData() {
+    
+}
+
+function resetTimer(){
+    this.timer = 0;
 }
 
 window.onload = function () {
     var typerGame = new TYPER();
     window.typerGame = typerGame;
+    var nmToggle = document.getElementById("nightModeToggle");
+    nmToggle.onclick = nightModeToggle();
+    this.data = JSON.parse(localStorage.getItem("highScores"));
+    generateTable();
 };
