@@ -3,23 +3,45 @@
 <head>
 	<meta charset="UTF-8">
 	<title>typer</title>
-	<style> 
-		* {
-			margin: 0;
-			padding: 0;
-		}
-		html, body, canvas {
-			width: 100%;
-			height: 100%;
-		}
-		canvas {
-			position: absolute;
-		}
-	</style>
+	<link type="text/css" rel="stylesheet" href="stylesheet.css" />
+	<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 	<script src="TYPER.js"></script>
-    <script src="Word.js"></script>
+  <script src="Word.js"></script>
 </head>
 <body>
-	<canvas></canvas>
+
+	<!-- MENÜÜ -->
+	<div class="menu">
+		<ul class="menu-list">
+			<li class="menu-item"><a href="#home-view" class="menu-link home-view active-menu">Avaleht</a></li>
+			<li class="menu-item"><a href="#game-view" class="menu-link game-view">Mäng</a></li>
+			<li id="mood"><img src="pk2.png" width="48" height="48"></li>
+		</ul>
+	</div>
+
+	<main role="main" id="main">
+
+		<!-- Mäng/Typer -->
+		<div id="game-view">
+			<canvas id="canvas"></canvas>
+		</div>
+
+		<!-- Avaleht/Home -->
+		<div id="home-view">
+			<div id="welcome">
+				<h1>TYPER</h1>
+				<p>Tere tulemast sõnu trükkima!</p>
+			</div>
+			<div id="content">
+				<div class="rules">
+					<p>Mäng annab punkte iga trükitud sõna eest. Saadavate punktide arv sõltub sõna pikkusest. Nii mitu punkti saad, kui pikk oli trükitud sõna. Sõnad muutuvad iga kaheksa trükitud sõna järel ühe tähe võrra pikemaks. Iga valesti vajutatud klahv võtab ühe punkti vähemaks.</p>
+					<p>Mängu mängimiseks vali menüüst "Mäng" ning asu trükkima. Võid igal ajal tulla tagasi avalehele ning siit oma skoori vaadata ja seda näiteks eelnevate parimatega võrrelda. Tagasi mängu naastes jätkad sealt kust pooleli jäi. Kui soovid mängu päris nullist alustada siis tee brauserile restart (F5).</p>
+				</div>
+				<div id="statistics"></div>
+				<div id="topGames"></div>
+			</div>
+		</div>
+	</main>
+
 </body>
 </html>
