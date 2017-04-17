@@ -218,7 +218,7 @@ TYPER.prototype = {
 
 				this.saveScore();
 
-				storeNameAndScore(this.player.name, this.player.score);
+				//storeNameAndScore(this.player.name, this.player.score);
 
 				//loosin uue sõna
 				var currentTime = parseInt(new Date().getTime()/1000);
@@ -340,8 +340,8 @@ function playerName(){
 	});
 }
 
-
-/* Local Storage
+/*
+Local Storage
 function storeNameAndScore(playerName, playerScore) {
 	var playerNameFromStorage = localStorage.getItem('playerName');
 	var playerScoreFromStorage = localStorage.getItem('playerScore');
