@@ -16,6 +16,7 @@ var TYPER = function(){
 	this.word = null; // preagu arvamisel olev sõna
 	this.word_min_length = 3;
 	this.guessed_words = 0; // arvatud sõnade arv
+  this.typos = 0;
 
 	//mängija objekt, hoiame nime ja skoori
 	this.player = {name: null, score: 0};
@@ -211,12 +212,16 @@ TYPER.prototype = {
   			if(this.word.left.length === 0){
 
   				this.guessed_words += 1;
+          //make background green, when the word is guessed correctly
+          //document.getElementById('bg').innerHTML = '<style>canvas{background-color: #84ea5b;};</style>';
+
 				console.log(this.player.score);
 
                   //update player score
                   this.player.score = this.guessed_words;
 
 				this.saveScore();
+
 
 				//storeNameAndScore(this.player.name, this.player.score);
 
@@ -311,7 +316,7 @@ function darkMode(){
 	if(night%2==1) {
 	    console.log("NightMode ON");
 		NColor='darkgrey';
-        document.getElementById('bg').innerHTML = '<style>canvas{  background-color: darkgrey;};</style>';
+        document.getElementById('bg').innerHTML = '<style>canvas{background-color: darkgrey;};</style>';
     }
     if(night%2===0) {
         console.log("NightMode OFF");
