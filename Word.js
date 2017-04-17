@@ -9,6 +9,7 @@ function Word(word, canvas, ctx){
 
     this.canvas = canvas;
     this.ctx = ctx;
+	
 }
 
 Word.prototype = {
@@ -24,6 +25,7 @@ Word.prototype = {
 		// 	// Joonistame sõna, mis on järel / tekst, x, y
 		this.ctx.fillText(this.left, this.canvas.width/2, this.canvas.height/2);
 	},
+	
 
 	// Võtame sõnast esimese tähe maha
 	removeFirstLetter: function(){
@@ -31,5 +33,5 @@ Word.prototype = {
 		// Võtame esimese tähe sõnast maha
 		this.left = this.left.slice(1);
 		//console.log(this.left);
-	}
+	},
 };
