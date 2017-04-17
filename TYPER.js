@@ -12,16 +12,18 @@ var TYPER = function () {
     this.canvas = null;
     this.ctx = null;
 
+    this.data = this.getFromLocalStorage();
+
     this.words = []; // kõik sõnad
     this.word = null; // preagu arvamisel olev sõna
     this.word_min_length = 3;
     this.guessed_words = 0; // arvatud sõnade arv
 
     this.timer = 0;
-    var that = this;
-    this.counter = setInterval(function(){
-        that.timer++;
-        this.timer = that.timer;
+    var self = this;
+    this.counter = setInterval(function () {
+        self.timer++;
+        this.timer = self.timer;
 
     }, 1000);
 
@@ -52,7 +54,6 @@ TYPER.prototype = {
         this.canvas.width = this.WIDTH;
         this.canvas.height = this.HEIGHT;
 
-
         // laeme sõnad
         this.loadWords();
     },
@@ -61,6 +62,7 @@ TYPER.prototype = {
 
         // küsime mängija nime ja muudame objektis nime
         let p_name;
+        let self = this;
 
         if (this.player.name === null) {
             p_name = prompt("Please enter your name. Leave blank for Anonymous");
@@ -72,40 +74,57 @@ TYPER.prototype = {
             p_name = this.player.name;
         }
 
+
+        /*****************************
+        console.log("JSON TEST START");
+        var jsonTest = [{
+            name: "Anonymous",
+            score: 0,
+            wordsGuessed: 0
+        },
+            {
+                name: "Hello",
+                score: 500,
+                wordsGuessed: 1000
+            }];
+        console.log(JSON.stringify(jsonTest));
+        console.log(JSON.parse(JSON.stringify(jsonTest)));
+        console.log("JSON TEST END");
+        *****************************/
+
         //new session
         if (localStorage.getItem("highScores") === null) {
-            console.log("NEW SESSION");
-            let newLocalStorage = [{}];
-            this.saveToLocalStorage(newLocalStorage);
-            this.newPlayer(this.player.name);
+            console.log("Creating a new session.");
+            this.newPlayer(p_name, true);
+            this.data = this.getFromLocalStorage();
         } else {
             this.data = JSON.parse(localStorage.getItem("highScores"));
-            console.log("OLD SESSION");
-            console.log(this.data);
-
+            console.log("Existing session found.");
             let found = false;
-            for (let user in this.data) {
-                if (this.data.hasOwnProperty(user)) {
-                    if (user.name === this.player.name) {
-                        console.log("OLD PLAYER");
+            //console.log(self.data.length);
 
-                        found = true;
-                    }
+            for (let i=0; i<self.data.length; i++){
+                //console.log(self.data.length);
+                if(self.data[i][0].name === p_name){
+                    found = true;
+                    console.log("Player found.");
+                    break;
                 }
-
-                if (!found) this.newPlayer(this.player.name);
             }
+
+            if (!found) this.newPlayer(p_name);
         }
 
-        // Mänigja objektis muudame nime
-        this.player.name = p_name; // player =>>> {name:"Romil", score: 0, highScore:0}
+
+        // Mängija objektis muudame nime
+        this.player.name = p_name; // player =>>> {name:"Romil", score: 0}
         //console.log(this.player);
     },
 
     loadWords: function () {
 
-        console.log('loading...');
-
+        console.log('Loading Typer');
+        let self = this;
         // AJAX http://www.w3schools.com/ajax/tryit.asp?filename=tryajax_first
         let xmlhttp = new XMLHttpRequest();
 
@@ -117,7 +136,7 @@ TYPER.prototype = {
             // Sai faili tervenisti kätte
             if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
 
-                console.log('successfully loaded');
+                console.log('Typer loaded');
 
                 // serveri vastuse sisu
                 let response = xmlhttp.responseText;
@@ -131,13 +150,7 @@ TYPER.prototype = {
                 // ehk this.words asemel tuleb kasutada typerGame.words
 
 
-                this.data = JSON.parse(localStorage.getItem("highScores"));
-                console.log("ONLOAD");
-                console.log(this.data);
-                console.log(localStorage.getItem("highScores"));
-                console.log("/ONLOAD");
-
-
+                this.data = self.getFromLocalStorage()
                 //asendan massiivi
                 typerGame.words = structureArrayByWordLength(words_from_file);
                 //console.log(typerGame.words);
@@ -186,7 +199,7 @@ TYPER.prototype = {
         //start timer
         this.currentWordTimer = this.timer;
 
-        console.log("189 - Current word timer:" + this.currentWordTimer);
+        //console.log("189 - Current word timer:" + this.currentWordTimer);
 
 
     },
@@ -212,10 +225,10 @@ TYPER.prototype = {
 
                 //update player score
                 let timeMultiplier;
-                if((this.currentWordTimer.valueOf()+10)-this.timer.valueOf() < 0) {
+                if ((this.currentWordTimer.valueOf() + 10) - this.timer.valueOf() < 0) {
                     timeMultiplier = 1;
                 } else {
-                    timeMultiplier = (this.currentWordTimer.valueOf()+10)-this.timer.valueOf();
+                    timeMultiplier = (this.currentWordTimer.valueOf() + 10) - this.timer.valueOf();
                 }
                 this.player.score += timeMultiplier * Math.ceil(this.guessed_words / 5);
 
@@ -226,82 +239,78 @@ TYPER.prototype = {
             //joonistan uuesti
             this.word.Draw();
         } else {
-            if (this.player.score > this.player.highScore) {
-                this.player.highScore = this.player.score;
-            }
-            while (this.word.left.length !== 1) {
+            while (this.word.left.length !== 0) {
                 this.word.removeFirstLetter();
-                //this.word.left.length = this.word.left.length;
+                this.word.left.length = this.word.left.length;
             }
-            alert("Game over! \nYour score: " + this.player.score + "\nYour high score: " + this.player.highScore);
+            alert("Game over! \nYour score: " + this.player.score);
+            this.gameOver(this.player.name, this.player.score, this.guessed_words);
             this.guessed_words = 0;
             this.player.score = 0;
-            this.gameOver();
             this.generateWord();
             this.word.Draw();
-
         }
 
     },
 
-    gameOver: function () {
+    gameOver: function (player, score, guessed) {
         //Move to high score table
+        console.log("Game over.");
+        var self = this;
+        console.log(self);
         document.getElementById('scores').scrollIntoView();
         //Update player data, if necessary
-        let playerName = this.player.name;
-        for (let user in this.data) {
-            if (this.data.hasOwnProperty(user)) {
-                if (user.name === playerName) {
-                    if (user.score < this.player.score) {
-                        this.updateScore(playerName, this.player.score);
-                    }
+        let playerFound = false;
+        for (let i=0; i<self.data.length; i++){
+            if(self.data[i][0].name === player){
+                if(self.data[i][0].score < score) {
+                    self.data[i][0].score = score;
+                    self.data[i][0].wordsGuessed = guessed;
+                    playerFound = true;
                 }
             }
         }
-        console.log(this.data);
+        this.saveToLocalStorage(self.data);
+        this.data = this.getFromLocalStorage();
         //Update table
-        generateTable(this.data);
+        generateTable(this.getFromLocalStorage());
     },
 
-    updateScore: function (playerName, newScore) {
-        for (let i = 0; i < this.data.length; i++) {
-            if (this.data[i].name === playerName) {
-                this.data[i].score = newScore;
-                this.saveToLocalStorage(this.data);
-            }
+    newPlayer: function (playerName, newSession) {
+        console.log("Creating new player.");
+        let data;
+        if(newSession){
+            data = [[{
+                name: playerName,
+                score: 0,
+                wordsGuessed: 0
+            }]];
+        } else {
+            data = this.getFromLocalStorage();
+            data.push([{
+                name: playerName,
+                score: 0,
+                wordsGuessed: 0
+            }]);
         }
-    },
-    newPlayer: function (playerName) {
-        console.log("NEW PLAYER");
-
-        let newPlayer = {
-            name: playerName,
-            score: 0,
-            wordsGuessed: 0
-        };
-
-        this.data.push(newPlayer);
-        console.log(this.data.valueOf());
-        this.saveToLocalStorage(this.data);
+        this.saveToLocalStorage(data);
+        generateTable(this.getFromLocalStorage());
+        this.data = this.getFromLocalStorage();
     },
 
 
     saveToLocalStorage: function (json) {
         localStorage.setItem("highScores", JSON.stringify(json));
-        this.data = JSON.parse(localStorage.getItem("highScores"));
-        console.log(localStorage.getItem("highScores"));
-
     },
 
+    getFromLocalStorage: function () {
+        return JSON.parse(localStorage.getItem("highScores"));
+    },
 
     resetTimer: function () {
-        console.log("Word timer reset");
         this.currentWordTimer = this.timer;
     },
 
-    timerCount: function() {
-        this.timer++;
-    }
 
 };
 
@@ -343,9 +352,9 @@ const requestAnimFrame = (function () {
             window.setTimeout(callback, 1000 / 60);
         }
 })();
-
+/*
 function nightModeToggle() {
-    let currentColor = document.getElementsByTagName("canvas").style["background-color"];
+    let currentColor = document.getElementById("gameCanvas").style["background-color"];
     if (currentColor === "#e8eaf6") {
         document.getElementById("nightModeToggle").textContent = "Day mode";
         document.getElementById("nightmodeToggle").style.color = "#e8eaf6";
@@ -356,41 +365,47 @@ function nightModeToggle() {
         document.getElementsByTagName("canvas").style["background-color"] = "#e8eaf6";
     }
 }
-
+*/
 
 function generateTable(data) {
     //clear table
-    let table = document.getElementById("hiscoreTable").getElementsByTagName('tbody')[0];
+    console.log("Generating new table.");
+    let table = document.getElementById("hiscoreTable").getElementsByTagName("tbody")[0];
     table.parentNode.replaceChild(document.createElement('tbody'), table);
-    sortData();
-    let i = 0;
-    for (let user in data) {
-        if (this.data.hasOwnProperty(user)) {
-            let row = table.insertRow(i);
-            let nameRow = row.insertCell(0);
-            let scoreRow = row.insertCell(1);
-            let timeRow = row.insertCell(2);
-            nameRow.innerHTML = user.name;
-            scoreRow.innerHTML = user.score;
-            timeRow.innerHTML = user.wordsGuessed;
-        }
-        i++;
+    table = document.getElementById("hiscoreTable").getElementsByTagName("tbody")[0];
+    let sortedData = sortData(data);
+    for (let i=0; i<sortedData.length; i++){
+        let row = table.insertRow(table.rows.length);
+        let nameRow = row.insertCell(0);
+        let scoreRow = row.insertCell(1);
+        let wordsRow = row.insertCell(2);
+
+        nameRow.innerHTML = sortedData[i][0].name;
+        scoreRow.innerHTML = sortedData[i][0].score;
+        wordsRow.innerHTML = sortedData[i][0].wordsGuessed;
+        console.log(sortedData[i][0].wordsGuessed);
     }
-
+    table = null;
+    console.log("New table generated.");
 }
 
-function sortData() {
-    this.data.sort(function (a, b) {
-        return a.score > b.score;
+function sortData(data) {
+    console.log("Sorting player data.");
+    let sortedData = data.sort(function (a, b) {
+        return a[0].score < b[0].score;
     })
-}
+    console.log("Player data sorted.");
+    return sortedData;
 
+}
 
 window.onload = function () {
     var typerGame = new TYPER();
     window.typerGame = typerGame;
-    const nmToggle = document.getElementById("nightModeToggle");
-    nmToggle.onclick = nightModeToggle();
-
-    generateTable();
+    generateTable(typerGame.getFromLocalStorage());
+    //nmToggle.onclick = nightModeToggle();
 };
+
+window.onbeforeunload = function () {
+    window.scrollTo(0, 0);
+}

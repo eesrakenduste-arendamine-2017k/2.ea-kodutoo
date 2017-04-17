@@ -18,7 +18,8 @@
             <ul class="nav navbar-nav">
                 <li><a href="#intro">Start</a></li>
                 <li><a href="#scores">High Scores</a></li>
-                <li><a href="#game" onclick="resetTimer();return false;">New Game</a></li>
+                <li><a href="#game" onclick="return resetTimer();">New Game</a></li>
+                <li><a href="javascript:location.reload();">New profile</a></li>
             </ul>
         </div>
     </div>
@@ -29,8 +30,9 @@
         <p>Miss a letter and it's game over!</p>
         <br>
         <h2>Instructions:</h2>
-        <ol>
+        <ol class="list-group">
             <li>Enter your name</li>
+            <li>Press "New Game"</li>
             <li>Type the word on your screen. (Contains Estonian letters, make sure you can type the letters õäüö)</li>
             <li>If you do not type the word in 10 seconds, you will get no points</li>
             <li>Press ENTER when no more letters are visible</li>
@@ -52,16 +54,16 @@
                     <th>Words typed</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="hiscoreData">
 
             </tbody>
         </table>
         <a href="#nav">Back to top</a> <br>
-        <a href="#game" onclick="resetTimer();return false;">New game</a>
+        <a href="#game" onclick="return resetTimer();">New game</a>
     </div>
 
     <div id="game">
-        <canvas></canvas>
+        <canvas id="gameCanvas"></canvas>
     </div>
 
 
