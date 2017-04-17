@@ -24,14 +24,12 @@ var TYPER = function () {
     this.counter = setInterval(function () {
         self.timer++;
         this.timer = self.timer;
-
     }, 1000);
 
-
+    //this.timer value when new word was displayed.
     this.currentWordTimer = 0;
-    console.log(this.currentWordTimer);
     //mängija objekt, hoiame nime ja skoori
-    this.player = {name: null, score: 0, highScore: 0};
+    this.player = {name: null, score: 0};
 
     this.init();
 };
@@ -226,11 +224,14 @@ TYPER.prototype = {
                 //update player score
                 let timeMultiplier;
                 if ((this.currentWordTimer.valueOf() + 10) - this.timer.valueOf() < 0) {
-                    timeMultiplier = 1;
+                    timeMultiplier = 0;
                 } else {
                     timeMultiplier = (this.currentWordTimer.valueOf() + 10) - this.timer.valueOf();
                 }
+
                 this.player.score += timeMultiplier * Math.ceil(this.guessed_words / 5);
+
+
 
                 //loosin uue sõna
                 this.generateWord();
@@ -257,7 +258,6 @@ TYPER.prototype = {
         //Move to high score table
         console.log("Game over.");
         var self = this;
-        console.log(self);
         document.getElementById('scores').scrollIntoView();
         //Update player data, if necessary
         let playerFound = false;
@@ -308,6 +308,8 @@ TYPER.prototype = {
     },
 
     resetTimer: function () {
+        this.guessed_words = 0;
+        this.player.score = 0;
         this.currentWordTimer = this.timer;
     },
 
@@ -373,20 +375,24 @@ function generateTable(data) {
     let table = document.getElementById("hiscoreTable").getElementsByTagName("tbody")[0];
     table.parentNode.replaceChild(document.createElement('tbody'), table);
     table = document.getElementById("hiscoreTable").getElementsByTagName("tbody")[0];
-    let sortedData = sortData(data);
-    for (let i=0; i<sortedData.length; i++){
-        let row = table.insertRow(table.rows.length);
-        let nameRow = row.insertCell(0);
-        let scoreRow = row.insertCell(1);
-        let wordsRow = row.insertCell(2);
+    if (data!=null && data!=undefined){
+        let sortedData = sortData(data);
+        for (let i=0; i<sortedData.length; i++){
+            let row = table.insertRow(table.rows.length);
+            let nameRow = row.insertCell(0);
+            let scoreRow = row.insertCell(1);
+            let wordsRow = row.insertCell(2);
 
-        nameRow.innerHTML = sortedData[i][0].name;
-        scoreRow.innerHTML = sortedData[i][0].score;
-        wordsRow.innerHTML = sortedData[i][0].wordsGuessed;
-        console.log(sortedData[i][0].wordsGuessed);
+            nameRow.innerHTML = sortedData[i][0].name;
+            scoreRow.innerHTML = sortedData[i][0].score;
+            wordsRow.innerHTML = sortedData[i][0].wordsGuessed;
+        }
+        table = null;
+        console.log("New table generated.");
+    } else {
+        console.log("Cannot generate new table without data.");
     }
-    table = null;
-    console.log("New table generated.");
+
 }
 
 function sortData(data) {
