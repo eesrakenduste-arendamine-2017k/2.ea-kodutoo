@@ -16,6 +16,7 @@ var TYPER = function(){
 	this.word = null; // preagu arvamisel olev sõna
 	this.word_min_length = 3;
 	this.guessed_words = 0; // arvatud sõnade arv
+  this.typos = 0;
 
 	//mängija objekt, hoiame nime ja skoori
 	this.player = {name: null, score: 0};
@@ -25,8 +26,33 @@ var TYPER = function(){
 
 TYPER.prototype = {
 
+	saveScore: function() {
+
+		//this.playerNameArray = JSON.parse(localStorage.getItem('playerName'));
+		//gamesFromStorage = JSON.parse(localStorage.getItem("games"));
+
+		this.playerArray.forEach(function (player, key) {
+			//gamesFromStorage.forEach(function(game, key){
+
+			console.log(player);
+			console.log(typerGame.player);
+
+			if (player.Id == typerGame.player.Id) {
+
+				player.score = typerGame.player.score;
+
+				console.log("updated");
+				console.log(player);
+
+			}
+
+		});
+		localStorage.setItem("player", JSON.stringify(this.playerArray));
+	},
+
+
 	// Funktsioon, mille käivitame alguses
-	init: function(){
+	init: function () {
 
 		// Lisame canvas elemendi ja contexti
 		this.canvas = document.getElementsByTagName('canvas')[0];
@@ -50,18 +76,37 @@ TYPER.prototype = {
 		// küsime mängija nime ja muudame objektis nime
 		var p_name = prompt("Sisesta mängija nimi");
 
+		//kui üritatakse sisestada liiga palju teksti
+		if(p_name.length >= 10){
+			p_name = prompt("Liiga pikk nimi!");
+
+		}
+
 		// Kui ei kirjutanud nime või jättis tühjaks
 		if(p_name === null || p_name === ""){
 			p_name = "Tundmatu";
 
 		}
 
+		this.player = {name: p_name, score: 0, Id: parseInt(1000+Math.random()*999999)};
+		this.playerArray=JSON.parse(localStorage.getItem('player'));
+
+		if(!this.playerArray || this.playerArray.length===0){
+			this.playerArray=[];
+		}
+
+		this.playerArray.push(this.player);
+		console.log("added");
+
+		localStorage.setItem("player", JSON.stringify(this.playerArray));
+
+
 		// Mänigja objektis muudame nime
 		this.player.name = p_name; // player =>>> {name:"Romil", score: 0}
         console.log(this.player);
 	},
 
-	loadWords: function(){
+	loadWords: function(ctx, canvas){
 
         console.log('loading...');
 
@@ -97,7 +142,9 @@ TYPER.prototype = {
                 typerGame.loadPlayerData();
 
 				// kõik sõnad olemas, alustame mänguga
-				typerGame.start();
+					typerGame.start();
+
+
 			}
 		};
 
@@ -110,12 +157,24 @@ TYPER.prototype = {
 		// Tekitame sõna objekti Word
 		this.generateWord();
 		//console.log(this.word);
-
-        //joonista sõna
-		this.word.Draw();
+		this.drawAll();
+		this.gameStop = parseInt(new Date().getTime()/1000+60);
 
 		// Kuulame klahvivajutusi
 		window.addEventListener('keypress', this.keyPressed.bind(this));
+
+	},
+
+	drawAll: function () {
+
+		requestAnimFrame(window.typerGame.drawAll.bind(window.typerGame));
+
+		//console.log('joonistab');
+		//joonista sõna
+		this.word.Draw();
+
+		var currentTime = parseInt(new Date().getTime() / 1000);
+		var timeLeft = this.gameStop - currentTime;
 
 	},
 
@@ -153,21 +212,57 @@ TYPER.prototype = {
   			if(this.word.left.length === 0){
 
   				this.guessed_words += 1;
+          //make background green, when the word is guessed correctly
+          //document.getElementById('bg').innerHTML = '<style>canvas{background-color: #84ea5b;};</style>';
+
+				console.log(this.player.score);
 
                   //update player score
                   this.player.score = this.guessed_words;
 
-  				//loosin uue sõna
-  				this.generateWord();
-  			}
+				this.saveScore();
 
-  			//joonistan uuesti
-  			this.word.Draw();
-  		}
 
-  	} // keypress end
+				//storeNameAndScore(this.player.name, this.player.score);
 
-  };
+				//loosin uue sõna
+				var currentTime = parseInt(new Date().getTime()/1000);
+				var timeLeft = this.gameStop - currentTime;
+				console.log(timeLeft);
+				if (currentTime < this.gameStop){
+					this.generateWord();
+				} else {
+					var again = confirm("Score: " + this.player.score +
+						"\nPlay again?");
+					if (again){
+						console.log(this.guessed_words);
+						this.guessed_words = 0;
+						this.player.score = 0;
+
+						this.saveScore();
+
+						this.generateWord();
+						this.drawAll();
+						this.gameStop = parseInt(new Date().getTime()/1000+10);
+
+						console.log(this.player.score);
+					} else {
+						console.log(this.guessed_words);
+						location.href = "index.html"
+					}
+				}
+
+			}
+
+			//joonistan uuesti
+			this.word.Draw();
+		}
+
+	} // keypress end
+
+};
+
+
 
 
 
@@ -197,36 +292,75 @@ function structureArrayByWordLength(words){
     return temp_array;
 }
 
-var requestAnimFrame = (function(){
-    return  window.requestAnimationFrame       ||
-        window.webkitRequestAnimationFrame ||
-        window.mozRequestAnimationFrame    ||
-        function( callback ){
-            window.setTimeout(callback, 1000 / 60);
-        };
-}
-)();
+var requestAnimFrame = (function () {
+	return window.requestAnimationFrame ||
+		window.webkitRequestAnimationFrame ||
+		window.mozRequestAnimationFrame ||
+		function (callback) {
+      //mäng kestab 1 minuti
+			window.setTimeout(callback, 1000 / 61);
+		};
+})();
 
-window.onload = function(){
+window.onload = function () {
 	var typerGame = new TYPER();
 	window.typerGame = typerGame;
 };
 
+// Nightmode
+
 var night=0;
-var NColor='black';
+var NColor='darkgrey';
 function darkMode(){
 	night=(night+1);
 	if(night%2==1) {
 	    console.log("NightMode ON");
-		NColor='black';
-        document.getElementById('bg').innerHTML = '<style>canvas{  background-color: black;};</style>';
+		NColor='darkgrey';
+        document.getElementById('bg').innerHTML = '<style>canvas{background-color: darkgrey;};</style>';
     }
     if(night%2===0) {
         console.log("NightMode OFF");
         NColor='#F1C40F';
         document.getElementById('bg').innerHTML = '<style>canvas{background-color: #F1C40F;};</style>';
     }
-    if(gameFinished==1) {
-        location.href = "index.html";
-    }
 }
+
+var count = 0;
+function playerName(){
+	console.log("playerName");
+
+	var playerData = JSON.parse(localStorage.getItem("player"));
+
+
+	playerData.sort(function(a, b) {
+		return b.score - a.score;
+	});
+
+	playerData.forEach(function (player, key) {
+		if(count>=10){
+			return;
+		}
+		document.getElementById("player").innerHTML +="<br>"+(count+1)+" . "+ player.name+""+" "+player.score+"";
+		count+=1;
+	});
+}
+
+/*
+Local Storage
+function storeNameAndScore(playerName, playerScore) {
+	var playerNameFromStorage = localStorage.getItem('playerName');
+	var playerScoreFromStorage = localStorage.getItem('playerScore');
+	if (typeof(Storage) !== "undefined") {
+		// Store
+		localStorage.setItem("playerName", JSON.stringify(playerName));
+		localStorage.setItem("playerScore", JSON.stringify(playerScore));
+		// Retrieve
+		console.log('playerName: ', JSON.parse(playerNameFromStorage));
+		console.log('playerScore: ', JSON.parse(playerScoreFromStorage));
+
+		// document.getElementById("result").innerHTML = localStorage.getItem("playerName") + localStorage.getItem('');
+	} else {
+		document.getElementById("result").innerHTML = "Sorry, your browser does not support Web Storage...";
+	}
+}
+*/

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Typer Game Menu</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css'>
+
+
+  <style>
+
+  html, body {
+  height: 100%;
+  background: #313;
+  font-family: lato, sans-serif;
+  font-weight: 400;
+  width: 100%;
+  overflow: hidden;
+}
+
+.page {
+  position: relative;
+  height: 100%;
+}
+
+.control-menu {
+  position: absolute;
+  font-size: 24px;
+  top: 10px;
+  border-radius: 24px;
+  right: 10px;
+  color: white;
+  z-index: 200;
+  text-decoration: none;
+}
+.control-menu .fa {
+  width: 32px;
+  height: 32px;
+  display: block;
+  line-height: 32px;
+  border-radius: 32px;
+  text-align: center;
+}
+.control-menu.open .fa-bars {
+  display: block;
+}
+.control-menu.open .fa-times {
+  display: none;
+}
+.control-menu.close .fa-bars {
+  display: none;
+}
+.control-menu.close .fa-times {
+  display: block;
+  background-color: #666;
+}
+
+.menu {
+  width: 100%;
+  float: left;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.menu-wrapper {
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.menu.closed {
+  transform: translateX(100%) scale(0.6) !important;
+  transform-origin: top right;
+  transition: all 0.4s ease;
+}
+
+.element {
+  display: block;
+  height: 25%;
+  width: 100%;
+  font-size: 32px;
+  text-align: center;
+  color: white;
+  display: table;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+.element.one {
+  background-color: #F1C40F;
+}
+.element.two {
+  background-color: #E67E22;
+}
+.element.three {
+  background-color: #E74C3C;
+}
+.element.four {
+  background-color: #E30E82;
+}
+.element .element-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+  position: relative;
+}
+.element .icon {
+  display: block;
+}
+.element .tag {
+  display: block;
+  padding-top: 10px;
+  font-size: 28px;
+  text-decoration: none;
+  opacity: 0;
+  height: 0;
+  text-transform: uppercase;
+  transform: translateY(200px);
+  width: 100%;
+}
+
+.element.element--closed {
+  height: 0%;
+  overflow: hidden;
+  display: block;
+}
+.element.element--closed * {
+  opacity: 0;
+  transition: all 1s ease;
+}
+
+.element.element--active {
+  font-size: 64px;
+  transition: all 0.3s;
+  height: 100%;
+}
+.element.element--active .tag {
+  opacity: 1;
+  height: 100px;
+  transform: translateY(0);
+  transition: all 0.2s 0.3s ease;
+}
+.element.element--active .tag small {
+  font-size: 0.4em;
+  display: block;
+}
+
+.button {
+    background-color: #E67E22;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.button2 {
+    background-color: #E30E82;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+ </style>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+
+</head>
+
+<body>
+
+<div class="page"><a>
+  <div class="menu-wrapper">
+    <div class="menu"><a class="element one" href="#">
+        <div class="element-wrapper"><span class="icon fa fa-gamepad" aria-hidden="true" > Typer game </span><br><br><span class="tag" href="typer.html">
+            <button class="button" onclick="window.location.href='typer.html'">Start game</button></span>
+        </div></a><a class="element two" href="#">
+        <div class="element-wrapper"><i class="icon fa fa-question" aria-hidden="true"> Instructions </i><br><br><span class="tag"> Type the Estonian word shown on screen as fast as you can and without making mistakes. You have 1 minute to make the best score you can.</span>
+        </div></a><a class="element three" href="#">
+        <div class="element-wrapper"><i class="icon fa fa-bar-chart" aria-hidden="true"> Top 10 players </i><br><br><span class="tag" href="scores.php">
+          <button class="button2" onclick="window.location.href='scores.php'">View scores</button></span>
+        </span>
+
+        </div></a><a class="element four" href="#">
+        <div class="element-wrapper"><i class="fa fa-copyright" aria-hidden="true"> Copyright </i><br><br><span class="tag"> Game made for a school project<small>by Kärol-Milaine Jürgenson</small></span></div></a></div>
+  </div>
+</div>
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+  <script src='http://use.edgefonts.net/lato.js'></script>
+
+    <script src="js/index.js"></script>
+
+</body>
+</html>
