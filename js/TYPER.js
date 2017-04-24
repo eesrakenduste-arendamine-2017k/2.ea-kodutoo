@@ -158,7 +158,7 @@ TYPER.prototype = {
 		this.generateWord();
 		//console.log(this.word);
 		this.drawAll();
-		this.gameStop = parseInt(new Date().getTime()/1000+59);
+		this.gameStop = parseInt(new Date().getTime()/1000+60);
 
 		// Kuulame klahvivajutusi
 		window.addEventListener('keypress', this.keyPressed.bind(this));
@@ -298,7 +298,7 @@ var requestAnimFrame = (function () {
 		window.mozRequestAnimationFrame ||
 		function (callback) {
       //mäng kestab 1 minuti
-			window.setTimeout(callback, 1000 / 60);
+			window.setTimeout(callback, 1000 / 61);
 		};
 })();
 
