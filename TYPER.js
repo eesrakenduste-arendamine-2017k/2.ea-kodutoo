@@ -23,20 +23,6 @@ var TYPER = function(){
 	this.init();
 };
 
-
-function changeColorW() {
-    var colw = document.getElementById("changecolorw");
-	var colorsw = ["#f4f6f9"];
-    colw.style.backgroundColor = colorsw;
-};
-
-function changeColor() {
-    var col = document.getElementById("changecolor");
-	var colors = ["#d8260a"];
-    col.style.backgroundColor = colors;
-};
-
-
 TYPER.prototype = {
 
 	// Funktsioon, mille käivitame alguses
@@ -159,8 +145,6 @@ TYPER.prototype = {
 		// Võrdlen kas meie kirjutatud täht on sama mis järele jäänud sõna esimene
 		//console.log(this.word);
 		if(letter === this.word.left.charAt(0)){
-			
-			changeColorW();
 
 			// Võtame ühe tähe maha
 			this.word.removeFirstLetter();
@@ -180,9 +164,6 @@ TYPER.prototype = {
 
 			//joonistan uuesti
 			this.word.Draw();
-		}
-		else{
-			changeColor();
 		}
 
 	} // keypress end
@@ -216,11 +197,7 @@ function structureArrayByWordLength(words){
     return temp_array;
 }
 
-
-
 window.onload = function(){
 	var typerGame = new TYPER();
 	window.typerGame = typerGame;
 };
-
-
