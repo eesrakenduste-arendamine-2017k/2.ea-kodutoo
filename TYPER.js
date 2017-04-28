@@ -18,12 +18,9 @@ var TYPER = function () {
     this.word = null; // preagu arvamisel olev sõna
     this.word_min_length = 3;
     this.guessed_words = 0; // arvatud sõnade arv
-	this.miss = 0;
 	this.timeLimit = 20;
 	this.gameOver = true;
-    //mängija objekt, hoiame nime ja skoori
-    this.player = {name: null, score: 0};
-
+    
     this.init();
 };
 
@@ -52,33 +49,33 @@ TYPER.prototype = {
         this.loadPlayerData();
     },
 
-    loadPlayerData: function () {
+    loadPlayerData: function(){
 
-        // küsime mängija nime ja muudame objektis nime
-        var p_name = prompt("Sisesta mängija nimi");
+		// küsime mängija nime ja muudame objektis nime
+		var p_name = prompt("Sisesta mängija nimi");
 
-        // Kui ei kirjutanud nime või jättis tühjaks
-        if (p_name === null || p_name === "") {
-            p_name = "Tundmatu";
-
-        }
+		// Kui ei kirjutanud nime või jättis tühjaks
+		if(p_name === null || p_name === ""){
+			p_name = "Tundmatu";		
+		}
 		
 		this.player = {name: p_name, score: 0, Id: parseInt(1000+Math.random()*999999)};
-        this.playerArray=JSON.parse(localStorage.getItem('player'));
+		this.playerArray=JSON.parse(localStorage.getItem('player'));
+		
+		if(!this.playerArray || this.playerArray.length===0){
+			this.playerArray=[];
+		}
+		
+		this.playerArray.push(this.player);
+		console.log("lisatud");
+		
+		localStorage.setItem("player", JSON.stringify(this.playerArray));
+		
 
-        if(!this.playerArray || this.playerArray.length===0){
-            this.playerArray=[];
-        }
-
-        this.playerArray.push(this.player);
-        console.log("lisatud");
-
-        localStorage.setItem("player", JSON.stringify(this.playerArray));
-
-        // Mänigja objektis muudame nime
-        this.player.name = p_name; // player =>>> {name:"Romil", score: 0}
+		// Mänigja objektis muudame nime
+		this.player.name = p_name; // player =>>> {name:"Romil", score: 0}
         console.log(this.player);
-    },
+	},
 
     loadWords: function () {
 
@@ -111,7 +108,8 @@ TYPER.prototype = {
                 //asendan massiivi
                 typerGame.words = structureArrayByWordLength(words_from_file);
                 console.log(typerGame.words);
-
+				
+				
 
             }
         };
@@ -132,9 +130,8 @@ TYPER.prototype = {
     },
 	
 	restart: function () {
-		 var again = confirm("Score: " + this.player.score +
-                        "\nPlay again?");
-                    if (again) {
+		 var retry = confirm("Your score is: " + this.player.score + "\nRetry?");
+                    if (retry) {
                         console.log(this.guessed_words);
                         this.guessed_words = 0;
                         this.player.score = 0;
@@ -164,7 +161,12 @@ TYPER.prototype = {
 		document.getElementById("timer").style.color = 'black';
         document.getElementById("timer").innerHTML = "Timeleft: " + timeLeft;
 		
+		var player_score = this.player.score;
+		document.getElementById("player_score").style.color = 'black';
+		document.getElementById("player_score").innerHTML = "Score: " + player_score;
+		
 		if (timeLeft <= 0 && !this.gameOver) {
+			this.saveScore();
 			this.restart();
 			this.gameOver = true;
 		}
@@ -185,9 +187,35 @@ TYPER.prototype = {
         // Word on defineeritud eraldi Word.js failis
         this.word = new Word(word, this.canvas, this.ctx);
     },
+	
+	
+	saveScore: function() {
+
+        //this.playerNameArray = JSON.parse(localStorage.getItem('playerName'));
+        //gamesFromStorage = JSON.parse(localStorage.getItem("games"));
+
+        this.playerArray.forEach(function (player, key) {
+            //gamesFromStorage.forEach(function(game, key){
+
+            console.log(player);
+            console.log(typerGame.player);
+
+            if (player.Id == typerGame.player.Id) {
+
+                player.score = typerGame.player.score;
+
+                console.log("updated");
+                console.log(player);
+
+            }
+
+        });
+		localStorage.setItem("player", JSON.stringify(this.playerArray));
+    },
 
     keyPressed: function (event) {
-
+		
+		
         //console.log(event);
         // event.which annab koodi ja fromcharcode tagastab tähe
         var letter = String.fromCharCode(event.which);
@@ -196,14 +224,13 @@ TYPER.prototype = {
         // Võrdlen kas meie kirjutatud täht on sama mis järele jäänud sõna esimene
         //console.log(this.word);
         if (letter === this.word.left.charAt(0)) {
-
+			
             // Võtame ühe tähe maha
             this.word.removeFirstLetter();
 			
 			} 
 			
 			else if (letter != this.word.left.charAt(0)) {
-				this.miss += 1;
 
                  // blink if wrong letter is pressed
 				
@@ -216,9 +243,13 @@ TYPER.prototype = {
             // kas sõna sai otsa, kui jah - loosite uue sõna
 
             if (this.word.left.length === 0) {
-
                 this.guessed_words += 1;
-
+				 
+				 document.body.style.background = "#98FB98";
+					
+                 window.setTimeout(function () {
+				 document.body.style.background = "white";}, 100);	
+				
                 //update player score
                 this.player.score = this.guessed_words;
 
@@ -242,6 +273,25 @@ TYPER.prototype = {
 	// keypress end
 
 
+var count = 0;
+function results(){
+    console.log("results");
+
+    var playerData = JSON.parse(localStorage.getItem("player"));
+
+
+    playerData.sort(function(a, b) {
+        return b.score - a.score;
+    });
+
+    playerData.forEach(function (player, key) {
+        if(count>=10){
+            return;
+        }
+        document.getElementById("player").innerHTML +="<br>"+(count+1)+") " + player.name+"<a style='right: 50px; color: black;padding-top: 0px'>"+"   " + player.score + " points" + "</a>";
+        count+=1;
+    });
+}
 
 /* HELPERS */
 function structureArrayByWordLength(words) {

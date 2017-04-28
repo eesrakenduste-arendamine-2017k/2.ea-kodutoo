@@ -30,7 +30,17 @@ p {
 }
 
 #timer {
-    font-family: 'font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
+    font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
     font-size: 125%;
 }
 
+#player_score {
+    font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
+    font-size: 125%;
+	text-align: right;
+}
+#player{
+	font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
+    font-size: 125%;
+	text-align: right;
+}
