@@ -159,7 +159,7 @@ TYPER.prototype = {
 		var currentTime = parseInt(new Date().getTime() / 1000);
         var timeLeft = this.gameStop - currentTime;
 		document.getElementById("timer").style.color = 'black';
-        document.getElementById("timer").innerHTML = "Timeleft: " + timeLeft;
+        document.getElementById("timer").innerHTML = "Time: " + timeLeft;
 		
 		var player_score = this.player.score;
 		document.getElementById("player_score").style.color = 'black';
@@ -271,7 +271,15 @@ TYPER.prototype = {
         }
     };
 	// keypress end
-
+	
+// executes results() only once	
+var done;
+function run_once() {
+  if (!done) {
+    done = true;
+    results();
+  }
+};
 
 var count = 0;
 function results(){
@@ -292,6 +300,8 @@ function results(){
         count+=1;
     });
 }
+
+
 
 /* HELPERS */
 function structureArrayByWordLength(words) {
