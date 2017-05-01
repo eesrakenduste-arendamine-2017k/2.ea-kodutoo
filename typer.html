@@ -1,25 +1,22 @@
 <!doctype html>
-<html lang="en">
+<html class="typer" lang="en">
+<link rel="stylesheet" type="text/css" href="style.css">
 <head>
 	<meta charset="UTF-8">
 	<title>typer</title>
-	<style> 
-		* {
-			margin: 0;
-			padding: 0;
-		}
-		html, body, canvas {
-			width: 100%;
-			height: 100%;
-		}
+	<style>
 		canvas {
-			position: absolute;
+	    position: absolute;  
+	    background-color: white;
+	    transition-duration: 0.35s;
 		}
-	</style>
+	</style> 
 	<script src="TYPER.js"></script>
     <script src="Word.js"></script>
 </head>
-<body>
-	<canvas></canvas>
+<body class="typer">
+	<div>
+		<canvas class="typer" id="bg" onclick="restartGame()"></canvas>
+	</div>
 </body>
 </html>

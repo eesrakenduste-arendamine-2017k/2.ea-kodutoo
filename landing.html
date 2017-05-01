@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>typer</title>
+    <script src="TYPER.js" defer></script>
+    <script src="Word.js"></script> 
+</head>
+    <div id="btn">
+        <form target="_blank" action="https://github.com/case112/2.ea-kodutoo">
+        <input class="button" type="submit" value="github"/>
+        </form>
+    </div>
+    <body id="bodyStyle"><div > 
+        <div id="centerDiv">
+            <div>
+                <h1>typer: the game</h1> 
+            </div>
+            <div id="info">
+                <p>typer is a simple game.<br>just write as many words as quickly as you can to get the highest score! <br> before you hit start, make sure you choose the difficulty.</p>   
+            </div>
+            <div>
+                <form action="typer.html" name="myForm" onsubmit="return validate()" method="post">
+                    <input type="radio" id="r" name="diffLevel" value="4"> easy <br><br>
+                    <input type="radio" id="r" name="diffLevel" value="8"> harder <br><br> 
+                    <input class="button" type="submit" value="start game" /> <br> <br>
+                </form>
+                <button class="button" onclick="playerName();">see top 10</button><br><br>
+                <div id="playerName" >
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
