@@ -2,7 +2,7 @@
 
 Mängu eesmärk on võimalikult kiiresti ekraanile tekkivaid sõnu ära trükkida. Sõnad võetud [GitHubist](https://github.com/dwyl/english-words), [english-words](https://github.com/dwyl/english-words/blob/master/words.txt)
 
-Rakendus asub aadressil :  http://www.tlu.ee/~case112/eesrakendused/2.ea-kodutoo/
+Rakendus asub aadressil :  http://www.tlu.ee/%7Ecase112/eesrakendused/2.ea-kodutoo/landing.html
 
 ## *typer: the game* funktsionaalsused
 
