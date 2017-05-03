@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Esileht</title>
+  <script src="top10.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=VT323" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    function revealTop(){
+      document.getElementById("top10").style.display = "block";
+    }
+  </script>
+</head>
+
+<body>
+  <button id="LeaderboardBtn" class="btn" onclick="location.href='leaderboard.html'">Edetabel</button>
+  <button style="margin-left: 39%; right:0;" class="btn" onclick="revealTop()">Top 10</button>
+  <div id="top10" class="top10">
+    <h2 class="top10_header">Top 10</h2>
+    <ol class="top10_players">
+    </ol>
+  </div>
+
+  <div class="welcome">
+    <div>
+        <h1>typer game</h1>
+        <p>eesmärk: kirjutada võimalikult kiiresti ja perfektselt eraanile ilmuvaid sõnu <br> aeg: 60 sek <br> edu!</p>
+        <button class="btn" onclick="location.href='typer.html'">mängima!</button>
+    </div>
+  </div>
+
+</body>
+
+</html>

@@ -2,9 +2,9 @@
 function Word(word, canvas, ctx){
 
     this.word = word;
-    
+
     // lisaks mis on sõnast järel, mida alguses hakkame hakkima ja pärast joonistame
-    // esialgne sõna säilib, nt saab kasutada pärast skoori arvutamisel 
+    // esialgne sõna säilib, nt saab kasutada pärast skoori arvutamisel
 	this.left = this.word;
 
     this.canvas = canvas;
@@ -19,7 +19,7 @@ Word.prototype = {
 
 		// Canvasele joonistamine
 		this.ctx.textAlign = 'center';
-		this.ctx.font = '70px Courier';
+		this.ctx.font = '70px "VT323", monospace';
 
 		// 	// Joonistame sõna, mis on järel / tekst, x, y
 		this.ctx.fillText(this.left, this.canvas.width/2, this.canvas.height/2);
