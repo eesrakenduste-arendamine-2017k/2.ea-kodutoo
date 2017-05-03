@@ -1,0 +1,142 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+canvas {
+  width: 100%;
+  height: 100%;
+}
+
+canvas {
+  display:;
+  background-color:;
+  position: absolute;
+}
+.welcome {
+    height: 100%;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    text-align: center;
+    font-family: 'Love Ya Like A Sister', cursive;
+}
+
+h1 {
+
+    font-size: 250%;
+
+}
+
+p {
+    font-size: 125%;
+    padding:5%;
+    font-family: 'Love Ya Like A Sister', cursive;
+}
+#playerStats {
+  position: fixed;
+  color: white;
+  padding: 3% 10% 3% 2%;
+  background-color: black;
+  border: none;
+  left: 5%;
+  right:;
+  text-align: left;
+  font-size: 16px;
+  font-family: 'Love Ya Like A Sister', cursive;
+  margin-top: 0px;
+}
+
+.btn {
+  position: relative;
+  color: white;
+  background-color: black;
+  border: none;
+  padding: 15px 30px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: 'Love Ya Like A Sister', cursive;
+  margin-bottom:0px;
+  z-index: 2;
+
+}
+
+#top10 {
+  display:none;
+}
+.top10 {
+  font-size: 20px;
+  text-align: left;
+  position: absolute;
+  margin-left: 45%;
+}
+.top10_header {
+  margin-top: 10%;
+  text-align: center;
+  margin-bottom: 10%;
+}
+#switch {
+  padding-left: 10%;
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {display:none;}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}

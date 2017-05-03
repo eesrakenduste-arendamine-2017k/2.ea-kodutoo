@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Esileht</title>
+  <script src="top10.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Love+Ya+Like+A+Sister" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    function revealTop(){
+      document.getElementById("top10").style.display = "block";
+    }
+  </script>
+</head>
+
+<body>
+  <button id="LeaderboardBtn" class="btn" onclick="location.href='Leaderboard.html'">Edetabel</button>
+  <button style="margin-left: 39%;" class="btn" onclick="revealTop()">Top 10</button>
+  <div id="top10" class="top10">
+    <h2 class="top10_header">Top 10</h2>
+    <ol class="top10_players">
+    </ol>
+  </div>
+
+  <div class="welcome">
+    <div>
+        <h1>Typer Mäng</h1>
+        <p>Kirjuta ekraanile ilmuvaid sõnu nii kiiresti kui suudad, tehes võimalikult vähe vigu. Aega on 60 sekundit!</p>
+        <button class="btn" onclick="location.href='typer.html'">Play Typer!</button>
+    </div>
+  </div>
+
+</body>
+
+</html>
