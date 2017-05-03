@@ -1,203 +1,349 @@
-var TYPER = function(){
+var time;
+var dM;
+var cM;
+//var level;
+var TYPER = function() {
 
-	//singleton
-    if (TYPER.instance_) {
-        return TYPER.instance_;
-    }
-    TYPER.instance_ = this;
+  //singleton
+  if (TYPER.instance_) {
+    return TYPER.instance_;
+  }
+  TYPER.instance_ = this;
 
-	// Muutujad
-	this.WIDTH = window.innerWidth;
-	this.HEIGHT = window.innerHeight;
-	this.canvas = null;
-	this.ctx = null;
+  // Muutujad
+  this.WIDTH = window.innerWidth;
+  this.HEIGHT = window.innerHeight;
+  this.canvas = null;
+  this.ctx = null;
 
-	this.words = []; // kõik sõnad
-	this.word = null; // preagu arvamisel olev sõna
-	this.word_min_length = 3;
-	this.guessed_words = 0; // arvatud sõnade arv
+  this.words = []; // kõik sõnad
+  this.word = null; // preagu arvamisel olev sõna
+  this.word_min_length = 3;
+  this.guessed_words = 0; // arvatud sõnade arv
 
-	//mängija objekt, hoiame nime ja skoori
-	this.player = {name: null, score: 0};
+  //mängija objekt, hoiame nime ja skoori
+  this.player = {
+    name: null,
+    score: 0,
+    misclicks: 0
+  };
 
-	this.init();
+  this.init();
 };
+
 
 TYPER.prototype = {
 
-	// Funktsioon, mille käivitame alguses
-	init: function(){
+  // Funktsioon, mille käivitame alguses
+  init: function() {
 
-		// Lisame canvas elemendi ja contexti
-		this.canvas = document.getElementsByTagName('canvas')[0];
-		this.ctx = this.canvas.getContext('2d');
+    // Lisame canvas elemendi ja contexti
+    this.canvas = document.getElementsByTagName('canvas')[0];
+    this.ctx = this.canvas.getContext('2d');
+    //this.ctx.color = "white";
 
-		// canvase laius ja kõrgus veebisirvija akna suuruseks (nii style, kui reso)
-		this.canvas.style.width = this.WIDTH + 'px';
-		this.canvas.style.height = this.HEIGHT + 'px';
+    // canvase laius ja kõrgus veebisirvija akna suuruseks (nii style, kui reso)
+    this.canvas.style.width = this.WIDTH + 'px';
+    this.canvas.style.height = this.HEIGHT + 'px';
 
-		//resolutsioon 
-		// kui retina ekraan, siis võib ja peaks olema 2 korda suurem
-		this.canvas.width = this.WIDTH;
-		this.canvas.height = this.HEIGHT;
+    //resolutsioon
+    // kui retina ekraan, siis võib ja peaks olema 2 korda suurem
+    this.canvas.width = this.WIDTH;
+    this.canvas.height = this.HEIGHT;
 
-		// laeme sõnad
-		this.loadWords();
-	}, 
+    // laeme sõnad
+    this.loadWords();
+  },
 
-	loadPlayerData: function(){
+  loadPlayerData: function() {
 
-		// küsime mängija nime ja muudame objektis nime
-		var p_name = prompt("Sisesta mängija nimi");
+    // küsime mängija nime ja muudame objektis nime
+    var p_name = prompt("Sisesta mängija nimi");
 
-		// Kui ei kirjutanud nime või jättis tühjaks
-		if(p_name === null || p_name === ""){
-			p_name = "Tundmatu";
-		
-		}
+    // Kui ei kirjutanud nime või jättis tühjaks
+    if (p_name === null || p_name === "") {
+      p_name = "Tundmatu";
 
-		// Mänigja objektis muudame nime
-		this.player.name = p_name; // player =>>> {name:"Romil", score: 0}
-        console.log(this.player);
-	}, 
+    }
 
-	loadWords: function(){
+    // Mänigja objektis muudame nime
+    this.player.name = p_name; // player =>>> {name:"Romil", score: 0}
+    console.log(this.player);
+    //document.getElementById("playerName").innerHTML = "Mängija: " + this.player.name;
+  },
 
-        console.log('loading...');
+  loadWords: function() {
 
-		// AJAX http://www.w3schools.com/ajax/tryit.asp?filename=tryajax_first
-		var xmlhttp = new XMLHttpRequest();
+    console.log('loading...');
 
-		// määran mis juhtub, kui saab vastuse
-		xmlhttp.onreadystatechange = function(){
+    // AJAX http://www.w3schools.com/ajax/tryit.asp?filename=tryajax_first
+    var xmlhttp = new XMLHttpRequest();
 
-			//console.log(xmlhttp.readyState); //võib teoorias kõiki staatuseid eraldi käsitleda
+    // määran mis juhtub, kui saab vastuse
+    xmlhttp.onreadystatechange = function() {
 
-			// Sai faili tervenisti kätte
-			if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+      //console.log(xmlhttp.readyState); //võib teoorias kõiki staatuseid eraldi käsitleda
 
-                console.log('successfully loaded');
+      // Sai faili tervenisti kätte
+      if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+        console.log('successfully loaded');
 
-				// serveri vastuse sisu
-				var response = xmlhttp.responseText;
-				//console.log(response);
+        // serveri vastuse sisu
+        var response = xmlhttp.responseText;
+        //console.log(response);
 
-				// tekitame massiivi, faili sisu aluseks, uue sõna algust märgib reavahetuse \n
-				var words_from_file = response.split('\n');
-				//console.log(words_from_file);
-                
-                // Kuna this viitab siin xmlhttp päringule siis tuleb läheneda läbi avaliku muutuja
-                // ehk this.words asemel tuleb kasutada typerGame.words
-                
-				//asendan massiivi
-				typerGame.words = structureArrayByWordLength(words_from_file);
-				console.log(typerGame.words);
-				
-				// küsime mängija andmed
-                typerGame.loadPlayerData();
+        // tekitame massiivi, faili sisu aluseks, uue sõna algust märgib reavahetuse \n
+        var words_from_file = response.split('\n');
+        //console.log(words_from_file);
 
-				// kõik sõnad olemas, alustame mänguga
-				typerGame.start();
-			}
-		};
+        // Kuna this viitab siin xmlhttp päringule siis tuleb läheneda läbi avaliku muutuja
+        // ehk this.words asemel tuleb kasutada typerGame.words
 
-		xmlhttp.open('GET','./lemmad2013.txt',true);
-		xmlhttp.send();
-	}, 
+        //asendan massiivi
+        typerGame.words = structureArrayByWordLength(words_from_file);
+        console.log(typerGame.words);
 
-	start: function(){
+        // küsime mängija andmed
+        typerGame.loadPlayerData();
 
-		// Tekitame sõna objekti Word
-		this.generateWord();
-		//console.log(this.word);
+        // kõik sõnad olemas, alustame mänguga
+        typerGame.start();
+      }
+    };
 
-        //joonista sõna
-		this.word.Draw();
+    xmlhttp.open('GET', './lemmad2013.txt', true);
+    xmlhttp.send();
+  },
 
-		// Kuulame klahvivajutusi
-		window.addEventListener('keypress', this.keyPressed.bind(this));
+  start: function() {
 
-	},
-	
-    generateWord: function(){
 
-        // kui pikk peab sõna tulema, + min pikkus + äraarvatud sõnade arvul jääk 5 jagamisel
-        // iga viie sõna tagant suureneb sõna pikkus ühe võrra
-        var generated_word_length =  this.word_min_length + parseInt(this.guessed_words/5);
 
-    	// Saan suvalise arvu vahemikus 0 - (massiivi pikkus -1)
-    	var random_index = (Math.random()*(this.words[generated_word_length].length-1)).toFixed();
+    time = 20;
+    showTime = document.querySelector("#time");
+    timer(time, showTime);
+    // Kuulame klahvivajutusi
+    window.addEventListener('keypress', this.keyPressed.bind(this));
 
-        // random sõna, mille salvestame siia algseks
-    	var word = this.words[generated_word_length][random_index];
-    	
-    	// Word on defineeritud eraldi Word.js failis
-        this.word = new Word(word, this.canvas, this.ctx);
-    },
-    
-	keyPressed: function(event){
+    // Tekitame sõna objekti Word
+    this.generateWord();
+    //console.log(this.word)
 
-		//console.log(event);
-		// event.which annab koodi ja fromcharcode tagastab tähe
-		var letter = String.fromCharCode(event.which);
-		//console.log(letter);
+    //joonista sõna
+    this.word.Draw();
 
-		// Võrdlen kas meie kirjutatud täht on sama mis järele jäänud sõna esimene
-		//console.log(this.word);
-		if(letter === this.word.left.charAt(0)){
+  },
 
-			// Võtame ühe tähe maha
-			this.word.removeFirstLetter();
+  generateWord: function() {
 
-			// kas sõna sai otsa, kui jah - loosite uue sõna
+    // kui pikk peab sõna tulema, + min pikkus + äraarvatud sõnade arvul jääk 5 jagamisel
+    // iga viie sõna tagant suureneb sõna pikkus ühe võrra
+    var generated_word_length = this.word_min_length + parseInt(this.guessed_words / 1);
 
-			if(this.word.left.length === 0){
+    // Saan suvalise arvu vahemikus 0 - (massiivi pikkus -1)
+    var random_index = (Math.random() * (this.words[generated_word_length].length - 1)).toFixed();
 
-				this.guessed_words += 1;
+    // random sõna, mille salvestame siia algseks
+    var word = this.words[generated_word_length][random_index];
 
-                //update player score
-                this.player.score = this.guessed_words;
+    // Word on defineeritud eraldi Word.js failis
+    this.word = new Word(word, this.canvas, this.ctx);
+  },
 
-				//loosin uue sõna
-				this.generateWord();
-			}
+  keyPressed: function(event) {
 
-			//joonistan uuesti
-			this.word.Draw();
-		}
+    //console.log(event);
+    // event.which annab koodi ja fromcharcode tagastab tähe
+    var letter = String.fromCharCode(event.which);
+    //console.log(letter);
 
-	} // keypress end
+    // Võrdlen kas meie kirjutatud täht on sama mis järele jäänud sõna esimene
+    //console.log(this.word);
+    if (letter === this.word.left.charAt(0)) {
+      console.log("right");
+      this.player.score += 1;
+      document.getElementById('score').innerHTML = "Score: " + this.player.score;
+
+      if (dM === 1) {
+        document.body.style.backgroundColor = "#474747";
+      } else {
+        document.body.style.backgroundImage = "url('thumbsupcat.jpg')";
+      }
+      setTimeout(function background() {
+        if (dM === 1) {
+          document.body.style.backgroundColor = "rgb(57,57,57)";
+        } else {
+          document.body.style.backgroundImage = "";
+        }
+      }, 100);
+      // Võtame ühe tähe maha
+      this.word.removeFirstLetter();
+
+      // kas sõna sai otsa, kui jah - loosite uue sõna
+
+      if (this.word.left.length === 0) {
+
+        this.guessed_words += 1;
+
+        //update player score
+        //this.player.score = this.guessed_words;
+        console.log(this.player.score);
+        //loosin uue sõna
+        this.generateWord();
+      }
+
+      //joonistan uuesti
+      this.word.Draw();
+    } else {
+      console.log("wrong");
+      console.log(this.player.misclicks);
+      this.player.score -= 1;
+      this.player.misclicks += 1;
+      document.getElementById('score').innerHTML = "Score: " + this.player.score;
+      if (dM === 1) {
+        document.body.style.backgroundColor = "#898989";
+      } else {
+        document.body.style.backgroundImage = 'url("photo.jpg")';
+      }
+
+      setTimeout(function background() {
+        if (dM === 1) {
+          document.body.style.backgroundColor = "rgb(57,57,57)";
+        } else {
+          document.body.style.backgroundImage = "";
+        }
+      }, 100);
+    }
+  } // keypress end
 
 };
+
 
 
 /* HELPERS */
-function structureArrayByWordLength(words){
-    // TEEN massiivi ümber, et oleksid jaotatud pikkuse järgi
-    // NT this.words[3] on kõik kolmetähelised
+function structureArrayByWordLength(words) {
+  // TEEN massiivi ümber, et oleksid jaotatud pikkuse järgi
+  // NT this.words[3] on kõik kolmetähelised
 
-    // defineerin ajutise massiivi, kus kõik on õiges jrk
-    var temp_array = [];
+  // defineerin ajutise massiivi, kus kõik on õiges jrk
+  var temp_array = [];
 
-    // Käime läbi kõik sõnad
-    for(var i = 0; i < words.length; i++){
+  // Käime läbi kõik sõnad
+  for (var i = 0; i < words.length; i++) {
 
-        var word_length = words[i].length;
+    var word_length = words[i].length;
 
-        // Kui pole veel seda array'd olemas, tegu esimese just selle pikkusega sõnaga
-        if(temp_array[word_length] === undefined){
-            // Teen uue
-            temp_array[word_length] = [];
-        }
-
-        // Lisan sõna juurde
-        temp_array[word_length].push(words[i]);
+    // Kui pole veel seda array'd olemas, tegu esimese just selle pikkusega sõnaga
+    if (temp_array[word_length] === undefined) {
+      // Teen uue
+      temp_array[word_length] = [];
     }
 
-    return temp_array;
+    // Lisan sõna juurde
+    temp_array[word_length].push(words[i]);
+  }
+
+  return temp_array;
 }
 
-window.onload = function(){
-	var typerGame = new TYPER();
-	window.typerGame = typerGame;
+
+window.onload = function() {
+  var typerGame = new TYPER();
+  var startAudio = document.getElementById("startAudio");
+  startAudio.addEventListener('ended', function() {
+    this.currentTime = 0;
+    this.play();
+}, false);
+startAudio.play();
+  window.typerGame = typerGame;
+
 };
+
+
+function darkMode() {
+  if (dM === 1) {
+    document.body.style.backgroundColor = "white";
+    console.log("Dark Mode OFF");
+    dM = 0;
+  } else {
+    document.body.style.backgroundColor = "rgb(57,57,57)";
+    dM = 1;
+    console.log("Dark Mode ON");
+  }
+}
+function getRandomColor () {
+  var hex = Math.floor(Math.random() * 0xFFFFFF);
+  return "#" + ("000000" + hex.toString(16)).substr(-6);
+}
+function colorMode() {
+  if (cM === 1) {
+    document.body.style.backgroundColor = "white";
+    console.log("Color Mode OFF");
+    cM = 0;
+  } else {
+    document.body.style.backgroundColor = getRandomColor();
+    cM = 1;
+    console.log("Color Mode ON");
+  }
+}
+
+var r;
+
+function timer(time, showTime) {
+  var timer = time,
+    seconds;
+    r = setInterval(function() {
+    //minutes = parseInt(timer / 60, 10);
+    seconds = parseInt(timer % 60, 10);
+
+    //minutes = minutes < 10 ? "0" + minutes : minutes;
+    seconds = seconds < 10 ? + seconds : seconds;
+
+    showTime.textContent = seconds;
+
+    if (--timer < 0) {
+      var session = [];
+
+
+
+      var game = {
+        id: parseInt(1000 + Math.random() * 999),
+        name: typerGame.player.name,
+        score: typerGame.player.score,
+        misclicks: typerGame.player.misclicks
+      };
+      var gamesFromStorage = null;
+
+      if (localStorage.getItem("session")) {
+        gamesFromStorage = JSON.parse(localStorage.getItem("session"));
+
+        if (gamesFromStorage) {
+          session = gamesFromStorage;
+        }
+
+
+      }
+
+      session.push(game);
+
+      localStorage.setItem("session", JSON.stringify(session));
+
+      /*if(timer<3){
+        startAudio.pause();
+        var endAudio = document.getElementById("endAudio");
+        endAudio.play();
+      }*/
+      var replay = confirm("Aeg sai otsa. Sinu skoor: " + typerGame.player.score + " Mängi uuesti?");
+      if (replay === true) {
+        clearInterval(r);
+        timer = time;
+        location.reload(typerGame.start);
+      } else {
+        window.location.href = "index.html";
+
+      }
+
+    }
+    console.log("timer");
+  }, 1000);
+}
