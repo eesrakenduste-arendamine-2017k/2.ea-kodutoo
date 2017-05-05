@@ -1,6 +1,5 @@
 var lives;
 var score;
-
 var TYPER = function(){
 
 	//singleton
@@ -10,12 +9,12 @@ var TYPER = function(){
     TYPER.instance_ = this;
 
 	// Muutujad
-	this.WIDTH = window.innerWidth;
-	this.HEIGHT = window.innerHeight;
+	this.WIDTH = window.innerWidth -50 ;
+	this.HEIGHT = window.innerHeight - 100;
 	this.canvas = null;
 	this.ctx = null;
 
-  this.game_status = 1; //kas mäng on läbi või mitte
+  //this.game_status = 1; //kas mäng on läbi või mitte
 
 	this.words = []; // kõik sõnad
 	this.word = null; // preagu arvamisel olev sõna
@@ -32,7 +31,6 @@ TYPER.prototype = {
 
 	// Funktsioon, mille käivitame alguses
 	init: function(){
-
 		// Lisame canvas elemendi ja contexti
 		this.canvas = document.getElementsByTagName('canvas')[0];
 		this.ctx = this.canvas.getContext('2d');
@@ -53,7 +51,6 @@ TYPER.prototype = {
 	},
 
 	loadPlayerData: function(){
-
 		// küsime mängija nime ja muudame objektis nime
 		var p_name = prompt("Sisesta mängija nimi");
 
@@ -260,6 +257,30 @@ function structureArrayByWordLength(words){
     return temp_array;
 }
 
+function compare(score1, score2){
+  if (score1.score > score2.score) {
+    return -1;
+  }
+  if (score2.score > score1.score) {
+    return 1;
+  }
+  return 0;
+}
+
+function topTen(){
+  var games = JSON.parse(localStorage.getItem("Score"));
+  var content = document.getElementsByClassName('topTenPlayers')[0];
+
+  games.sort(compare);
+
+  var number = 1;
+
+  for(i=0; i<10; i++){
+       content.innerHTML += "<p>"+number+") "+games[i].player+"   "+games[i].score+"</p>";
+       number = number+1;
+       }
+}
+
 window.onload = function(){
 	var typerGame = new TYPER();
 	window.typerGame = typerGame;
@@ -267,6 +288,12 @@ window.onload = function(){
   document.getElementById("restartBTN").addEventListener('click', function(){
     typerGame.restart();
   });
+
+  document.getElementById("loadTopTen").addEventListener('click', function(){
+    topTen();
+  });
+
+
   document.getElementById("topPlayers").innerHTML = localStorage.getItem("Score");
 
 };
