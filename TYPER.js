@@ -1,172 +1,285 @@
+
+var PageView = function() {
+	
+	if(PageView.instance) {
+		return PageView.instance;
+	}
+	PageView.instance = this;
+	
+	this.routes = PageView.routes;
+	this.currentRoute = null;
+	this.init();
+};
+
+
+PageView.routes = {
+	
+	"home-view": {
+		"render": function() {
+			
+		}
+	},
+	
+	"game-view": {
+		"render": function() {
+			console.log("midagi");
+			var typerGame = new TYPER();
+			window.typerGame = typerGame;
+		}
+	}
+};
+
+
+PageView.prototype = {
+	
+	init: function() {
+		
+		window.addEventListener("hashchange", this.routeChange.bind(this));
+		
+		console.log(window.location.hash);
+		
+		if(!window.location.hash) {
+			window.location.hash = "home-view";
+		} else {
+			this.routeChange();
+		}
+	},
+	
+	routeChange: function(event) {
+		
+		this.currentRoute = location.hash.slice(1);
+		
+		if(this.routes[this.currentRoute]) {
+			this.routes[this.currentRoute].render();
+		}else {
+			console.log("404");
+		}
+		
+	}
+	
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var TYPER = function(){
 
-	//singleton
     if (TYPER.instance_) {
         return TYPER.instance_;
     }
     TYPER.instance_ = this;
 
-	// Muutujad
-	this.WIDTH = window.innerWidth;
-	this.HEIGHT = window.innerHeight;
+	this.WIDTH = window.innerWidth / 1.30;
+	this.HEIGHT = window.innerHeight /1.15;
 	this.canvas = null;
 	this.ctx = null;
-
 	this.words = []; // kõik sõnad
 	this.word = null; // preagu arvamisel olev sõna
 	this.word_min_length = 3;
-	this.guessed_words = 0; // arvatud sõnade arv
-
-	//mängija objekt, hoiame nime ja skoori
-	this.player = {name: null, score: 0};
-
+	this.guessed_words = 0;
+	this.player = {name: null, score: 0, guessedWords: 0, time: 1000, lives: 5};
+	this.time = 1000;
+	this.livesLeft = 5;
+	this.countDown = null;
+	this.playerScore = 0;
+	this.stop = 0;
 	this.init();
 };
 
 TYPER.prototype = {
 
-	// Funktsioon, mille käivitame alguses
 	init: function(){
-
-		// Lisame canvas elemendi ja contexti
 		this.canvas = document.getElementsByTagName('canvas')[0];
 		this.ctx = this.canvas.getContext('2d');
-
-		// canvase laius ja kõrgus veebisirvija akna suuruseks (nii style, kui reso)
 		this.canvas.style.width = this.WIDTH + 'px';
 		this.canvas.style.height = this.HEIGHT + 'px';
-
-		//resolutsioon 
-		// kui retina ekraan, siis võib ja peaks olema 2 korda suurem
 		this.canvas.width = this.WIDTH;
 		this.canvas.height = this.HEIGHT;
-
-		// laeme sõnad
-		this.loadWords();
+		this.loadPlayerData();
+		this.setTimer();
 	}, 
 
 	loadPlayerData: function(){
-
-		// küsime mängija nime ja muudame objektis nime
+		var playerNameContainer = document.getElementById("playerName");
+		var playerScoreContainer = document.getElementById("playerScore");
+		var guessedWordsContainer = document.getElementById("guessedWords");
+		var livesLeftContainer = document.getElementById("livesLeft");
+		var timeRemainingContainer = document.getElementById("timeRemaining");
+		var startButton = document.getElementById("startGame");
+		
 		var p_name = prompt("Sisesta mängija nimi");
-
-		// Kui ei kirjutanud nime või jättis tühjaks
 		if(p_name === null || p_name === ""){
 			p_name = "Tundmatu";
-		
 		}
-
-		// Mänigja objektis muudame nime
-		this.player.name = p_name; // player =>>> {name:"Romil", score: 0}
-        console.log(this.player);
+		this.player.name = p_name;
+		
+		startButton.style.display = "inline";
+		
+		playerNameContainer.innerHTML = "Nimi: " + this.player.name;
+		playerScoreContainer.innerHTML = "Skoor: " + this.playerScore;
+		guessedWordsContainer.innerHTML = "Arvatud sõnu: " + this.guessed_words;
+		livesLeftContainer.innerHTML = "Elusid alles: " + this.livesLeft;
+		timeRemainingContainer.innerHTML = "Aeg: " + this.time;
 	}, 
 
+	
 	loadWords: function(){
-
-        console.log('loading...');
-
-		// AJAX http://www.w3schools.com/ajax/tryit.asp?filename=tryajax_first
 		var xmlhttp = new XMLHttpRequest();
-
-		// määran mis juhtub, kui saab vastuse
 		xmlhttp.onreadystatechange = function(){
-
-			//console.log(xmlhttp.readyState); //võib teoorias kõiki staatuseid eraldi käsitleda
-
-			// Sai faili tervenisti kätte
 			if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
-
-                console.log('successfully loaded');
-
-				// serveri vastuse sisu
 				var response = xmlhttp.responseText;
-				//console.log(response);
-
-				// tekitame massiivi, faili sisu aluseks, uue sõna algust märgib reavahetuse \n
 				var words_from_file = response.split('\n');
-				//console.log(words_from_file);
-                
-                // Kuna this viitab siin xmlhttp päringule siis tuleb läheneda läbi avaliku muutuja
-                // ehk this.words asemel tuleb kasutada typerGame.words
-                
-				//asendan massiivi
 				typerGame.words = structureArrayByWordLength(words_from_file);
-				console.log(typerGame.words);
-				
-				// küsime mängija andmed
-                typerGame.loadPlayerData();
-
-				// kõik sõnad olemas, alustame mänguga
 				typerGame.start();
 			}
 		};
-
 		xmlhttp.open('GET','./lemmad2013.txt',true);
 		xmlhttp.send();
 	}, 
 
+	
 	start: function(){
-
-		// Tekitame sõna objekti Word
+		var startButton = document.getElementById("startGame");
+		startButton.style.display = "none";
+		
 		this.generateWord();
-		//console.log(this.word);
-
-        //joonista sõna
 		this.word.Draw();
-
-		// Kuulame klahvivajutusi
 		window.addEventListener('keypress', this.keyPressed.bind(this));
-
 	},
 	
+	
+	
+	
     generateWord: function(){
-
-        // kui pikk peab sõna tulema, + min pikkus + äraarvatud sõnade arvul jääk 5 jagamisel
-        // iga viie sõna tagant suureneb sõna pikkus ühe võrra
         var generated_word_length =  this.word_min_length + parseInt(this.guessed_words/5);
-
-    	// Saan suvalise arvu vahemikus 0 - (massiivi pikkus -1)
     	var random_index = (Math.random()*(this.words[generated_word_length].length-1)).toFixed();
-
-        // random sõna, mille salvestame siia algseks
     	var word = this.words[generated_word_length][random_index];
-    	
-    	// Word on defineeritud eraldi Word.js failis
         this.word = new Word(word, this.canvas, this.ctx);
     },
     
+	
 	keyPressed: function(event){
-
-		//console.log(event);
-		// event.which annab koodi ja fromcharcode tagastab tähe
 		var letter = String.fromCharCode(event.which);
-		//console.log(letter);
-
-		// Võrdlen kas meie kirjutatud täht on sama mis järele jäänud sõna esimene
-		//console.log(this.word);
-		if(letter === this.word.left.charAt(0)){
-
-			// Võtame ühe tähe maha
-			this.word.removeFirstLetter();
-
-			// kas sõna sai otsa, kui jah - loosite uue sõna
-
-			if(this.word.left.length === 0){
-
-				this.guessed_words += 1;
-
-                //update player score
-                this.player.score = this.guessed_words;
-
-				//loosin uue sõna
-				this.generateWord();
+		var justForTest = document.getElementById("justForTest");
+		var justForTest2 = document.getElementById("justForTest2");
+		var playerScoreContainer = document.getElementById("playerScore");
+		var guessedWordsContainer = document.getElementById("guessedWords");
+		var livesLeftContainer = document.getElementById("livesLeft");
+		
+		if(this.word.left !== null) {
+			if(letter === this.word.left.charAt(0)){
+				justForTest.innerHTML = "oige taht";
+				livesLeftContainer.innerHTML = "Elusid alles: " + this.livesLeft;
+				this.word.removeFirstLetter();
+				this.playerScore += 5;
+				playerScoreContainer.innerHTML = "Skoor: " + this.playerScore;
+				
+				if(this.word.left.length === 0){
+					this.time = 1000;
+					this.guessed_words += 1;
+					this.playerScore += 100;
+					playerScoreContainer.innerHTML = "Skoor: " + this.playerScore;
+					guessedWordsContainer.innerHTML = "Arvatud sõnu: " + this.guessed_words;
+					this.generateWord();
+				}
+				this.word.Draw();
+				
+			} else {
+				justForTest.innerHTML = "vale taht";
+				this.playerScore -= 300;
+				playerScoreContainer.innerHTML = "Skoor: " + this.playerScore;
+				
+				if(this.time > 0) {
+					justForTest2.innerHTML = "ok";
+				} else {
+					justForTest2.innerHTML = "aeg";
+					this.stopGame();
+				}
+				
+				if(this.livesLeft < 2) {
+					this.livesLeft -= 1;
+					livesLeftContainer.innerHTML = "Elusid alles: " + this.livesLeft;
+					this.stopGame();
+				} else {
+					this.livesLeft -= 1;
+					livesLeftContainer.innerHTML = "Elusid alles: " + this.livesLeft;
+				}
 			}
-
-			//joonistan uuesti
-			this.word.Draw();
+		}	
+	},
+	
+	
+	setTimer: function() {
+		
+		var startTimer = document.getElementById("startGame");
+		startTimer.addEventListener("click", function(){
+			typerGame.loadWords();
+			typerGame.countTime();
+		});
+	},
+	
+	
+	countTime: function() {
+		
+		var timeRemainingContainer = document.getElementById("timeRemaining");
+		
+		this.countDown = setInterval(function(){
+			timeRemainingContainer.innerHTML = "Aeg: " + typerGame.time;
+			typerGame.time -= 10;
+			
+			if(typerGame.time === 0) {
+				typerGame.stopGame();
+			}
+		}, 100);
+	},
+	
+	
+	stopGame: function() {
+		
+		this.word.clearCanvas();
+		
+		clearInterval(this.countDown);
+		
+		// et teeks ainult yhe korra
+		if(this.stop === 0) {
+			this.player.score = this.playerScore;
+			this.player.guessedWords = this.guessed_words;
+			this.player.lives = this.livesLeft;
+			this.player.time = this.time;
+			this.stop++;
 		}
-
-	} // keypress end
+		
+		var playerScoreContainer = document.getElementById("playerScore");
+		var timeRemainingContainer = document.getElementById("timeRemaining");
+		var guessedWordsContainer = document.getElementById("guessedWords");
+		var livesLeftContainer = document.getElementById("livesLeft");
+		var justForTest = document.getElementById("justForTest");
+		
+		playerScoreContainer.innerHTML = "Skoor: " + this.player.score;
+		guessedWordsContainer.innerHTML = "Arvatud sõnu: " + this.player.guessedWords;
+		livesLeftContainer.innerHTML = "Elusid alles: " + this.player.lives;
+		timeRemainingContainer.innerHTML = "Aeg: " + this.player.time;
+		justForTest.innerHTML = "Mäng läbi!";
+	}
 
 };
 
@@ -197,7 +310,9 @@ function structureArrayByWordLength(words){
     return temp_array;
 }
 
+
+
 window.onload = function(){
-	var typerGame = new TYPER();
-	window.typerGame = typerGame;
+	var pageView = new PageView();
+	//window.typerGame = typerGame;
 };
