@@ -1,4 +1,7 @@
 // Sõna objekt, millele paneme külge ka funktsioonid
+var count=3;
+var counter=setInterval(timer, 1000);
+
 function Word(word, canvas, ctx){
 
     this.word = word;
@@ -9,7 +12,31 @@ function Word(word, canvas, ctx){
 
     this.canvas = canvas;
     this.ctx = ctx;
+	
 }
+
+
+function timer()
+{
+  count=count-1;
+  if (count <= 0)
+  {
+     clearInterval(counter);
+     //counter ended, do something here
+	
+	
+     return;
+	 
+	 
+	 
+	 
+  }
+
+	document.getElementById("timer").innerHTML=count + " sekundit on jäänud";
+  //Do code for showing the number of seconds here
+  
+}
+
 
 Word.prototype = {
 	Draw: function(){
@@ -20,7 +47,7 @@ Word.prototype = {
 		// Canvasele joonistamine
 		this.ctx.textAlign = 'center';
 		this.ctx.font = '70px Courier';
-
+		
 		// 	// Joonistame sõna, mis on järel / tekst, x, y
 		this.ctx.fillText(this.left, this.canvas.width/2, this.canvas.height/2);
 	},
