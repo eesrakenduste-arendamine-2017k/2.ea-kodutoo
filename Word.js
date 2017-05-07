@@ -1,5 +1,5 @@
 // Sõna objekt, millele paneme külge ka funktsioonid
-var count=3;
+var count=30;
 var counter=setInterval(timer, 1000);
 
 function Word(word, canvas, ctx){
