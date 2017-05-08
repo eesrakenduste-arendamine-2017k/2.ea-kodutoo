@@ -270,15 +270,27 @@ function compare(score1, score2){
 function topTen(){
   var games = JSON.parse(localStorage.getItem("Score"));
   var content = document.getElementsByClassName('topTenPlayers')[0];
-
+  //console.log(games.length);
   games.sort(compare);
 
   var number = 1;
 
-  for(i=0; i<10; i++){
-       content.innerHTML += "<p>"+number+") "+games[i].player+"   "+games[i].score+"</p>";
-       number = number+1;
-       }
+  if (games.length>10) {
+
+      for(i=0; i<10; i++){
+           content.innerHTML += "<p>"+number+") "+games[i].player+"   "+games[i].score+"</p>";
+           number = number+1;
+      }
+
+  } else {
+
+      for(i=0; i<games.length; i++){
+           content.innerHTML += "<p>"+number+") "+games[i].player+"   "+games[i].score+"</p>";
+           number = number+1;
+      }
+
+  }
+
 }
 
 window.onload = function(){
@@ -292,8 +304,5 @@ window.onload = function(){
   document.getElementById("loadTopTen").addEventListener('click', function(){
     topTen();
   });
-
-
-  document.getElementById("topPlayers").innerHTML = localStorage.getItem("Score");
 
 };
