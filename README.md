@@ -2,7 +2,7 @@
 
 Mängu eesmärk on võimalikult kiiresti ekraanile tekkivaid sõnu ära trükkida. Sõnad võetud [Eesti Keele Instituudi lehelt](http://www.eki.ee/tarkvara/wordlist/), [lemmad2013](http://www.eki.ee/tarkvara/wordlist/lemmad2013.txt)
 
-Kodutööna peate täiendama etteantud mängu, et nõuded oleksid täidetud. 
+Kodutööna peate täiendama etteantud mängu, et nõuded oleksid täidetud.. 
 
 **Töö võib teha ka kahekesi, kuid siis peab GitHubis nägema, kes mida tegi!**
 
