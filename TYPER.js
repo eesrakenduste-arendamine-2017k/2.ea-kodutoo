@@ -16,9 +16,10 @@ var TYPER = function(){
 	this.word = null; // preagu arvamisel olev sõna
 	this.word_min_length = 3;
 	this.guessed_words = 0; // arvatud sõnade arv
-
-	//mängija objekt, hoiame nime ja skoori
-	this.player = {name: null, score: 0};
+	
+	this.players = [];
+	//mängija objekt, hoiame nime ja skoori(+ trükivead, trükikiirus)
+	this.player = {name: null, score: 0, errors: 0, typingSpeed: 0};
 
 	this.init();
 };
@@ -44,21 +45,24 @@ TYPER.prototype = {
 		// laeme sõnad
 		this.loadWords();
 	},
-
+	
+	saveData: function(){
+		
+		
+		localStorage.setItem("players", JSON.stringify(this.players);
+	},
+	
 	loadPlayerData: function(){
 
 		// küsime mängija nime ja muudame objektis nime
-		var p_name = xmlhttp.responseText;
-		console.log(p_name);
-
 		var p_name = prompt("Sisesta mängija nimi");
-		this.hideElements();
 
 		// Kui ei kirjutanud nime või jättis tühjaks
 		if(p_name === null || p_name === ""){
 			p_name = "Tundmatu";
 		}
-
+		
+		this.hideElements();
 		// Mänigja objektis muudame nime
 		this.player.name = p_name; // player =>>> {name:"Romil", score: 0}
 		console.log(this.player);
@@ -150,7 +154,6 @@ TYPER.prototype = {
 		// event.which annab koodi ja fromcharcode tagastab tähe
 		var letter = String.fromCharCode(event.which);
 		//console.log(letter);
-
 		// Võrdlen kas meie kirjutatud täht on sama mis järele jäänud sõna esimene
 		//console.log(this.word);
 		if(letter === this.word.left.charAt(0)){
@@ -166,7 +169,7 @@ TYPER.prototype = {
 
                 //update player score
                 this.player.score = this.guessed_words;
-
+				
 				//loosin uue sõna
 				this.generateWord();
 			}
