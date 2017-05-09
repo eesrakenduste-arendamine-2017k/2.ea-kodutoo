@@ -97,11 +97,13 @@ var TYPER = function(){
 	this.word_min_length = 3;
 	this.guessed_words = 0;
 	this.player = {name: null, score: 0, guessedWords: 0, time: 1000, lives: 5};
+	this.players = [];
 	this.time = 1000;
 	this.livesLeft = 5;
 	this.countDown = null;
 	this.playerScore = 0;
 	this.stop = 0;
+	this.playerId = 0;
 	this.init();
 };
 
@@ -116,6 +118,19 @@ TYPER.prototype = {
 		this.canvas.height = this.HEIGHT;
 		this.loadPlayerData();
 		this.setTimer();
+		
+		if(localStorage.players) {
+			
+			this.players = JSON.parse(localStorage.players);
+			
+			this.players.forEach(function(player){
+				var newPlayer = new Player(player.PlayerId, player.playerName, player.playerScore, player.playerWords, player.playerTime, player.playerLives);
+				TYPER.instance_.playerId = player.playerId;
+				console.log("playerid: ", player.playerId);
+			});
+			
+			this.playerId++;
+		}
 	}, 
 
 	loadPlayerData: function(){
@@ -163,6 +178,7 @@ TYPER.prototype = {
 		
 		this.generateWord();
 		this.word.Draw();
+		this.countTime();
 		window.addEventListener('keypress', this.keyPressed.bind(this));
 	},
 	
@@ -233,7 +249,6 @@ TYPER.prototype = {
 		var startTimer = document.getElementById("startGame");
 		startTimer.addEventListener("click", function(){
 			typerGame.loadWords();
-			typerGame.countTime();
 		});
 	},
 	
@@ -279,9 +294,41 @@ TYPER.prototype = {
 		livesLeftContainer.innerHTML = "Elusid alles: " + this.player.lives;
 		timeRemainingContainer.innerHTML = "Aeg: " + this.player.time;
 		justForTest.innerHTML = "Mäng läbi!";
+		
+		this.addNewPlayer();
+		
+	},
+	
+	addNewPlayer: function() {
+		
+		var storePlayer = new Player(this.playerId, this.player.name, this.player.score, this.player.guessedWords, this.player.time, this.player.lives);
+		this.playerId++;
+		this.players.push(storePlayer);
+		localStorage.setItem("players", JSON.stringify(this.players));
+		
+		
 	}
+	
+	
+	
 
 };
+
+
+
+var Player = function(playerId, playerName, playerScore, playerGuessedWords, playerTime, playerLives) {
+	
+	this.playerId = playerId;
+	this.playerName = playerName;
+	this.playerScore = playerScore;
+	this.playerGuessedWords = playerGuessedWords;
+	this.playerTime = playerTime;
+	this.playerLives = playerLives;
+	
+};
+
+
+
 
 
 /* HELPERS */
