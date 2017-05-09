@@ -43,13 +43,13 @@ TYPER.prototype = {
 
 		// laeme sõnad
 		this.loadWords();
-	}, 
+	},
 
 	loadPlayerData: function(){
 
 		// küsime mängija nime ja muudame objektis nime
 		var p_name = prompt("Sisesta mängija nimi");
-
+		this.hideElements();
 		// Kui ei kirjutanud nime või jättis tühjaks
 		if(p_name === null || p_name === ""){
 			p_name = "Tundmatu";
@@ -61,6 +61,10 @@ TYPER.prototype = {
         console.log(this.player);
 	}, 
 
+	hideElements: function(){
+		var elementStyle = document.getElementById("info").style;
+		elementStyle.display = "none";
+	},
 	loadWords: function(){
 
         console.log('loading...');
