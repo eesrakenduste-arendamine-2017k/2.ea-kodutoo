@@ -1,3 +1,8 @@
+var canvas = 0;
+var audioClip = new Audio();
+var audioFile = "";
+var startTime;
+var showPos = 0;
 
 var TYPER = function () {
 
@@ -158,11 +163,13 @@ TYPER.prototype = {
         this.word.Draw();
 		var currentTime = parseInt(new Date().getTime() / 1000);
         var timeLeft = this.gameStop - currentTime;
-		document.getElementById("timer").style.color = 'black';
-        document.getElementById("timer").innerHTML = "Time: " + timeLeft;
+		
+		document.getElementById("timer").style.color = 'white'; 
+        document.getElementById("timer").innerHTML = "Time: " + timeLeft; 
+		
 		
 		var player_score = this.player.score;
-		document.getElementById("player_score").style.color = 'black';
+		document.getElementById("player_score").style.color = 'white';
 		document.getElementById("player_score").innerHTML = "Score: " + player_score;
 		
 		if (timeLeft <= 0 && !this.gameOver) {
@@ -237,9 +244,10 @@ TYPER.prototype = {
                  document.body.style.background = "red";
 					
                  window.setTimeout(function () {
-				 document.body.style.background = "white";}, 100);			 
+				 document.body.style.background = "black";}, 100);	
+				  				 
 			}
-
+ 
             // kas sõna sai otsa, kui jah - loosite uue sõna
 
             if (this.word.left.length === 0) {
@@ -248,7 +256,7 @@ TYPER.prototype = {
 				 document.body.style.background = "#98FB98";
 					
                  window.setTimeout(function () {
-				 document.body.style.background = "white";}, 100);	
+				 document.body.style.background = "black";}, 100);	
 				
                 //update player score
                 this.player.score = this.guessed_words;
@@ -341,4 +349,53 @@ var requestAnimFrame = (function () {
 window.onload = function () {
     var typerGame = new TYPER();
     window.typerGame = typerGame;
+	ctrlAudio();
 };
+
+
+
+
+function ctrlAudio(){
+	var filename = "abc.mp3";
+
+	if(window.HTMLAudioElement){
+		try{
+			if(audioFile !== filename){
+				audioFile = filename;
+				audioClip.src = audioFile;
+				startTime = new Date();
+				showPos = 0;
+			}
+			if(audioClip.pause){
+				audioClip.play();
+				document.getElementById("audioCtrlBtn").value = "MUTE";
+				document.getElementById("audioCtrlBtn").removeEventListener("click",ctrlAudio);
+				document.getElementById("audioCtrlBtn").addEventListener("click",stopAudio);
+			}  
+		}//try lхppeb
+		
+		catch(e){
+			console.log("Viga: " + e);
+		}
+	}//if HTMLAudio... lхppeb
+}
+
+function stopAudio(){
+	
+	if(window.HTMLAudioElement){
+		try{
+			audioClip.pause();
+			document.getElementById("audioCtrlBtn").value = "PLAY";
+			document.getElementById("audioCtrlBtn").removeEventListener("click",stopAudio);
+			document.getElementById("audioCtrlBtn").addEventListener("click",ctrlAudio);
+		}//try lхppeb
+		
+		catch(e){
+			console.log("Viga: " + e);
+		}
+	}//if HTMLAudio... lхppeb
+}
+
+
+
+
