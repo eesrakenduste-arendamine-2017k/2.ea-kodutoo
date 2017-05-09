@@ -48,17 +48,17 @@ TYPER.prototype = {
 	loadPlayerData: function(){
 
 		// küsime mängija nime ja muudame objektis nime
-		var p_name = prompt("Sisesta mängija nimi");
-
+		var p_name = xmlhttp.responseText;
+		console.log(p_name);
 		// Kui ei kirjutanud nime või jättis tühjaks
 		if(p_name === null || p_name === ""){
 			p_name = "Tundmatu";
-		
 		}
 
 		// Mänigja objektis muudame nime
 		this.player.name = p_name; // player =>>> {name:"Romil", score: 0}
-        console.log(this.player);
+		console.log(this.player);
+		
 	}, 
 
 	loadWords: function(){
