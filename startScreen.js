@@ -18,6 +18,8 @@ var startScreen = (function(input) {
     // used internally to draw the text in
     // in the center of the canvas (with respect
     // to the x coordinate)
+	
+
     function centerText(ctx, text, y) {
         var measurement = ctx.measureText(text);
         var x = (ctx.canvas.width - measurement.width) / 2;
