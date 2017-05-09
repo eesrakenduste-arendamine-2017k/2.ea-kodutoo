@@ -2,10 +2,12 @@
 function Word(word, canvas, ctx){
 
     this.word = word;
-    
+    this.i = 0;
     // lisaks mis on sõnast järel, mida alguses hakkame hakkima ja pärast joonistame
     // esialgne sõna säilib, nt saab kasutada pärast skoori arvutamisel 
 	this.left = this.word;
+
+    this.letters = [];
 
     this.canvas = canvas;
     this.ctx = ctx;
@@ -19,10 +21,10 @@ Word.prototype = {
 
 		// Canvasele joonistamine
 		this.ctx.textAlign = 'center';
-		this.ctx.font = '70px Courier';
+		this.ctx.font = '70px Raleway, sans-serif';
 
 		// 	// Joonistame sõna, mis on järel / tekst, x, y
-		this.ctx.fillText(this.left, this.canvas.width/2, this.canvas.height/2);
+		this.ctx.fillText(this.word, this.canvas.width/2, this.canvas.height/2);
 	},
 
 	// Võtame sõnast esimese tähe maha
@@ -30,6 +32,18 @@ Word.prototype = {
 
 		// Võtame esimese tähe sõnast maha
 		this.left = this.left.slice(1);
+        this.changeNextLetter();
 		//console.log(this.left);
-	}
+	},
+	changeNextLetter: function(){
+        this.i++;
+
+        var letter = this.word.slice(this.i-1, this.i)
+        this.letters[this.i-1] = letter;
+        var coloredWord = this.letters.join("");
+        this.ctx.fillStyle = "#ff0000";
+        this.ctx.fillText(coloredWord, this.canvas.width/2, this.canvas.height/3);
+        this.ctx.fillStyle = "black";
+        this.ctx.fillText(this.left, this.canvas.width/2, this.canvas.height/3);
+    }
 };

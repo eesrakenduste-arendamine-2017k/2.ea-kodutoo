@@ -49,7 +49,7 @@ TYPER.prototype = {
 	saveData: function(){
 		
 		
-		localStorage.setItem("players", JSON.stringify(this.players);
+		localStorage.setItem("players", JSON.stringify(this.players));
 	},
 	
 	loadPlayerData: function(){
