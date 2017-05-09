@@ -1,3 +1,5 @@
+var interval;
+
 var TYPER = function(){
 
 	//singleton
@@ -16,6 +18,10 @@ var TYPER = function(){
 	this.word = null; // preagu arvamisel olev sõna
 	this.word_min_length = 3;
 	this.guessed_words = 0; // arvatud sõnade arv
+	this.word_amount = 5;
+	
+	this.timer = 0;
+	this.timers = [];
 	
 	this.players = [];
 	//mängija objekt, hoiame nime ja skoori(+ trükivead, trükikiirus)
@@ -47,9 +53,17 @@ TYPER.prototype = {
 	},
 	
 	saveData: function(){
+		//arvutab keskmise aja
+		var sum = 0; 
+		for(t in this.timers){
+			sum += t;
+		}
+		this.player.typingSpeed = sum / this.guessed_words;
 		
-		
+
+		this.players[this.players.length] = this.player;
 		localStorage.setItem("players", JSON.stringify(this.players));
+		console.log(this.player);
 	},
 	
 	loadPlayerData: function(){
@@ -72,6 +86,11 @@ TYPER.prototype = {
 	hideElements: function(){
 		var elementStyle = document.getElementById("info").style;
 		elementStyle.display = "none";
+	},
+	
+	showElements: function(){
+		var elementStyle = document.getElementById("info").style;
+		elementStyle.display = "block";
 	},
 	
 	loadWords: function(){
@@ -129,7 +148,19 @@ TYPER.prototype = {
 
 		// Kuulame klahvivajutusi
 		window.addEventListener('keypress', this.keyPressed.bind(this));
-
+		interval = window.setInterval(function(){ this.counter += 1 }, 1000);
+	},
+	
+	//salvestab andmed ning deaktiveerib event listenerid
+	stop: function(){
+		
+		this.saveData(this.player);
+		window.removeEventListener('keypress', this.keyPressed);
+		clearInterval(interval);
+		this.showElements();
+		
+		this.init();
+		
 	},
 	
     generateWord: function(){
@@ -168,14 +199,31 @@ TYPER.prototype = {
 				this.guessed_words += 1;
 
                 //update player score
-                this.player.score = this.guessed_words;
+				this.player.score = this.guessed_words;
 				
-				//loosin uue sõna
-				this.generateWord();
+				//kui mingi arv sõnu on arvatud, siis mäng on läbi
+				if(this.guessed_words === this.word_amount){
+					this.timers[this.guessed_words-1] = this.timer
+					this.guessed_words = 0;
+					this.stop();
+					
+				} else {	
+					
+					this.timers[this.guessed_words-1] = this.timer
+					//loosin uue sõna
+					this.generateWord();
+					
+				}
+				this.timer = 0;
 			}
 
 			//joonistan uuesti
 			this.word.Draw();
+			
+		} else {
+			
+			this.player.errors += 1;
+			
 		}
 
 	} // keypress end
