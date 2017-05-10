@@ -55,6 +55,33 @@ PageView.prototype = {
 			console.log("404");
 		}
 		
+	},
+	
+	sortPlayers: function() {
+		
+		var allPlayers = JSON.parse(localStorage.players);
+		console.log(allPlayers);
+		
+		var top10Players = allPlayers.sort(function(a, b) {
+			return a.playerScore < b.playerScore ? 1 : -1;
+		}).slice(0, 10);
+		
+		console.log(top10Players);
+		
+		top10Players.forEach(function(player) {
+				
+				var newPlayer = new Player(player.PlayerId, player.playerName, player.playerScore, player.playerWords, player.playerTime, player.playerLives);
+				
+				if(TYPER.instance_) {
+					TYPER.instance_.playerId = player.playerId;
+				}
+				
+				var playerListLi = newPlayer.createHTML();
+				document.querySelector("#playerList").appendChild(playerListLi);
+				
+		});
+		
+		
 	}
 	
 };
@@ -98,6 +125,7 @@ var TYPER = function(){
 	this.guessed_words = 0;
 	this.player = {name: null, score: 0, guessedWords: 0, time: 1000, lives: 5};
 	this.players = [];
+	//this.sortedPlayers = []; // uus massiiv kus on sorteeritud mängijad
 	this.time = 1000;
 	this.livesLeft = 5;
 	this.countDown = null;
@@ -121,14 +149,7 @@ TYPER.prototype = {
 		
 		if(localStorage.players) {
 			
-			this.players = JSON.parse(localStorage.players);
-			
-			this.players.forEach(function(player){
-				var newPlayer = new Player(player.PlayerId, player.playerName, player.playerScore, player.playerWords, player.playerTime, player.playerLives);
-				TYPER.instance_.playerId = player.playerId;
-				console.log("playerid: ", player.playerId);
-			});
-			
+			this.players = JSON.parse(localStorage.players);			
 			this.playerId++;
 		}
 	}, 
@@ -181,8 +202,6 @@ TYPER.prototype = {
 		this.countTime();
 		window.addEventListener('keypress', this.keyPressed.bind(this));
 	},
-	
-	
 	
 	
     generateWord: function(){
@@ -306,12 +325,20 @@ TYPER.prototype = {
 		this.players.push(storePlayer);
 		localStorage.setItem("players", JSON.stringify(this.players));
 		
+		console.log("peaks kustutama");
+		var list = document.getElementById("playerList");
+		
+		while(list.hasChildNodes()) {
+			var n = 0;
+			list.removeChild(list.childNodes[n]);
+			n++;
+		}
+		
+		pageView = new PageView();
+		pageView.sortPlayers();
 		
 	}
 	
-	
-	
-
 };
 
 
@@ -324,6 +351,19 @@ var Player = function(playerId, playerName, playerScore, playerGuessedWords, pla
 	this.playerGuessedWords = playerGuessedWords;
 	this.playerTime = playerTime;
 	this.playerLives = playerLives;
+	
+};
+
+
+Player.prototype = {
+	
+	createHTML: function() {
+		
+		var li = document.createElement("li");
+		li.innerHTML = this.playerName + ", " + this.playerScore;
+		return li;
+		
+	}
 	
 };
 
@@ -361,5 +401,7 @@ function structureArrayByWordLength(words){
 
 window.onload = function(){
 	var pageView = new PageView();
+	//var typerGame = new TYPER();
+	pageView.sortPlayers();
 	//window.typerGame = typerGame;
 };
