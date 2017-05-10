@@ -1,3 +1,4 @@
+
 var TYPER = function(){
 
 	//singleton
@@ -16,9 +17,6 @@ var TYPER = function(){
 	this.word = null; // preagu arvamisel olev sõna
 	this.word_min_length = 3;
 	this.guessed_words = 0; // arvatud sõnade arv
-
-	//mängija objekt, hoiame nime ja skoori
-	this.player = {name: null, score: 0};
 
 	this.init();
 };
@@ -52,9 +50,21 @@ TYPER.prototype = {
 
 		// Kui ei kirjutanud nime või jättis tühjaks
 		if(p_name === null || p_name === ""){
-			p_name = "Tundmatu";
-		
+			p_name = "Tundmatu";		
 		}
+		
+		this.player = {name: p_name, score: 0, Id: parseInt(1000+Math.random()*999999)};
+		this.playerArray=JSON.parse(localStorage.getItem('player'));
+		
+		if(!this.playerArray || this.playerArray.length===0){
+			this.playerArray=[];
+		}
+		
+		this.playerArray.push(this.player);
+		console.log("lisatud");
+		
+		localStorage.setItem("player", JSON.stringify(this.playerArray));
+		
 
 		// Mänigja objektis muudame nime
 		this.player.name = p_name; // player =>>> {name:"Romil", score: 0}
@@ -112,10 +122,13 @@ TYPER.prototype = {
 		//console.log(this.word);
 
         //joonista sõna
+		this.ctx.fillStyle='navy';
 		this.word.Draw();
 
 		// Kuulame klahvivajutusi
 		window.addEventListener('keypress', this.keyPressed.bind(this));
+		
+		taimer();
 
 	},
 	
@@ -134,6 +147,30 @@ TYPER.prototype = {
     	// Word on defineeritud eraldi Word.js failis
         this.word = new Word(word, this.canvas, this.ctx);
     },
+	
+	saveScore: function() {
+
+        //this.playerNameArray = JSON.parse(localStorage.getItem('playerName'));
+        //gamesFromStorage = JSON.parse(localStorage.getItem("games"));
+
+        this.playerArray.forEach(function (player, key) {
+            //gamesFromStorage.forEach(function(game, key){
+
+            console.log(player);
+            console.log(typerGame.player);
+
+            if (player.Id == typerGame.player.Id) {
+
+                player.score = typerGame.player.score;
+
+                console.log("updated");
+                console.log(player);
+
+            }
+
+        });
+		localStorage.setItem("player", JSON.stringify(this.playerArray));
+    },
     
 	keyPressed: function(event){
 
@@ -145,6 +182,8 @@ TYPER.prototype = {
 		// Võrdlen kas meie kirjutatud täht on sama mis järele jäänud sõna esimene
 		//console.log(this.word);
 		if(letter === this.word.left.charAt(0)){
+			
+			this.ctx.fillStyle='navy';
 
 			// Võtame ühe tähe maha
 			this.word.removeFirstLetter();
@@ -154,9 +193,11 @@ TYPER.prototype = {
 			if(this.word.left.length === 0){
 
 				this.guessed_words += 1;
+				guessedWords=this.guessed_words;
 
                 //update player score
                 this.player.score = this.guessed_words;
+				this.saveScore();
 
 				//loosin uue sõna
 				this.generateWord();
@@ -165,6 +206,12 @@ TYPER.prototype = {
 			//joonistan uuesti
 			this.word.Draw();
 		}
+		
+		else{	
+			blinkRed();	
+			this.word.Draw();
+			typo+=1;
+		}			
 
 	} // keypress end
 
@@ -201,3 +248,56 @@ window.onload = function(){
 	var typerGame = new TYPER();
 	window.typerGame = typerGame;
 };
+
+var night = 0;
+
+function darkMode(){
+	if(night==0){
+		document.getElementById("kanvas").style.backgroundColor = "black";	
+		console.log(kanvas);	
+		night=1;
+	}
+	else if(night==1){
+		document.getElementById("kanvas").style.backgroundColor = "white";	
+		console.log(kanvas);
+		night=0;
+	}
+}
+
+var count = 0;
+function playerName(){
+    console.log("playerName");
+
+	var div=document.createElement("div");
+    var playerData = JSON.parse(localStorage.getItem("player"));
+
+
+    playerData.sort(function(a, b) {
+        return b.score - a.score;
+    });
+
+    playerData.forEach(function (player, key) {
+        //gamesFromStorage.forEach(function(game, key){
+        if(count>=10){
+            return;
+        }
+        document.getElementById("top").innerHTML +="<br>"+(count+1)+" ) "+ player.name+"<a style='right: 50px; color: maroon;padding-top: 0px'>"+"   "+player.score+"</a>";
+        count+=1;
+    });
+	document.getElementById("player").style.visibility="hidden";
+}
+
+var typo = 0;
+var guessedWords = 0;
+function taimer() {
+    setTimeout(function(){ alert("Mäng läbi! Arvasid ära "+guessedWords+" sõna, ja tegid "+typo+" viga"); }, 20000);
+}
+
+function blinkRed(){
+	document.getElementById("kanvas").style.backgroundColor = "red";
+	if (night==0){
+		setTimeout(function(){document.getElementById("kanvas").style.backgroundColor="white";},40);
+	} else {
+			setTimeout(function(){document.getElementById("kanvas").style.backgroundColor="black";},40);
+	}
+}
