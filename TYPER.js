@@ -268,6 +268,7 @@ var count = 0;
 function playerName(){
     console.log("playerName");
 
+	var div=document.createElement("div");
     var playerData = JSON.parse(localStorage.getItem("player"));
 
 
@@ -280,9 +281,10 @@ function playerName(){
         if(count>=10){
             return;
         }
-        document.getElementById("player").innerHTML +="<br>"+(count+1)+" ) "+ player.name+"<a style='right: 50px; color: maroon;padding-top: 0px'>"+"   "+player.score+"</a>";
+        document.getElementById("top").innerHTML +="<br>"+(count+1)+" ) "+ player.name+"<a style='right: 50px; color: maroon;padding-top: 0px'>"+"   "+player.score+"</a>";
         count+=1;
     });
+	document.getElementById("player").style.visibility="hidden";
 }
 
 var typo = 0;
