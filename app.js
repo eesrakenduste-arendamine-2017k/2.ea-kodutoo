@@ -32,6 +32,12 @@
                 document.getElementById('game-view').style.visibility = 'hidden';
                 document.getElementById('end-view').style.visibility = 'hidden';
                 console.log('>>>>avaleht');
+
+                ls
+                parser
+                innerhtml = ''
+                forEach
+                  li  
             }
         },
         'game-view': {
@@ -75,6 +81,14 @@
                 //esimesel käivitamisel vaatame urli üle ja uuendame menüüd
                 this.routeChange();
             }
+
+            if(localStorage.playerName){
+                //võtan stringi ja teen tagasi objektideks
+                this.players = JSON.parse(localStorage.playerName);
+                console.log('laadisin localStorageist massiiivi ' + this.players.length);
+                console.log(this.players[1].name);
+
+              }
         },
 
 
@@ -103,6 +117,7 @@
 
 
     // kui leht laetud käivitan Moosipurgi rakenduse
+
     window.onload = function() {
         var app = new game();
     };

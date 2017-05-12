@@ -18,11 +18,8 @@ var TYPER = function() {
     this.guessed_words = 0; // arvatud sõnade arv
 
     //mängija objekt, hoiame nime ja skoori
-    this.player = {
-        name: null,
-        score: 0
-    };
-    this.player_id = 0;
+    this.player = 0;
+    this.gameId = 0;
 
     // hakkan hoidma siin kõiki purke
     this.scoreBoard = [];
@@ -59,18 +56,40 @@ TYPER.prototype = {
 
         // küsime mängija nime ja muudame objektis nime
         var p_name = document.getElementById('name').value;
+
+        // console.log(JSON.parse(localStorage.getItem('playerName')).length);
+
         // Kui ei kirjutanud nime või jättis tühjaks
         if (p_name === null || p_name === "") {
             p_name = "Tundmatu";
-
         }
 
+
+
+        this.player = {name: p_name, score: 0, gameId: guid()};
+
+        this.playerNameArray = JSON.parse(localStorage.getItem('playerName'));
+
+       if(!this.playerNameArray || this.playerNameArray.length===0){
+           this.playerNameArray=[];
+       }
+
+
+
+       this.playerNameArray.push(this.player);
+       console.log("lisatud");
+
+       localStorage.setItem("playerName",  JSON.stringify(this.playerNameArray));
+        //localStorage["palyerName"]+= this.player.name;
+
+        console.log(this.player);
+
         // Mänigja objektis muudame nime
-        this.player.name = p_name; // player =>>> {name:"Romil", score: 0}
         // console.log(this.player);
-        document.getElementById("playerName").innerHTML = p_name;
+        // document.getElementById("playerName").innerHTML = p_name;
 
-
+        this.gameId++;
+        console.log("GAME ID = "+this.gameId);
     },
 
     loadWords: function() {
@@ -181,6 +200,31 @@ TYPER.prototype = {
 
     },
 
+    saveScore: function(){
+
+      this.playerNameArray = JSON.parse(localStorage.getItem('playerName'));
+      // console.log(this.playerNameArray);
+        this.playerNameArray.forEach(function (player, key) {
+
+            // console.log(player);
+            // console.log(typerGame.player);
+
+            if (player.gameId == typerGame.player.gameId) {
+
+                player.score = typerGame.player.score;
+
+                // console.log(player.score);
+                // console.log(typerGame.player.score);
+
+
+                // console.log("updated");
+                //  console.log(player);
+              }
+            });
+            localStorage.setItem("playerName", JSON.stringify(this.playerNameArray));
+
+      },
+
     keyPressed: function(event) {
 
             //console.log(event);
@@ -234,7 +278,7 @@ TYPER.prototype = {
 
                 }
             }
-
+            this.saveScore();
         } // keypress end
 
 };
@@ -264,6 +308,17 @@ function structureArrayByWordLength(words) {
     }
 
     return temp_array;
+}
+
+function guid(){
+  function S4() {
+    return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+}
+
+  // then to call it, plus stitch in '4' in the third group
+  var guid = (S4() + S4() + "-" + S4() + "-4" + S4().substr(0,3) + "-" + S4() + "-" + S4() + S4() + S4()).toLowerCase();
+  // alert(guid);
+  return guid;
 }
 
 var Score = function(new_name, new_score) {
