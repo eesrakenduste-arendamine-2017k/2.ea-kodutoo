@@ -1,10 +1,12 @@
+"use strict"
 var TYPER = function() {
 
-	// Singleton ???
+	// Singleton ??? Iga kord kui sellest klassist luuakse objekt, annakse viide ühele ja samale juba-loodud objektile.
+	// ??? instance_ on suvaline kasutaja-poolt defineeritud muutuja.
 	if(TYPER.instance_){
 		return TYPER.instance_;
 	}
-	TYPER.instance_ = this;
+	TYPER.instance_ = this; // ??? Klassi sisu on allpool aga kohe tagastab selle niikuinii ???
 
 	// Muutujad
 	this.WIDTH = window.innerWidth;
@@ -12,15 +14,15 @@ var TYPER = function() {
 	this.canvas = null;
 	this.ctx = null;
 
-	this.words = []; // Kõik sõnad
-	this.word = null; // Preagu arvamisel olev sõna
+	this.all_words = [];
+	this.current_word = null;
 	this.word_min_length = 3;
-	this.guessed_words = 0; // Arvatud sõnade arv
+	this.guessed_words = 0;
 
 	// Mängija objekt, hoiame nime ja skoori
 	this.player = {name: null, score: 0};
 
-	// Ennast kutsuv funktsioon objekti-loomisel.
+	// Ennast kutsuv funktsioon selle klassi objekti-loomisel.
 	this.init();
 };
 
@@ -59,36 +61,33 @@ TYPER.prototype = {
 		}
 
 		// Mänigja objektis muudame nime
-		this.player.name = p_name; // player =>>> {name:"Romil", score: 0}
-		//console.log(this.player);
+		// player =>>> {name:"Romil", score: 0}
+		this.player.name = p_name;
+
 	},
 
 	loadWords: function() {
 
 		console.log('loading...');
 
-		// AJAX http://www.w3schools.com/ajax/tryit.asp?filename=tryajax_first
 		var xmlhttp = new XMLHttpRequest();
 
-		// määran mis juhtub, kui saab vastuse
 		xmlhttp.onreadystatechange = function() {
 
-			// Sai faili tervenisti kätte
 			if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
 
 				console.log('successfully loaded');
 
-				// Serveri vastuse sisu
 				var response = xmlhttp.responseText;
 
 				// Tekitame massiivi, faili sisu aluseks, uue sõna algust märgib reavahetuse \n
 				var words_from_file = response.split('\n');
 
 				// Kuna this viitab siin xmlhttp päringule siis tuleb läheneda läbi avaliku muutuja
-				// ehk this.words asemel tuleb kasutada typerGame.words.
+				// ehk this.all_words asemel tuleb kasutada typerGame.all_words.
 				// Asendan massiivi.
-				typerGame.words = structureArrayByWordLength(words_from_file);
-				console.log(typerGame.words);
+				typerGame.all_words = structureArrayByWordLength(words_from_file);
+				console.log(typerGame.all_words);
 
 				// Küsime mängija andmed
 				typerGame.loadPlayerData();
@@ -104,15 +103,15 @@ TYPER.prototype = {
 
 	start: function() {
 
-		// Tekitame sõna objekti Word.
-		// Salvestab loodud sõna TYPER klassi muutujasse word.
+		// Tekitame sõna objekti current_word.
+		// Salvestab loodud sõna TYPER klassi muutujasse current_word.
 		this.generateWord();
 
 		// Joonista sõna
-		this.word.Draw();
+		this.current_word.Draw();
 
 		// Kuulame klahvivajutusi
-		window.addEventListener('keypress', this.keyPressed.bind(this)); //???
+		window.addEventListener('keypress', this.keyPressed.bind(this));
 
 	},
 
@@ -123,13 +122,13 @@ TYPER.prototype = {
 		var generated_word_length = this.word_min_length + parseInt(this.guessed_words / 5);
 
 		// Saan suvalise arvu vahemikus 0 - (massiivi pikkus -1)
-		var random_index = (Math.random() * (this.words[generated_word_length].length - 1)).toFixed();
+		var random_index = (Math.random() * (this.all_words[generated_word_length].length - 1)).toFixed();
 
 		// Random sõna, mille salvestame siia algseks
-		var word = this.words[generated_word_length][random_index];
+		var current_word = this.all_words[generated_word_length][random_index];
 
-		// Word on defineeritud eraldi Word.js failis
-		this.word = new Word(word, this.canvas, this.ctx);
+		// current_word on defineeritud eraldi current_word.js failis
+		this.current_word = new Word(current_word, this.canvas, this.ctx);
 	},
 
 	keyPressed: function(event) {
@@ -138,13 +137,13 @@ TYPER.prototype = {
 		var letter = String.fromCharCode(event.which);
 
 		// Võrdlen kas meie kirjutatud täht on sama mis järele jäänud sõna esimene
-		if(letter === this.word.left.charAt(0)){
+		if(letter === this.current_word.left.charAt(0)){
 
 			// Võtame ühe tähe maha
-			this.word.removeFirstLetter();
+			this.current_word.removeFirstLetter();
 
 			// Kas sõna sai otsa, kui jah - loosite uue sõna
-			if(this.word.left.length === 0){
+			if(this.current_word.left.length === 0){
 
 				this.guessed_words += 1;
 
@@ -155,26 +154,27 @@ TYPER.prototype = {
 				this.generateWord();
 			}
 
-			// Kui sõna alles, joonistab vanad ülejäänud tähed.
-			// Joonistan uuesti
-			this.word.Draw();
+
+			// Joonistan uuesti kui sõna on väiksem, või kui mitte siis ikka.
+			// Joonistab peale igat klahvivajutust.
+			this.current_word.Draw();
 		}
 
 	} // keypress end
 
 };
 
-function structureArrayByWordLength(words) {
+function structureArrayByWordLength(all_words) {
 	// TEEN massiivi ümber, et oleksid jaotatud pikkuse järgi
-	// NT this.words[3] on kõik kolmetähelised
+	// NT this.all_words[3] on kõik kolmetähelised
 
 	// defineerin ajutise massiivi, kus kõik on õiges jrk
 	var temp_array = [];
 
 	// Käime läbi kõik sõnad
-	for(var i = 0; i < words.length; i++){
+	for(var i = 0; i < all_words.length; i++){
 
-		var word_length = words[i].length;
+		var word_length = all_words[i].length;
 
 		// Kui pole veel seda array'd olemas, tegu esimese just selle pikkusega sõnaga
 		if(temp_array[word_length] === undefined){
@@ -183,13 +183,13 @@ function structureArrayByWordLength(words) {
 		}
 
 		// Lisan sõna juurde
-		temp_array[word_length].push(words[i]);
+		temp_array[word_length].push(all_words[i]);
 	}
 
 	return temp_array;
 }
 
-window.onload = function() {
+function run_application() {
 	var typerGame = new TYPER();
-	window.typerGame = typerGame; //???
+	window.typerGame = typerGame; //??? Globaalse ligipääsetavuse lisamine ???
 };

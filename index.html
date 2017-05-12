@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+	<meta charset = "UTF-8">
+	<title>Welcome</title>
+	
+	<!-- Latest compiled and minified CSS -->
+	<link rel = "stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	      integrity = "sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	      crossorigin = "anonymous">
+	
+	<!-- Optional theme -->
+	<link rel = "stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+	      integrity = "sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+	      crossorigin = "anonymous">
+	
+	<!-- Latest compiled and minified JavaScript -->
+	<script src = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+	        integrity = "sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+	        crossorigin = "anonymous"></script>
+</head>
+<body>
+
+<div>
+	<h1>Tere tulemast!</h1>
+	<p>Mäng on iseenesest väga lihtne. Kirjutage välja sõna võimalikult kiiresti ja korrektselt ja vajutage enter.</p>
+	<p>Õige väljakirjutamisega saad endale punkte juurde, veategemisel kaotad neid.</p>
+	<p>Peale iga viiendat sõna suureneb tähtede pikkus ühe võrra.</p>
+	<p>Edu!</p>
+	
+	<!-- Text input-->
+	<input id = "name-area" name = "name-area" type = "text" placeholder = "Sisestage oma nimi"
+	       class = "form-control input-md" required = "">
+	
+	<!-- Button -->
+	<button id = "submit" name = "submit" class = "btn btn-inverse">Saada</button>
+</div>
+
+
+<div>
+	<h1>Top 5 mängijad</h1>
+	<table id = "score-table">
+		<tr>
+			<td>Nimi</td>
+			<td>Skoor</td>
+		</tr>
+	</table>
+</div>
+
+<div>
+	<h1>Statistika</h1>
+</div>
+</body>
+</html>
