@@ -6,6 +6,7 @@
 	<script src="TYPER.js"></script>
     <script src="Word.js"></script>
 	<link rel="stylesheet" href="style.css">
+	<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 </head>
 
 <body>
@@ -14,10 +15,10 @@
 		<ul class="menu-list">
 			<li class="menu-item"><a href="#home-view" class="menu-link home-view">Algus</a></li>
 			<li class="menu-item"><a href="#game-view" class="menu-link game-view">Mäng</a></li>
+			<li class="menu-item"><a href="#stat-view" class="menu-link stat-view">Statistika</a></li>
 			<br><br><br>
 		</ul>
 	</nav>
-	
 	
 	<main role="main">
 	
@@ -25,26 +26,70 @@
 			<canvas></canvas>
 			<div class="info-container" id="info-container">
 				<ul class="game-info" id="info">
-					<li class="player-info" id="playerName">Nimi</li>
-					<li class="player-info" id="playerScore">Skoor</li>
-					<li class="player-info" id="timeRemaining">Aeg</li>
-					<li class="player-info" id="guessedWords">Arvatud sõnu</li>
-					<li class="player-info" id="livesLeft">Elusid alles</li>
-					<li class="player-info" id="justForTest">Test</li>
-					<li class="player-info" id="justForTest2">Test</li>
-					<li class="player-info" id="justForTest3">Test</li>
+					<li class="player-info" id="playerName">
+						<span>Nimi: </span>
+						<span class="playerName"></span>
+					</li>
+					
+					<li class="player-info" id="playerScore">
+						<span>Skoor: </span>
+						<span class="activeScore"></span>
+					</li>
+					
+					<li class="player-info" id="timeRemaining">
+						<span>Aeg: </span>
+						<span class="activeTime"></span>
+					</li>
+					
+					<li class="player-info" id="guessedWords">
+						<span>Arvatud sõnu: </span>
+						<span class="activeGuessedWords">
+					</li>
+					
+					<li class="player-info" id="livesLeft">
+						<span>Elusid alles: </span>
+						<span class="activeLivesLeft"></span>
+					</li>
+					
+					<li class="player-info" id="justForTest">
+						<span class="activeChar"></span>
+					</li>
+					
 				</ul>
 				
-				<button id="startGame">Alusta</button>
+				<button id="startGame">Alusta!</button>
+				<button id="newGame">Uus mäng!</button>
 				
 			</div>
 		</div>
 		
+		<div class="views" id="stat-view">
+			<p id="statistics">Siin näed pärast mängu oma statistikat</p>
+			<p id="correctWords"></p>
+		</div>
+		
 		<div class="views" id="home-view">
-			<p>tere, see on esimene leht</p><br>
+			<div>
+				<h1>TyperGame</h1>
+				<br>
+				<h3>Mängureeglid:</h3>
+				<ol>
+					<li>mängu alustades on sul 5 elu</li>
+					<li>iga valesti trükitud täht eemaldab ühe elu</li>
+					<li>õigesti trükitud täht annab 5 punkti (+5)</li>
+					<li>valesti trükitud täht võtab 300 punkti (-300)</li>
+					<li>õigesti arvatud sõna annab 100 punkti (+100)</li>
+					<li>mäng kestab kuni aeg või elud otsa saavad</li>
+					<li>alustamiseks vajuta menüüs "Mäng" peale</li>
+				</ol>
+			</div>
+			<br>
+			
+			
 			<h1>Top 10</h1>
-			<div id="listContainer">
-				<ul id="playerList"></ul>
+			<br>
+			<div class="list-container" id="listContainer">
+				<ol id="playerList"></ol>
 			</div>
 		</div>
 	

@@ -20,6 +20,12 @@ PageView.routes = {
 		}
 	},
 	
+	"stat-view": {
+		"render": function() {
+			
+		}
+	},
+	
 	"game-view": {
 		"render": function() {
 			console.log("midagi");
@@ -59,17 +65,19 @@ PageView.prototype = {
 	
 	sortPlayers: function() {
 		
-		var allPlayers = JSON.parse(localStorage.players);
-		console.log(allPlayers);
-		
-		var top10Players = allPlayers.sort(function(a, b) {
-			return a.playerScore < b.playerScore ? 1 : -1;
-		}).slice(0, 10);
-		
-		console.log(top10Players);
-		
-		top10Players.forEach(function(player) {
-				
+		if(localStorage.players) {
+			
+			var allPlayers = JSON.parse(localStorage.players);
+			console.log(allPlayers);
+			
+			var top10Players = allPlayers.sort(function(a, b) {
+				return a.playerScore < b.playerScore ? 1 : -1;
+			}).slice(0, 10);
+			
+			console.log(top10Players);
+			
+			top10Players.forEach(function(player, index) {
+					
 				var newPlayer = new Player(player.PlayerId, player.playerName, player.playerScore, player.playerWords, player.playerTime, player.playerLives);
 				
 				if(TYPER.instance_) {
@@ -79,9 +87,26 @@ PageView.prototype = {
 				var playerListLi = newPlayer.createHTML();
 				document.querySelector("#playerList").appendChild(playerListLi);
 				
-		});
+				var playerPosition = document.querySelectorAll("#playerList > li");
+				
 		
-		
+				if(playerPosition[0]) {
+					//console.log("essa");
+					playerPosition[0].style.backgroundColor = "#FFD700";
+				}
+				
+				if(playerPosition[1]) {
+					//console.log("kossa");
+					playerPosition[1].style.backgroundColor = "#C0C0C0";
+				}
+				
+				if(playerPosition[2]) {
+					//console.log("kossa");
+					playerPosition[2].style.backgroundColor = "#DAA520";
+				}
+				
+			});
+		}
 	}
 	
 };
@@ -126,6 +151,7 @@ var TYPER = function(){
 	this.player = {name: null, score: 0, guessedWords: 0, time: 1000, lives: 5};
 	this.players = [];
 	//this.sortedPlayers = []; // uus massiiv kus on sorteeritud mängijad
+	this.correctWords = [];
 	this.time = 1000;
 	this.livesLeft = 5;
 	this.countDown = null;
@@ -155,12 +181,18 @@ TYPER.prototype = {
 	}, 
 
 	loadPlayerData: function(){
-		var playerNameContainer = document.getElementById("playerName");
-		var playerScoreContainer = document.getElementById("playerScore");
-		var guessedWordsContainer = document.getElementById("guessedWords");
-		var livesLeftContainer = document.getElementById("livesLeft");
-		var timeRemainingContainer = document.getElementById("timeRemaining");
+		
+		var playerNameContainer = document.querySelector(".playerName");
+		
+		var activeScore = document.querySelector(".activeScore");
+		var activeTime = document.querySelector(".activeTime");
+		var activeGuessedWords = document.querySelector(".activeGuessedWords");
+		var activeLivesLeft = document.querySelector(".activeLivesLeft");
+		
+		
 		var startButton = document.getElementById("startGame");
+		var newButton = document.getElementById("newGame");
+		
 		
 		var p_name = prompt("Sisesta mängija nimi");
 		if(p_name === null || p_name === ""){
@@ -169,12 +201,14 @@ TYPER.prototype = {
 		this.player.name = p_name;
 		
 		startButton.style.display = "inline";
+		newButton.style.display = "none";
 		
-		playerNameContainer.innerHTML = "Nimi: " + this.player.name;
-		playerScoreContainer.innerHTML = "Skoor: " + this.playerScore;
-		guessedWordsContainer.innerHTML = "Arvatud sõnu: " + this.guessed_words;
-		livesLeftContainer.innerHTML = "Elusid alles: " + this.livesLeft;
-		timeRemainingContainer.innerHTML = "Aeg: " + this.time;
+		playerNameContainer.innerText = this.player.name;
+		activeScore.innerText = this.playerScore;
+		activeTime.innerText = this.time;
+		activeGuessedWords.innerText = this.guessed_words;
+		activeLivesLeft.innerText = this.livesLeft;
+
 	}, 
 
 	
@@ -213,50 +247,63 @@ TYPER.prototype = {
     
 	
 	keyPressed: function(event){
+		
 		var letter = String.fromCharCode(event.which);
-		var justForTest = document.getElementById("justForTest");
-		var justForTest2 = document.getElementById("justForTest2");
-		var playerScoreContainer = document.getElementById("playerScore");
-		var guessedWordsContainer = document.getElementById("guessedWords");
-		var livesLeftContainer = document.getElementById("livesLeft");
+		
+		var activeScore = document.querySelector(".activeScore");
+		var activeChar = document.querySelector(".activeChar");
+		var activeGuessedWords = document.querySelector(".activeGuessedWords");
+		var activeLivesLeft = document.querySelector(".activeLivesLeft");
+		
 		
 		if(this.word.left !== null) {
+			
 			if(letter === this.word.left.charAt(0)){
-				justForTest.innerHTML = "oige taht";
-				livesLeftContainer.innerHTML = "Elusid alles: " + this.livesLeft;
+				
+				activeChar.innerText = "Õige täht!";
+				activeChar.style.color = "#4AC948";
+				
+				activeLivesLeft.innerText = this.livesLeft;
+				
 				this.word.removeFirstLetter();
 				this.playerScore += 5;
-				playerScoreContainer.innerHTML = "Skoor: " + this.playerScore;
+				
+				activeScore.innerText = this.playerScore;
+				activeScore.style.color = "#4AC948";
 				
 				if(this.word.left.length === 0){
 					this.time = 1000;
 					this.guessed_words += 1;
 					this.playerScore += 100;
-					playerScoreContainer.innerHTML = "Skoor: " + this.playerScore;
-					guessedWordsContainer.innerHTML = "Arvatud sõnu: " + this.guessed_words;
+					
+					activeScore.innerText = this.playerScore;
+					activeGuessedWords.innerText = this.guessed_words;
+					
+					this.correctWords.push(this.word.word);
+					
 					this.generateWord();
 				}
 				this.word.Draw();
 				
 			} else {
-				justForTest.innerHTML = "vale taht";
-				this.playerScore -= 300;
-				playerScoreContainer.innerHTML = "Skoor: " + this.playerScore;
 				
-				if(this.time > 0) {
-					justForTest2.innerHTML = "ok";
-				} else {
-					justForTest2.innerHTML = "aeg";
-					this.stopGame();
-				}
+				activeChar.innerText = "Vale täht!";
+				activeChar.style.color = "#EE2C2C";
+				
+				this.playerScore -= 300;
+				
+				activeScore.innerText = this.playerScore;
+				activeScore.style.color = "#EE2C2C";
+				
 				
 				if(this.livesLeft < 2) {
 					this.livesLeft -= 1;
-					livesLeftContainer.innerHTML = "Elusid alles: " + this.livesLeft;
+					activeLivesLeft.innerText = this.livesLeft;
 					this.stopGame();
 				} else {
 					this.livesLeft -= 1;
-					livesLeftContainer.innerHTML = "Elusid alles: " + this.livesLeft;
+					activeLivesLeft.innerText = this.livesLeft;
+					activeLivesLeft.style.color = "yellow";
 				}
 			}
 		}	
@@ -274,15 +321,23 @@ TYPER.prototype = {
 	
 	countTime: function() {
 		
-		var timeRemainingContainer = document.getElementById("timeRemaining");
+		var activeTime = document.querySelector(".activeTime");
 		
 		this.countDown = setInterval(function(){
-			timeRemainingContainer.innerHTML = "Aeg: " + typerGame.time;
+			
+			activeTime.innerText = typerGame.time;
+			activeTime.style.color = "yellow";
+			
 			typerGame.time -= 10;
+			
+			if(typerGame.time < 300) {
+				activeTime.style.color = "#EE2C2C";
+			}
 			
 			if(typerGame.time === 0) {
 				typerGame.stopGame();
 			}
+			
 		}, 100);
 	},
 	
@@ -302,19 +357,65 @@ TYPER.prototype = {
 			this.stop++;
 		}
 		
-		var playerScoreContainer = document.getElementById("playerScore");
-		var timeRemainingContainer = document.getElementById("timeRemaining");
-		var guessedWordsContainer = document.getElementById("guessedWords");
-		var livesLeftContainer = document.getElementById("livesLeft");
-		var justForTest = document.getElementById("justForTest");
+		var activeChar = document.querySelector(".activeChar");
+		var activeScore = document.querySelector(".activeScore");
+		var activeTime = document.querySelector(".activeTime");
+		var activeGuessedWords = document.querySelector(".activeGuessedWords");
+		var activeLivesLeft = document.querySelector(".activeLivesLeft");
 		
-		playerScoreContainer.innerHTML = "Skoor: " + this.player.score;
-		guessedWordsContainer.innerHTML = "Arvatud sõnu: " + this.player.guessedWords;
-		livesLeftContainer.innerHTML = "Elusid alles: " + this.player.lives;
-		timeRemainingContainer.innerHTML = "Aeg: " + this.player.time;
-		justForTest.innerHTML = "Mäng läbi!";
+		activeScore.innerText = this.player.score;
+		activeScore.style.color = "yellow";
+		
+		activeTime.innerText = this.player.time;
+		activeTime.style.color = "yellow";
+		
+		activeGuessedWords.innerText = this.player.guessedWords;
+		activeGuessedWords.style.color = "yellow";
+		
+		activeLivesLeft.innerText = this.player.lives;
+		activeLivesLeft.style.color = "yellow";
+		
+		activeChar.innerText = "Mäng läbi!";
+		activeChar.style.color = "yellow";
+		
+		var newButton = document.getElementById("newGame");
+		newButton.style.display = "inline";
+		
+		newButton.onclick = function() {
+			location.reload();
+		};
+		
+		console.log(this.correctWords);
 		
 		this.addNewPlayer();
+		this.displayStatistics();
+	},
+	
+	displayStatistics: function() {
+		
+		var statistics = document.querySelector("#statistics");
+		var wordsList = document.querySelector("#correctWords");
+		
+		statistics.innerHTML = "Nimi: " + this.player.name + "<br>Skoor: " + this.player.score + "<br>Arvatud sõnu: " + this.player.guessedWords;
+		
+		if(this.correctWords.length === 0) {
+			
+		wordsList.innerHTML = "Õigesti trükitud sõnu ei olnud...";
+			
+		} else {
+			
+			var correctWordsString = "";
+			
+			for(i = 0; i < this.correctWords.length; i++) {
+				correctWordsString += this.correctWords[i] + ", ";
+			}
+			
+			var pos = correctWordsString.lastIndexOf(", ");
+			var finalWordsList = correctWordsString.slice(0, pos);
+			
+			wordsList.innerHTML = "Sinu poolt õigesti trükitud sõnad: " + finalWordsList;
+		}
+		
 		
 	},
 	

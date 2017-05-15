@@ -17,6 +17,7 @@ main > *:target ~ * {
 * {
 	margin: 0;
 	padding: 0;
+	font-family: 'Lato', sans-serif;
 }
 html, body, canvas {
 	width: 100%;
@@ -26,6 +27,23 @@ canvas {
 	margin-left: 15%;
 	position: fixed;
 	border: 1px solid;
+}
+
+button {
+	background-color: #4CAF50;
+	border: none;
+	color: white;
+	padding: 8px 15px;
+	text-align: center;
+	display: inline-block;
+	cursor: pointer;
+	width: 80%;
+	margin: 10%;
+	padding: 5%;
+}
+
+ol {
+	list-style-position: inside;
 }
 
 .menu-list {
@@ -72,6 +90,37 @@ canvas {
 	padding: 8px 16px;
 	text-decoration: none;
 }
+
+.list-container {
+	border: 1px solid black;
+}
+
+#newGame {
+	background-color: #008CBA;
+	display: none;
+}
+
+.activeScore {
+	color: yellow;
+}
+
+.activeTime {
+	color: yellow;
+}
+
+.activeGuessedWords {
+	color: yellow;
+}
+
+.activeLivesLeft {
+	color: yellow;
+}
+
+.playerName {
+	color: yellow;
+}
+
+
 
 
 
