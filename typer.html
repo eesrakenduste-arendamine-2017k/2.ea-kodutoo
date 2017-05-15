@@ -3,23 +3,98 @@
 <head>
 	<meta charset="UTF-8">
 	<title>typer</title>
-	<style> 
-		* {
-			margin: 0;
-			padding: 0;
-		}
-		html, body, canvas {
-			width: 100%;
-			height: 100%;
-		}
-		canvas {
-			position: absolute;
-		}
-	</style>
 	<script src="TYPER.js"></script>
     <script src="Word.js"></script>
+	<link rel="stylesheet" href="style.css">
+	<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 </head>
+
 <body>
-	<canvas></canvas>
+	
+	<nav class="menu">
+		<ul class="menu-list">
+			<li class="menu-item"><a href="#home-view" class="menu-link home-view">Algus</a></li>
+			<li class="menu-item"><a href="#game-view" class="menu-link game-view">Mäng</a></li>
+			<li class="menu-item"><a href="#stat-view" class="menu-link stat-view">Statistika</a></li>
+			<br><br><br>
+		</ul>
+	</nav>
+	
+	<main role="main">
+	
+		<div class="views" id="game-view">
+			<canvas></canvas>
+			<div class="info-container" id="info-container">
+				<ul class="game-info" id="info">
+					<li class="player-info" id="playerName">
+						<span>Nimi: </span>
+						<span class="playerName"></span>
+					</li>
+					
+					<li class="player-info" id="playerScore">
+						<span>Skoor: </span>
+						<span class="activeScore"></span>
+					</li>
+					
+					<li class="player-info" id="timeRemaining">
+						<span>Aeg: </span>
+						<span class="activeTime"></span>
+					</li>
+					
+					<li class="player-info" id="guessedWords">
+						<span>Arvatud sõnu: </span>
+						<span class="activeGuessedWords">
+					</li>
+					
+					<li class="player-info" id="livesLeft">
+						<span>Elusid alles: </span>
+						<span class="activeLivesLeft"></span>
+					</li>
+					
+					<li class="player-info" id="justForTest">
+						<span class="activeChar"></span>
+					</li>
+					
+				</ul>
+				
+				<button id="startGame">Alusta!</button>
+				<button id="newGame">Uus mäng!</button>
+				
+			</div>
+		</div>
+		
+		<div class="views" id="stat-view">
+			<p id="statistics">Siin näed pärast mängu oma statistikat</p>
+			<p id="correctWords"></p>
+		</div>
+		
+		<div class="views" id="home-view">
+			<div>
+				<h1>TyperGame</h1>
+				<br>
+				<h3>Mängureeglid:</h3>
+				<ol>
+					<li>mängu alustades on sul 5 elu</li>
+					<li>iga valesti trükitud täht eemaldab ühe elu</li>
+					<li>õigesti trükitud täht annab 5 punkti (+5)</li>
+					<li>valesti trükitud täht võtab 300 punkti (-300)</li>
+					<li>õigesti arvatud sõna annab 100 punkti (+100)</li>
+					<li>mäng kestab kuni aeg või elud otsa saavad</li>
+					<li>alustamiseks vajuta menüüs "Mäng" peale</li>
+				</ol>
+			</div>
+			<br>
+			
+			
+			<h1>Top 10</h1>
+			<br>
+			<div class="list-container" id="listContainer">
+				<ol id="playerList"></ol>
+			</div>
+		</div>
+	
+	</main>
+	
+	
 </body>
 </html>
