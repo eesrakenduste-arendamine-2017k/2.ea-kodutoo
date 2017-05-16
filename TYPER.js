@@ -56,6 +56,7 @@ TYPER.prototype = {
 
         // küsime mängija nime ja muudame objektis nime
         var p_name = document.getElementById('name').value;
+        // var mistakes = document.getElementById('mistake').value;
 
         // console.log(JSON.parse(localStorage.getItem('playerName')).length);
 
@@ -66,7 +67,8 @@ TYPER.prototype = {
 
 
 
-        this.player = {name: p_name, score: 0, gameId: guid()};
+        this.player = {name: p_name, score: 0, gameId: guid(), mistakes: mistakes};
+        // console.log("MISTAKES"+this.player.mistakes);
 
         this.playerNameArray = JSON.parse(localStorage.getItem('playerName'));
 
@@ -193,6 +195,7 @@ TYPER.prototype = {
         //update player score
         this.player.score = this.guessed_words;
         document.getElementById("currentScore").innerHTML = this.player.score;
+        document.getElementById("mistake").innerHTML = this.player.mistake;
         var playerName = document.getElementById("playerName").innerHTML;
         var playerScore = document.getElementById("currentScore").innerHTML;
         // console.log("name: "+playerName + " score: " + playerScore);
@@ -273,6 +276,7 @@ TYPER.prototype = {
                     var li = newScore.createHtmlElement();
                     document.querySelector('.list-of-jars').appendChild(li);
                     console.log(li);
+
 
 
 
