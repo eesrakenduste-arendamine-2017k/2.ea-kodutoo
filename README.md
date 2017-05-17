@@ -1,4 +1,10 @@
-# 2. kodutöö – *Typer* mängu täiendus
+**Alustada start.html'ist. Testitud Mozilla Firefoxis.**
+
+Esilehel on mängu juhised ja selle kirjaldus ning on võimalik mängu alustada. Sellele järgneb 10 parimat tulemust ning ka tulemuste leht, kus on järjestatud kõik tulemused punktide arvu järgi. Välja on toodud ka vigade arv ning trükkimise täpsus protsentuaalselt. Tulemuste lehelt on võimalik minna tagasi esilehele ja alustada uut mängu. Mängu lõppedes kuvatakse mängijale tema skoor ning pakutakse uue mängu alustamise võimalust.
+
+---
+
+# 2. kodutöö – *Typer* mängu täiendus.
 
 Mängu eesmärk on võimalikult kiiresti ekraanile tekkivaid sõnu ära trükkida. Sõnad võetud [Eesti Keele Instituudi lehelt](http://www.eki.ee/tarkvara/wordlist/), [lemmad2013](http://www.eki.ee/tarkvara/wordlist/lemmad2013.txt)
 
