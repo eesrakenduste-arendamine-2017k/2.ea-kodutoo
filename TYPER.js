@@ -11,17 +11,24 @@ var TYPER = function(){
 	this.HEIGHT = window.innerHeight;
 	this.canvas = null;
 	this.ctx = null;
-
 	this.words = []; // kõik sõnad
 	this.word = null; // preagu arvamisel olev sõna
 	this.word_min_length = 3;
 	this.guessed_words = 0; // arvatud sõnade arv
 
+
 	//mängija objekt, hoiame nime ja skoori
-	this.player = {name: null, score: 0};
+	this.player = {name: null, score: 0, mistakes: 0};
 
 	this.init();
+
+	document.getElementById('exit').onclick = function(event) {
+    window.location.href = "start.html";
+  };
+
 };
+
+var timeRemaining;
 
 TYPER.prototype = {
 
@@ -48,18 +55,18 @@ TYPER.prototype = {
 	loadPlayerData: function(){
 
 		// küsime mängija nime ja muudame objektis nime
-		var p_name = prompt("Sisesta mängija nimi");
+		var p_name = prompt("Sisesta nimi");
 
 		// Kui ei kirjutanud nime või jättis tühjaks
 		if(p_name === null || p_name === ""){
-			p_name = "Tundmatu";
-		
+			p_name = "Nimetu";
+
 		}
 
 		// Mänigja objektis muudame nime
 		this.player.name = p_name; // player =>>> {name:"Romil", score: 0}
         console.log(this.player);
-	}, 
+	},
 
 	loadWords: function(){
 
@@ -85,14 +92,14 @@ TYPER.prototype = {
 				// tekitame massiivi, faili sisu aluseks, uue sõna algust märgib reavahetuse \n
 				var words_from_file = response.split('\n');
 				//console.log(words_from_file);
-                
+
                 // Kuna this viitab siin xmlhttp päringule siis tuleb läheneda läbi avaliku muutuja
                 // ehk this.words asemel tuleb kasutada typerGame.words
-                
+
 				//asendan massiivi
 				typerGame.words = structureArrayByWordLength(words_from_file);
 				console.log(typerGame.words);
-				
+
 				// küsime mängija andmed
                 typerGame.loadPlayerData();
 
@@ -103,7 +110,7 @@ TYPER.prototype = {
 
 		xmlhttp.open('GET','./lemmad2013.txt',true);
 		xmlhttp.send();
-	}, 
+	},
 
 	start: function(){
 
@@ -114,11 +121,17 @@ TYPER.prototype = {
         //joonista sõna
 		this.word.Draw();
 
+
+
 		// Kuulame klahvivajutusi
 		window.addEventListener('keypress', this.keyPressed.bind(this));
+		
+		timeRemaining = 60,
+		display = document.querySelector('#time');
+		startTimer(timeRemaining, display);
 
 	},
-	
+
     generateWord: function(){
 
         // kui pikk peab sõna tulema, + min pikkus + äraarvatud sõnade arvul jääk 5 jagamisel
@@ -130,11 +143,11 @@ TYPER.prototype = {
 
         // random sõna, mille salvestame siia algseks
     	var word = this.words[generated_word_length][random_index];
-    	
+
     	// Word on defineeritud eraldi Word.js failis
         this.word = new Word(word, this.canvas, this.ctx);
     },
-    
+
 	keyPressed: function(event){
 
 		//console.log(event);
@@ -148,6 +161,18 @@ TYPER.prototype = {
 
 			// Võtame ühe tähe maha
 			this.word.removeFirstLetter();
+			this.player.score += 1;
+
+
+		} else {
+        this.player.score -= 1; 
+        this.player.mistakes += 1; 
+        document.body.style.background = "red";
+        window.setTimeout(function () {
+            document.body.style.background = "white";
+                  }, 300);
+     }
+     document.getElementById('score').innerHTML = "Punkte: " + this.player.score;
 
 			// kas sõna sai otsa, kui jah - loosite uue sõna
 
@@ -155,8 +180,7 @@ TYPER.prototype = {
 
 				this.guessed_words += 1;
 
-                //update player score
-                this.player.score = this.guessed_words;
+
 
 				//loosin uue sõna
 				this.generateWord();
@@ -164,12 +188,11 @@ TYPER.prototype = {
 
 			//joonistan uuesti
 			this.word.Draw();
-		}
+
 
 	} // keypress end
 
 };
-
 
 /* HELPERS */
 function structureArrayByWordLength(words){
@@ -200,4 +223,54 @@ function structureArrayByWordLength(words){
 window.onload = function(){
 	var typerGame = new TYPER();
 	window.typerGame = typerGame;
+
 };
+
+var r;
+function startTimer(duration, display) {
+  console.log("startTimer");
+    var timer = duration, minutes, seconds;
+    r = setInterval(function () {
+        minutes = parseInt(timer / 60, 10);
+        seconds = parseInt(timer % 60, 10);
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+        display.textContent = minutes + ":" + seconds;
+		
+
+        if (--timer < 0) {
+          var games = [];
+
+		        var game = {
+			           id: parseInt(1000+Math.random()*999),
+			           name: typerGame.player.name,
+			           score: typerGame.player.score,
+                 mistakes: typerGame.player.mistakes
+		                   };
+                       var gamesFromStorage = null;
+
+           		if(localStorage.getItem("games")){
+           			gamesFromStorage = JSON.parse(localStorage.getItem("games"));
+					
+           			if(gamesFromStorage){
+           				games = gamesFromStorage;
+           			}
+
+           		}
+
+           		games.push(game);
+           		localStorage.setItem("games", JSON.stringify(games));
+
+              var replay = confirm("Mäng lõppes. Kogusid "+games[games.length - 1].score+" punkti. "+"Proovi uuesti?");
+         if (replay === true ){
+           clearInterval(r);
+           timer = duration;
+           location.reload(typerGame.start);
+         } else {
+           window.location.href = "start.html";
+         }
+
+        }
+        console.log("timer");
+    }, 1000);
+}
