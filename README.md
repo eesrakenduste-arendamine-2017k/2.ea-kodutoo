@@ -27,3 +27,8 @@ Kodutööna peate täiendama etteantud mängu, et nõuded oleksid täidetud.
 
 * Canvas retina ekraani jaoks [High DPI Canvas](https://www.html5rocks.com/en/tutorials/canvas/hidpi/)
 * Mäng 60fps [requestAnimationFrame](http://creativejs.com/resources/requestanimationframe/)
+
+
+Mäng tehtud Kert Aavik ja Lauri Lainelo poolt.
+
+Mängu leiab http://localhost:5555/~kerta/eesrakendused/kodut66-2/
