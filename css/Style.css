@@ -1,0 +1,67 @@
+article,
+aside,
+footer,
+header,
+nav,
+section {
+  display: block;
+}
+
+.players_table{
+	width: 100%;
+	text-align: left;
+}
+
+table{
+	display: table;
+}
+
+table thead{
+	border-top: solid;
+	border-bottom: solid;
+}
+
+#home-view, #statistics-view, #game-view{
+	margin-left: 50px;
+}
+
+
+.player_content{
+	padding: 5px;
+}
+
+.score_content{
+	padding: 5px;
+}
+
+
+.menu-list{
+	margin-top: 10px;
+	background-color: black;	
+}
+
+
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: white;
+}
+
+li {
+	float: left;
+}
+
+li a {
+	display: block;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+	color: white;
+}
+
+li a:hover {
+	text-decoration: underline;
+	color: RED;
+}
