@@ -1,0 +1,113 @@
+html {
+  font-family: cursive; 
+  line-height: 1.15; 
+  -ms-text-size-adjust: 100%; 
+  -webkit-text-size-adjust: 100%; 
+}
+
+article,
+aside,
+footer,
+header,
+nav,
+section {
+  display: block;
+}
+
+.players_table{
+	width: 70%;
+	text-align: left;
+}
+
+table{
+	display: table;
+}
+
+table thead{
+	border-top: solid;
+	border-bottom: solid;
+}
+
+#home-view{
+	margin-left: 50px;
+}
+
+#statistics-view{
+	margin-left: 50px;
+}
+
+.introduction{
+	height: 36px;
+	width: 650px;
+}
+
+.top10_header{
+	margin-top: 0px;
+}
+
+.top10_players{
+	margin: 0px;
+}
+
+.player_content{
+	padding: 5px;
+}
+
+.score_content{
+	padding: 5px;
+}
+
+.top10_player{
+	border: solid;
+	border-radius: 12px;
+	background-color: #5cb85c;
+	border-color: #4cae4c;
+	text-align: center;
+	word-spacing: 5px;
+}
+
+#top10{
+	margin-right: 650px;
+	height: 36px;
+	border-bottom: solid;
+}
+
+.menu-list{
+	padding-top: 5px;
+	padding-bottom: 5px;
+	margin-top: 10px;
+	margin-right: 650px;
+	margin-left: 50px;
+	border-bottom-style: solid;
+	border-bottom-color: blue;
+	border-bottom-width: 2px;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: white;
+}
+
+li {
+	float: left;
+}
+
+li a {
+	display: block;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+}
+
+li a:hover {
+	text-decoration: underline;
+}

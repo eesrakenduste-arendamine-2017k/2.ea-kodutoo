@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" class="csstransforms no-csstransforms3d csstransitions">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<title>TYPER mäng</title>
+	<!-- BOOTSTRAP STIILID-->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+	
+    <!--JQUERY-->
+	<script type="text/javascript" src="js/jquery.js"></script>
+
+	<!-- BOOTSTRAP JS-->
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+
+	<link rel="stylesheet" href="css/Style.css">
+</head>
+<body>
+<div class="container">	
+	<div class="row">
+		<!-- Veebilehe Navigatsioon -->
+		<nav class="menu">
+			<ul class="menu-list">
+				<li class="menu-item"><a href="#home-view" class="menu-link home-view active-menu">Esileht</a></li>
+				<li class="menu-item"><a href="#game-view" class="menu-link game-view">Mäng</a></li>
+				<li class="menu-item"><a href="#statistics-view" class="menu-link statistics-view">Statistika</a></li>
+			</ul>
+		</nav>
+	</div>
+	<hr>
+	<main role="main">
+	
+		<!-- Esileht -->
+		<div id="home-view" class="row">
+			<div class="col-sm-6">
+				<div class="jumbotron text-center">
+					<h2>Tere Tulemast TYPER mängu!</h2>
+				  <p>TYPER on eestikeelste sõnadega trükkimise mäng.</p> 
+				</div>
+				<div class="jumbotron">
+				  <h2>Kuidas mäng töötab:</h2>
+					<p>1.Aega on 10 sekundit</p>
+					<p>2.Iga sõna mis on õigesti trükitud annab 1 punkti.</p>
+					<p>3.Iga sõna mis on õigesti trükitud lisab 2 sekundit aega juurde.</p>
+					<p>4.Trükkimisel vea tegemine võtab ajast 2 sekundist maha.</p>
+				</div>
+			</div><!-- style="float: right;" -->
+			<div id="top10"  class="col-sm-6">
+				<div class="jumbotron text-center" style='padding: 25px 0;'>
+					<h2>Mängijate TOP 10</h2>
+				</div>
+				<div class="row" id ='divtop10Players'>
+				</div>
+			</div>
+			
+		</div>
+
+		<!-- Mäng -->
+		<div id="game-view" class="row">
+			<div class="jumbotron">
+				<p class="loading">Laeb....</p>
+				<p class="message">Ole valmis trükkima !</p>
+				<p id="points">Punktid: 0</p>
+				<p>Aega järel:</p>
+				<div id="time_left">10</div>
+			</div>
+			<!-- <div klass="jumbotron"> -->
+				<p class="words-display"><!-- width="100%" height="auto"  kuidas sõnad määratakse-->
+					<canvas style='background-color:blue;' ></canvas>
+				</p>
+			<!-- </div> -->
+		</div>
+
+		<!-- Statistika vaade -->
+		<div id="statistics-view" class="row">
+			<div class="jumbotron text-center" style='padding: 25px 0;'>
+				<h2>Statistika</h2>
+			</div>
+			<table class="table  table-striped players_table">
+				<thead>
+					<tr>
+						<th>Mängija</th>
+						<th>Punktid</th>
+						<th>Vead</th>
+						<th>Täpsus</th>
+					</tr>
+				</thead>
+				<tbody class="players_table_body"></tbody>
+			</table>
+		</div>
+	</main>
+	
+	<!-- Modal Window mängija nimi -->
+	<div id="mdlPlyrName" class="modal fade" style='top:15%;' tabindex='-1'>
+		<div class="modal-dialog modal-width">
+			<div class="modal-content">
+				<div class="header">
+					<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
+					<h2 class="modal-title modalheader" style=' padding:15px 5px;background: #31708f;color: white;'>Mäng läbi</h2>
+				</div>
+				<div class="modal-body " id='divMdlPlyrBdy'>
+									
+				</div>
+				<div class="modal-footer">
+					<input class="btn btn-success " value="OK" data-dismiss="modal" style = 'width: 80px;' onClick='goToHome();'/>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</div>	
+</body>
+<script src="TYPER.js" charset="utf-8"></script>
+<script src="Word.js" charset="utf-8"></script>
+</html>
