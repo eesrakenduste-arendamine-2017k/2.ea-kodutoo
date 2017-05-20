@@ -142,8 +142,7 @@ TYPER.prototype = {
 
 
     keyPressed: function (event) {
-        console.log(event.which);
-        if (event.keyCode == 48) {
+        if (event.keyCode == 43) {
             if (this.color === "white") {
                 typerGame.color = "black";
             } else {
@@ -171,7 +170,7 @@ TYPER.prototype = {
                 // Loosin uue sõna.
                 this.generateWord();
             }
-        } else if (letter != "0") {
+        } else if (letter != "+") {
             this.player.score -= 1;
             this.local_storage_content.players[this.local_storage_content.players.length - 1] = this.player;
             localStorage.setItem("player", JSON.stringify(this.local_storage_content));
