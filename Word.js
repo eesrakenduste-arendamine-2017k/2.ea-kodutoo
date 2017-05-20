@@ -14,14 +14,13 @@ function Word(word, canvas, ctx, score) {
 
 
 Word.prototype = {
-    Draw: function (score) {
+    Draw: function (score, color) {
 
         // Tühjendame canvase
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
 		// Canvasele joonistamine
-		this.ctx.textAlign = 'center';
-		this.ctx.font = '70px Courier';
+        this.setContext(color);
 
         // Joonistame sõna, mis on järel / tekst, x, y
 		this.ctx.fillText(this.left, this.canvas.width / 2, this.canvas.height / 2);
@@ -35,5 +34,18 @@ Word.prototype = {
 		// Võtame esimese tähe sõnast maha
 		this.left = this.left.slice(1);
 		//console.log(this.left);
-	}
+    },
+
+    setContext: function (color) {
+        this.ctx.textAlign = 'center';
+        this.ctx.font = '70px Courier';
+
+        if (color === "white") {
+            this.canvas.style.backgroundColor = "white";
+            this.ctx.fillStyle = "black";
+        } else {
+            this.canvas.style.backgroundColor = "black";
+            this.ctx.fillStyle = "white";
+        }
+    }
 };

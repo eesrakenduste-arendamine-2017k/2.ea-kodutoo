@@ -25,7 +25,10 @@ var TYPER = function () {
     // Mängija objekt, hoiame nime ja skoori
     this.local_storage_content = JSON.parse(localStorage.getItem("player")); // Võtab kõik mängijad enda sisse.
     this.player = this.local_storage_content.players[this.local_storage_content.players.length - 1]; // Võtab endasse viimati lisatud mängija.
-    this.score = 0;
+    this.player.score = 0;
+
+    // Must-vaade defauldina. (nagu kord ja kohus)
+    this.color = "black";
 
     // Ennast kutsuv funktsioon selle klassi objekti-loomisel.
     this.init();
@@ -114,7 +117,7 @@ TYPER.prototype = {
         this.generateWord();
 
         // Joonista sõna.
-        this.current_word.Draw(this.player.score);
+        this.current_word.Draw(this.player.score, this.color);
 
         // Kuulame klahvivajutusi.
         window.addEventListener('keypress', this.keyPressed.bind(this));
@@ -139,6 +142,14 @@ TYPER.prototype = {
 
 
     keyPressed: function (event) {
+        console.log(event.which);
+        if (event.keyCode == 48) {
+            if (this.color === "white") {
+                typerGame.color = "black";
+            } else {
+                typerGame.color = "white";
+            }
+        }
 
         // Event.which annab koodi ja fromcharcode tagastab tähe.
         var letter = String.fromCharCode(event.which);
@@ -153,25 +164,19 @@ TYPER.prototype = {
             if (this.current_word.left.length === 0) {
 
                 this.guessed_words += 1;
-                this.score += 1;
-                this.player.score = this.score;
+                this.player.score += 1;
                 this.local_storage_content.players[this.local_storage_content.players.length - 1] = this.player;
                 localStorage.setItem("player", JSON.stringify(this.local_storage_content));
 
                 // Loosin uue sõna.
                 this.generateWord();
             }
-            this.current_word.Draw(this.player.score);
-
-        } else {
-            this.score -= 1;
-            this.player.score = this.score;
+        } else if (letter != "0") {
+            this.player.score -= 1;
             this.local_storage_content.players[this.local_storage_content.players.length - 1] = this.player;
             localStorage.setItem("player", JSON.stringify(this.local_storage_content));
-            this.current_word.Draw(this.player.score)
         }
-
-
+        this.current_word.Draw(this.player.score, this.color);
     } // keypress end
 
 };
