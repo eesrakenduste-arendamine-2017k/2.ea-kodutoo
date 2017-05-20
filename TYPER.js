@@ -149,6 +149,7 @@ TYPER.prototype = {
 
 				// Update player score
 				this.player.score = this.guessed_words;
+				localStorage.setItem("player", JSON.stringify(this.player));
 
 				// Loosin uue sõna
 				this.generateWord();
