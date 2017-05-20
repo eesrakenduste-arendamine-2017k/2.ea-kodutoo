@@ -90,7 +90,7 @@ TYPER.prototype = {
 				console.log(typerGame.all_words);
 
 				// Küsime mängija andmed
-				typerGame.loadPlayerData();
+				//typerGame.loadPlayerData();
 
 				// Kõik sõnad olemas, alustame mänguga
 				typerGame.start();
@@ -189,7 +189,7 @@ function structureArrayByWordLength(all_words) {
 	return temp_array;
 }
 
-function run_application() {
+window.onload =  function(){
 	var typerGame = new TYPER();
 	window.typerGame = typerGame; //??? Globaalse ligipääsetavuse lisamine ???
 };
