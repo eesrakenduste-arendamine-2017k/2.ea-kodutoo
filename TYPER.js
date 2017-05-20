@@ -25,6 +25,7 @@ var TYPER = function () {
     // Mängija objekt, hoiame nime ja skoori
     this.local_storage_content = JSON.parse(localStorage.getItem("player")); // Võtab kõik mängijad enda sisse.
     this.player = this.local_storage_content.players[this.local_storage_content.players.length - 1]; // Võtab endasse viimati lisatud mängija.
+    this.score = 0;
 
     // Ennast kutsuv funktsioon selle klassi objekti-loomisel.
     this.init();
@@ -113,7 +114,7 @@ TYPER.prototype = {
         this.generateWord();
 
         // Joonista sõna.
-        this.current_word.Draw();
+        this.current_word.Draw(this.player.score);
 
         // Kuulame klahvivajutusi.
         window.addEventListener('keypress', this.keyPressed.bind(this));
@@ -152,21 +153,24 @@ TYPER.prototype = {
             if (this.current_word.left.length === 0) {
 
                 this.guessed_words += 1;
-
-                // Update player score
-                this.player.score = this.guessed_words;
+                this.score += 1;
+                this.player.score = this.score;
                 this.local_storage_content.players[this.local_storage_content.players.length - 1] = this.player;
                 localStorage.setItem("player", JSON.stringify(this.local_storage_content));
 
                 // Loosin uue sõna.
                 this.generateWord();
             }
+            this.current_word.Draw(this.player.score);
 
-
-            // Joonistan uuesti kui sõna on väiksem, või kui mitte siis ikka.
-            // Joonistab peale igat klahvivajutust.
-            this.current_word.Draw();
+        } else {
+            this.score -= 1;
+            this.player.score = this.score;
+            this.local_storage_content.players[this.local_storage_content.players.length - 1] = this.player;
+            localStorage.setItem("player", JSON.stringify(this.local_storage_content));
+            this.current_word.Draw(this.player.score)
         }
+
 
     } // keypress end
 

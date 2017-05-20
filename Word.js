@@ -2,7 +2,7 @@
 function Word(word, canvas, ctx, score) {
 
 	this.word = word;
-	this.score = score;
+
 
     // Lisaks mis on sõnast järel, mida alguses hakkame hakkima ja pärast joonistame
     // Esialgne sõna säilib, nt saab kasutada pärast skoori arvutamisel
@@ -14,7 +14,7 @@ function Word(word, canvas, ctx, score) {
 
 
 Word.prototype = {
-	Draw: function() {
+    Draw: function (score) {
 
         // Tühjendame canvase
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -25,10 +25,11 @@ Word.prototype = {
 
         // Joonistame sõna, mis on järel / tekst, x, y
 		this.ctx.fillText(this.left, this.canvas.width / 2, this.canvas.height / 2);
-		this.ctx.fillText(this.score, this.canvas.width * 0.90, this.canvas.height * 0.1);
+        this.ctx.fillText(score, this.canvas.width * 0.90, this.canvas.height * 0.1);
 	},
 
-	// Võtame sõnast esimese tähe maha
+
+    // Võtame sõnast esimese tähe maha
 	removeFirstLetter: function() {
 
 		// Võtame esimese tähe sõnast maha

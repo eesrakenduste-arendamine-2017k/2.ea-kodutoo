@@ -20,7 +20,6 @@ Player.prototype = {
             player_object = JSON.parse(localStorage.getItem("player"));
 
         }
-
         return player_object;
     },
 
@@ -33,7 +32,6 @@ Player.prototype = {
                 return b.score - a.score;
             });
         }
-
         return player_data;
     },
 
