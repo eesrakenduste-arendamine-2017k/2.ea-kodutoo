@@ -2,9 +2,11 @@ function Player() {
 
 
     this.player_object = this.initPlayerObject();
-    this.sorted_players = this.getAllPlayerData();
+    this.player_list = this.getAllPlayerData();
+    this.printTable(this.player_list);
     document.getElementById("submit").addEventListener("click", this.addIntoStorage.bind(this));
 }
+
 
 Player.prototype = {
 
@@ -40,7 +42,6 @@ Player.prototype = {
     // Loeb sisse HTML'i kirjutatud nime, kui pole siis nimeks Tundmatu ja alustab mängu.
     addIntoStorage: function () {
         var player_name = document.getElementById("name-area").value;
-
         if (player_name == "" || player_name == null) {
             player_name = "Tundmatu";
         }
@@ -52,11 +53,19 @@ Player.prototype = {
         window.location.href = "typer.html"; // Alustame mängu.
     },
 
-    printTable: function (sorted_players) {
+
+    printTable: function (player_list) {
         var table = document.getElementById("score-table");
-        table.innerHTML = ""
+        var prefix = "<thead><tr> <th>#</th> <th>Nimi</th> <th>Skoor</th></tr></thead><tbody>";
+        var suffix = "";
+        for (var j = 0; j < 10 && j < player_list.length; j++) {
+            suffix += "<tr><td>" + (j + 1) + "</td><td>" + player_list[j].name + "</td> <td>" + player_list[j].score + "</td></tr>";
+        }
+        suffix += "</tbody>";
+        table.innerHTML = prefix + suffix;
     }
 };
+
 
 window.onload = function () {
     var player = new Player();
