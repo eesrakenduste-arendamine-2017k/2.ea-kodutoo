@@ -1,10 +1,8 @@
 function Player() {
-
-
-    this.player_object = this.initPlayerObject();
-    this.player_list = this.getAllPlayerData();
+    this.player_object = this.initPlayerObject();  // Loob mängijate konteinerit kui veel pole tehtud, kui on siis laeb need sisse.
+    this.player_list = this.getAllPlayerData();  // Sorteerib ära mängijad nende tulemuste järgi. Suurem->väiksem.
     this.printTable(this.player_list);
-    document.getElementById("submit").addEventListener("click", this.addIntoStorage.bind(this));
+    document.getElementById("submit").addEventListener("click", this.addIntoStorage.bind(this));  // Nupuvajutusel salvestab mängija, alustab mängu.
 }
 
 
@@ -20,6 +18,7 @@ Player.prototype = {
             player_object = {players: []};
         } else {
             player_object = JSON.parse(localStorage.getItem("player"));
+
         }
 
         return player_object;
@@ -55,14 +54,16 @@ Player.prototype = {
 
 
     printTable: function (player_list) {
-        var table = document.getElementById("score-table");
-        var prefix = "<thead><tr> <th>#</th> <th>Nimi</th> <th>Skoor</th></tr></thead><tbody>";
-        var suffix = "";
-        for (var j = 0; j < 10 && j < player_list.length; j++) {
-            suffix += "<tr><td>" + (j + 1) + "</td><td>" + player_list[j].name + "</td> <td>" + player_list[j].score + "</td></tr>";
+        if (JSON.parse(localStorage.getItem("player")) != null) {
+            var table = document.getElementById("score-table");
+            var prefix = "<thead><tr> <th>#</th> <th>Nimi</th> <th>Skoor</th></tr></thead><tbody>";
+            var suffix = "";
+            for (var j = 0; j < 10 && j < player_list.length; j++) {
+                suffix += "<tr><td>" + (j + 1) + "</td><td>" + player_list[j].name + "</td> <td>" + player_list[j].score + "</td></tr>";
+            }
+            suffix += "</tbody>";
+            table.innerHTML = prefix + suffix;
         }
-        suffix += "</tbody>";
-        table.innerHTML = prefix + suffix;
     }
 };
 
