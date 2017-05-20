@@ -20,7 +20,10 @@ var TYPER = function() {
 	this.guessed_words = 0;
 
 	// Mängija objekt, hoiame nime ja skoori
-	this.player = JSON.parse(localStorage.getItem("player"));
+    this.local_storage_content = JSON.parse(localStorage.getItem("player")); // Võtab kõik mängijad enda sisse.
+    this.player = this.local_storage_content.players[this.local_storage_content.players.length - 1]; // Võtab endasse viimati lisatud mängija.
+
+
 
 	// Ennast kutsuv funktsioon selle klassi objekti-loomisel.
 	this.init();
@@ -142,14 +145,16 @@ TYPER.prototype = {
 			// Võtame ühe tähe maha
 			this.current_word.removeFirstLetter();
 
-			// Kas sõna sai otsa, kui jah - loosite uue sõna
+            // Kas sõna sai otsa, kui jah - loosite uue sõna.
 			if(this.current_word.left.length === 0){
 
 				this.guessed_words += 1;
 
 				// Update player score
 				this.player.score = this.guessed_words;
-				localStorage.setItem("player", JSON.stringify(this.player));
+                this.local_storage_content.players[this.local_storage_content.players.length - 1] = this.player;
+                localStorage.setItem("player", JSON.stringify(this.local_storage_content));
+				
 
 				// Loosin uue sõna
 				this.generateWord();
@@ -169,7 +174,7 @@ function structureArrayByWordLength(all_words) {
 	// TEEN massiivi ümber, et oleksid jaotatud pikkuse järgi
 	// NT this.all_words[3] on kõik kolmetähelised
 
-	// defineerin ajutise massiivi, kus kõik on õiges jrk
+    // Defineerin ajutise massiivi, kus kõik on õiges jrk
 	var temp_array = [];
 
 	// Käime läbi kõik sõnad
