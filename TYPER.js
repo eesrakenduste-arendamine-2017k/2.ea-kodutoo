@@ -20,7 +20,7 @@ var TYPER = function() {
 	this.guessed_words = 0;
 
 	// Mängija objekt, hoiame nime ja skoori
-	this.player = {name: null, score: 0};
+	this.player = JSON.parse(localStorage.getItem("player"));
 
 	// Ennast kutsuv funktsioon selle klassi objekti-loomisel.
 	this.init();
@@ -128,7 +128,7 @@ TYPER.prototype = {
 		var current_word = this.all_words[generated_word_length][random_index];
 
 		// current_word on defineeritud eraldi current_word.js failis
-		this.current_word = new Word(current_word, this.canvas, this.ctx);
+		this.current_word = new Word(current_word, this.canvas, this.ctx, this.player.score);
 	},
 
 	keyPressed: function(event) {
