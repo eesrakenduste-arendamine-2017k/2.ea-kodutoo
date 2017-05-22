@@ -32,72 +32,69 @@
 	body {
 		background-color: lightblue;
 	}		
+	
+	a.imagebutton {
+    background: url(image/0Circle_Blue.png);
+    display: block;
+    width: 100px;
+    height: 100px;
+	}
+
+	table, th, td {
+		border: 1px solid black;
+		border-collapse: collapse;
+	}
+	th, td {
+		padding: 5px;
+		text-align: center;    
+	}
+	
     </style>
 </head>
 
 <body>
-
+	<!--VASAK OSA-->
 		<div id="left">
-	
-		
-			<img id="picture1" src="image/1image_console.jpg" title="1" class="hide">
-			<img id="picture2" src="image/2image_cup.png" title="2" class="hide">
-			<img id="picture3" src="image/3image_sample.png" title="3" class="hide">
-			<img id="picture4" src="image/4image_sample.png" title="4" class="hide">
-			
-			
-			
-		
+			<center>
+				<img id="picture1" src="image/1image_console.jpg" title="1" class="show">
+				<img id="picture2" src="image/2image_cup.png" title="2" class="hide">
+				<img id="picture3" src="image/3image_sample.png" title="3" class="hide">
+				<img id="picture4" src="image/4image_sample.png" title="4" class="hide">
+			</center>
 		</div>
 
 		
-		
+	<!--PAREM OSA-->
 		<div id="right">
-			
-			<table>
-				
-				<tr>
-					<img src="image/1image_console.jpg">
-				</tr>
-			
-			<tr>
-				<th>
+			<center>
+				<!--Veebilehe nime-->
+				<img src="image/1image_console.jpg">
+				<!--Lines-->
 				<img class="repeat" src="image/5image_repeat.png">
-				</th>
-			</tr>	
 				
-					<td>
-					<input type="button" onclick="showImg(1);" value=" 1 Image">
-
-					<input type="button" onclick="showImg(2);" value="2 image">
-			
-					<input type="button" onclick="showImg(3);" value= "3 image">
-			
-					<input type="button" onclick = "showImg(4)" value= "4 image">
-					</td>
-			
-			<tr>
-				<th>
+				<!--BUTTOMS for piltidele ja infole-->
+				<table>		
+				<td><a  href="text/1start_play.html" target="framez" onclick= "showImg(1)" class="imagebutton"></a></td>
+				<td><a  href="text/2about.html" target="framez" onclick= "showImg(2)" class="imagebutton"></a></td>
+				<td><a  href="text/3leaders.html" target="framez" onclick= "showImg(3)" class="imagebutton"></a></td>
+				<td><a  href="text/4copyright.html" target="framez" onclick= "showImg(4)" class="imagebutton"></a></td>
+				</table>
+				
+				<!--Lines-->
 				<img class="repeat" src="image/5image_repeat.png">
-				</th>
-			</tr>
+				<!--Naitab infot-->
+				<iframe src="" name="framez"></iframe>
 				
-				<tr>
-					<th>
-					<iframe></iframe>
-					</th>
-				</tr>
-			
-			</table>
-		
+			<table>	
+			</center>
 		</div>
 	
 	
 	<script>
 	
 		function showImg( id ) {
-				// hide previously shown image
-				for ( i = 1; i < 10; i++) {
+				// Скрывает прошлую картинку
+				for ( i = 1; i < 5; i++) {
 					var obj = document.getElementById( "picture" + i );
 					if (obj != null)
 						obj.className = 'hide';
@@ -106,6 +103,7 @@
 				if (obj != null)
 					obj.className = 'show';
 		}
+		
 	
 	</script>
 	
