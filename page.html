@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+        
+    <style type="text/css">  
+	#left { 
+		position: absolute; 
+		left: 0; 
+		top: 0; 
+		width: 50%;
+	}
+	
+	#right { 
+		position: absolute; 
+		right: 0; 
+		top: 0; 
+		width: 50%; 
+	}
+		
+    .show{display:block;}
+    .hide{display:none;}
+	
+	img {
+		width:50%;
+		height: auto;
+	}
+	
+	img.repeat{
+		width:100%;
+	}
+			
+	body {
+		background-color: lightblue;
+	}		
+    </style>
+</head>
+
+<body>
+
+		<div id="left">
+	
+		
+			<img id="picture1" src="image/1image_console.jpg" title="1" class="hide">
+			<img id="picture2" src="image/2image_cup.png" title="2" class="hide">
+			<img id="picture3" src="image/3image_sample.png" title="3" class="hide">
+			<img id="picture4" src="image/4image_sample.png" title="4" class="hide">
+			
+			
+			
+		
+		</div>
+
+		
+		
+		<div id="right">
+			
+			<table>
+				
+				<tr>
+					<img src="image/1image_console.jpg">
+				</tr>
+			
+			<tr>
+				<th>
+				<img class="repeat" src="image/5image_repeat.png">
+				</th>
+			</tr>	
+				
+					<td>
+					<input type="button" onclick="showImg(1);" value=" 1 Image">
+
+					<input type="button" onclick="showImg(2);" value="2 image">
+			
+					<input type="button" onclick="showImg(3);" value= "3 image">
+			
+					<input type="button" onclick = "showImg(4)" value= "4 image">
+					</td>
+			
+			<tr>
+				<th>
+				<img class="repeat" src="image/5image_repeat.png">
+				</th>
+			</tr>
+				
+				<tr>
+					<th>
+					<iframe></iframe>
+					</th>
+				</tr>
+			
+			</table>
+		
+		</div>
+	
+	
+	<script>
+	
+		function showImg( id ) {
+				// hide previously shown image
+				for ( i = 1; i < 10; i++) {
+					var obj = document.getElementById( "picture" + i );
+					if (obj != null)
+						obj.className = 'hide';
+				}
+				var obj = document.getElementById( "picture" + id );      
+				if (obj != null)
+					obj.className = 'show';
+		}
+	
+	</script>
+	
+	
+</body>
+</html>
