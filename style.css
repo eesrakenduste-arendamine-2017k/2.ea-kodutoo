@@ -12,3 +12,7 @@ canvas {
     position: absolute;
 }
 
+#score-box{
+    margin-top: 5%;
+}
+

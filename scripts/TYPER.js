@@ -2,8 +2,8 @@
 var TYPER = function () {
 
     // Kui inimene proovib kaval olla ja läheb otse typ
-    if (localStorage.getItem("player") == null) {
-        window.location.href = "index.html";
+    if (localStorage.getItem("player") === null) {
+        window.location.href = "../index.html";
     }
 
     if (TYPER.instance_) {
@@ -23,7 +23,7 @@ var TYPER = function () {
     this.guessed_words = 0;
 
     // Mängija objekt, hoiame nime ja skoori
-    this.local_storage_content = JSON.parse(localStorage.getItem("player")); // Võtab kõik mängijad enda sisse.
+    this.local_storage_content = JSON.parse(localStorage.getItem("player"));                         // Võtab kõik mängijad enda sisse.
     this.player = this.local_storage_content.players[this.local_storage_content.players.length - 1]; // Võtab endasse viimati lisatud mängija.
     this.player.score = 0;
 
@@ -32,6 +32,15 @@ var TYPER = function () {
 
     // Aja hoidja, mäng kestab 30 sekundid.
     this.time = 30;
+
+    // Äraarvatud sõnad.
+    this.guessed_list = {words: []};
+
+    // Valesti kirjutatud tähed.
+    this.wrong_letters = {letters: []};
+
+    // Millisel ajahetkel pandi mööda.
+    this.timestap = {time: []};
 
     // Ennast kutsuv funktsioon selle klassi objekti-loomisel.
     this.init();
@@ -60,25 +69,6 @@ TYPER.prototype = {
         // Laeme sõnad
         this.loadWords();
     },
-
-
-    loadPlayerData: function () {
-
-        // Küsime mängija nime ja muudame objektis nime.
-        var p_name = prompt("Sisesta mängija nimi");
-
-        // Kui ei kirjutanud nime või jättis tühjaks.
-        if (p_name === null || p_name === "") {
-            p_name = "Tundmatu";
-
-        }
-
-        // Mänigja objektis muudame nime.
-        // player =>>> {name:"Romil", score: 0}
-        this.player.name = p_name;
-
-    },
-
 
     loadWords: function () {
 
@@ -112,7 +102,6 @@ TYPER.prototype = {
         xmlhttp.send();
     },
 
-
     start: function () {
 
         // Tekitame sõna objekti current_word.
@@ -127,20 +116,21 @@ TYPER.prototype = {
 
         // Paneme paika aja ja mängu lõpu.
         var intervalID = setInterval(function () {
-
-            if(typerGame.time == 0){
+            if (typerGame.time === 0) {
                 window.removeEventListener("keypress", typerGame.keyPressed);
                 alert("MÄNG LÄBI! SU SKOOR ON " + typerGame.player.score + " punkti!");
-                window.location.href = "index.html";
-            }else{
+                window.location.href = "statistika.html";
+
+            } else {
                 typerGame.time -= 1;
-                console.log(typerGame.time);
                 typerGame.current_word.Draw(typerGame.player.score, typerGame.color, typerGame.time);
             }
         }, 1000);
+        if (this.time === 0) {
+            clearInterval(intervalID);
+        }
 
     },
-
 
     generateWord: function () {
 
@@ -158,9 +148,8 @@ TYPER.prototype = {
         this.current_word = new Word(current_word, this.canvas, this.ctx, this.player.score);
     },
 
-
     keyPressed: function (event) {
-        if (event.keyCode == 43) {
+        if (event.keyCode === 43) {
             if (this.color === "white") {
                 typerGame.color = "black";
             } else {
@@ -177,8 +166,12 @@ TYPER.prototype = {
             // Võtame ühe tähe maha.
             this.current_word.removeFirstLetter();
 
+
             // Kas sõna sai otsa, kui jah - loosite uue sõna.
             if (this.current_word.left.length === 0) {
+
+                this.guessed_list.words.push(this.current_word.word);
+                localStorage.setItem("guessed", JSON.stringify(this.guessed_list));
 
                 this.guessed_words += 1;
                 this.player.score += 1;
@@ -188,11 +181,21 @@ TYPER.prototype = {
                 // Loosin uue sõna.
                 this.generateWord();
             }
+
         } else if (letter != "+") {
             this.player.score -= 1;
             this.local_storage_content.players[this.local_storage_content.players.length - 1] = this.player;
-            localStorage.setItem("player", JSON.stringify(this.local_storage_content));
+            localStorage.setItem("player", JSON.stringify(this.local_storage_content)); // Salvestab mängija objekti.
+
+            this.wrong_letters.letters.push(letter);
+            localStorage.setItem("letters", JSON.stringify(this.wrong_letters));
+
+            this.timestap.time.push(this.time);
+            localStorage.setItem("timestamp", JSON.stringify(this.timestap));
+
+            console.log(letter);
         }
+
         this.current_word.Draw(this.player.score, this.color, this.time);
     } // keypress end
 
@@ -221,7 +224,6 @@ function structureArrayByWordLength(all_words) {
         // Lisan sõna juurde.
         temp_array[word_length].push(all_words[i]);
     }
-
     return temp_array;
 }
 
