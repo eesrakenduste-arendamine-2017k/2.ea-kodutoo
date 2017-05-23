@@ -67,7 +67,7 @@ Player.prototype = {
 
 // HELPERS
 // Võtab objekti mis salvestab mängijate andmeid.
-function getLocalPlayer(){
+function getLocalPlayer() {
     return JSON.parse(localStorage.getItem("player"));
 }
 

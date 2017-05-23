@@ -149,6 +149,8 @@ TYPER.prototype = {
     },
 
     keyPressed: function (event) {
+
+        // Kuulab + märgi vajutamist.
         if (event.keyCode === 43) {
             if (this.color === "white") {
                 typerGame.color = "black";
@@ -166,15 +168,18 @@ TYPER.prototype = {
             // Võtame ühe tähe maha.
             this.current_word.removeFirstLetter();
 
-
             // Kas sõna sai otsa, kui jah - loosite uue sõna.
             if (this.current_word.left.length === 0) {
 
+                // Salvestab arvatud sõna.
                 this.guessed_list.words.push(this.current_word.word);
                 localStorage.setItem("guessed", JSON.stringify(this.guessed_list));
 
+                // Suurendab skoori ja raskustaset.
                 this.guessed_words += 1;
                 this.player.score += 1;
+
+                // Salvestab mängija profiili.
                 this.local_storage_content.players[this.local_storage_content.players.length - 1] = this.player;
                 localStorage.setItem("player", JSON.stringify(this.local_storage_content));
 
@@ -182,18 +187,21 @@ TYPER.prototype = {
                 this.generateWord();
             }
 
+
         } else if (letter != "+") {
             this.player.score -= 1;
-            this.local_storage_content.players[this.local_storage_content.players.length - 1] = this.player;
-            localStorage.setItem("player", JSON.stringify(this.local_storage_content)); // Salvestab mängija objekti.
 
+            // Võtab praeguse mängija proofili ja salvestab seisu sinna sisse, praegune mängija on alati listi lõpus.
+            this.local_storage_content.players[this.local_storage_content.players.length - 1] = this.player;
+            localStorage.setItem("player", JSON.stringify(this.local_storage_content));
+
+            // Valesti arvatud tähed lükatakse local storage'i sisse statistika jaoks.
             this.wrong_letters.letters.push(letter);
             localStorage.setItem("letters", JSON.stringify(this.wrong_letters));
 
+            // Ajahetked, mil tehti viga salvestatakse statistika jaoks.
             this.timestap.time.push(this.time);
             localStorage.setItem("timestamp", JSON.stringify(this.timestap));
-
-            console.log(letter);
         }
 
         this.current_word.Draw(this.player.score, this.color, this.time);
