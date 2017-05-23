@@ -1,37 +1,62 @@
 <!doctype html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>typer</title>
-	<style> 
-		* {
-			margin: 0;
-			padding: 0;
-		}
-		html, body, canvas {
-			background-image: url(image/6pattern.png);
-			width: 100%;
-			height: 100%;
-		}
-		canvas {
-			position: absolute;
-		}
-	</style>
-</head>
-<body>
-	<canvas></canvas>
-</body>
-</html>
-<!doctype html>
-<html lang="adasd">
-<head>
-    <meta charset="UTF-8">
-    <title>adsa</title>
-</head>
-<body>
-<p><span id="time"></span></p>
+	<head>
+		
+		<meta charset="UTF-8">
+		
+		<link rel="stylesheet" type="text/css" href="text/font.css">
+		<link rel="stylesheet" type="text/css" href="page.css">
+
+		
+		<title>TYPER game</title>
+		
+		
+		<style> 
+			
+			html, body, canvas {
+				background-image: url(image/6pattern.png);
+				width: 100%;
+				height: 100%;
+			}
+			
+			canvas {
+				position: absolute;
+			}
+			
+			#info {
+				background: url();
+				position: fixed;
+				border: none;
+				left: 5%;
+				text-align: left;
+			}
+			
+		</style>
+		
+		<script src="TYPER.js"></script>
+		<script src="Word.js"></script>
 	
-	<script src="TYPER.js"></script>
+	</head>
+
+	
+<body>
+
+	<div id="canvas">
+		
+		<canvas></canvas>
+	
+	</div>
+	
+	
+	<div id="info">
+		
+		<h1>TIME: 	<font class="red"><span id="time"></font>		</span></h1>
+		<h2>PLAYER:	<font class="red"><span id="playerName"></font>	</span></h2>
+		<h2>SCORE:	<font class="red"><span id="score"></font>		</span></h2>
+
+	</div>
+	
+
 
 	
 </body>
