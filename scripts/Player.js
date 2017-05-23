@@ -1,3 +1,4 @@
+"use strict"
 function Player() {
     this.player_object = this.initPlayerObject();  // Loob mängijate konteinerit kui veel pole tehtud, kui on siis laeb need sisse.
     this.player_list = this.getAllPlayerData();    // Sorteerib ära mängijad nende tulemuste järgi. Suurem->väiksem.
