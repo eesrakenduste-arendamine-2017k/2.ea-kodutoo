@@ -1,3 +1,4 @@
+var time;
 var TYPER = function(){
 
 	//singleton
@@ -48,11 +49,11 @@ TYPER.prototype = {
 	loadPlayerData: function(){
 
 		// küsime mängija nime ja muudame objektis nime
-		var p_name = prompt("Sisesta mängija nimi");
+		var p_name = prompt("Please enter your name: ");
 
 		// Kui ei kirjutanud nime või jättis tühjaks
 		if(p_name === null || p_name === ""){
-			p_name = "Tundmatu";
+			p_name = "Unknown";
 
 		}
 
@@ -106,28 +107,23 @@ TYPER.prototype = {
 	},
 
 	start: function(){
+		
+		time = 30;
+		showTime = document.querySelector("#time");
+		timer(time, showTime);
 
 		// Tekitame sõna objekti Word
 		this.generateWord();
 		//console.log(this.word);
 
-        this.drawAll();
+        this.word.Draw();
 
 		// Kuulame klahvivajutusi
 		window.addEventListener('keypress', this.keyPressed.bind(this));
 
 	},
 
-    drawAll: function(){
-
-        requestAnimFrame(window.typerGame.drawAll.bind(window.typerGame));
-
-        console.log('joonistab');
-        //joonista sõna
-		this.word.Draw();
-    },
-
-    generateWord: function(){
+generateWord: function(){
 
         // kui pikk peab sõna tulema, + min pikkus + äraarvatud sõnade arvul jääk 5 jagamisel
         // iga viie sõna tagant suureneb sõna pikkus ühe võrra
@@ -221,3 +217,55 @@ window.onload = function(){
 	var typerGame = new TYPER();
 	window.typerGame = typerGame;
 };
+
+var r;
+
+function timer(time, showTime) {
+  var timer = time,
+    seconds;
+    r = setInterval(function() {
+    //minutes = parseInt(timer / 60, 10);
+    seconds = parseInt(timer % 60, 10);
+
+    //minutes = minutes < 10 ? "0" + minutes : minutes;
+    seconds = seconds < 10 ? + seconds : seconds;
+
+    showTime.textContent = seconds;
+
+    if (--timer < 0) {
+      var session = [];
+
+      var game = {
+        id: parseInt(1000 + Math.random() * 999),
+        name: typerGame.player.name,
+        score: typerGame.player.score,
+      };
+      var gamesFromStorage = null;
+
+      if (localStorage.getItem("session")) {
+        gamesFromStorage = JSON.parse(localStorage.getItem("session"));
+
+        if (gamesFromStorage) {
+          session = gamesFromStorage;
+        }
+
+      }
+
+      session.push(game);
+
+      localStorage.setItem("session", JSON.stringify(session));
+
+
+      var replay = confirm("Time is out. Your scrose is: " + typerGame.player.score + " Play again?");
+      if (replay === true) {
+        clearInterval(r);
+        timer = time;
+        location.reload(typerGame.start);
+      } else {
+        window.location.href = "1page.html";
+      }
+
+    }
+    console.log("timer");
+  }, 1000);
+}
