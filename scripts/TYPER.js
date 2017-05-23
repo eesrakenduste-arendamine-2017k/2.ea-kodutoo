@@ -119,7 +119,7 @@ TYPER.prototype = {
             if (typerGame.time === 0) {
                 window.removeEventListener("keypress", typerGame.keyPressed);
                 alert("MÄNG LÄBI! SU SKOOR ON " + typerGame.player.score + " punkti!");
-                window.location.href = "../statistics.html";
+                window.location.href = "statistics.html";
 
             } else {
                 typerGame.time -= 1;
