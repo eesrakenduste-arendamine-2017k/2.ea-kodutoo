@@ -22,7 +22,6 @@ Player.prototype = {
         return player_object;
     },
 
-
     // Võtab Local-Storagest kõik mängijad ja tagastab kujul [ {obj1}, {obj2}, {obj3} ]
     getAllPlayerData: function () {
         var player_data = getLocalPlayer();
@@ -33,7 +32,6 @@ Player.prototype = {
         }
         return player_data;
     },
-
 
     // Loeb sisse HTML'i kirjutatud nime, kui pole siis nimeks Tundmatu ja alustab mängu.
     // Kui nime pole siis tuleb nimeks Tundmatu.
@@ -50,7 +48,6 @@ Player.prototype = {
 
         window.location.href = "typer.html";                                // Alustame mängu.
     },
-
 
     // Top 10 tabeli HTML koodi loomine.
     printTable: function (player_list) {

@@ -1,9 +1,9 @@
 "use strict"
 var TYPER = function () {
 
-    // Kui inimene proovib kaval olla ja läheb otse typ
+    // Kui inimene proovib kaval olla ja läheb otse typerisse.
     if (localStorage.getItem("player") === null) {
-        window.location.href = "../index.html";
+        window.location.href = "index.html";
     }
 
     if (TYPER.instance_) {
@@ -119,7 +119,7 @@ TYPER.prototype = {
             if (typerGame.time === 0) {
                 window.removeEventListener("keypress", typerGame.keyPressed);
                 alert("MÄNG LÄBI! SU SKOOR ON " + typerGame.player.score + " punkti!");
-                window.location.href = "statistika.html";
+                window.location.href = "../statistics.html";
 
             } else {
                 typerGame.time -= 1;
