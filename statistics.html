@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Statistika</title>
+    <script src="scripts/statistics.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+</head>
+
+
+<body>
+<div class="container">
+
+    <button class="btn btn-inverse" onclick="window.location.href = 'typer.html'">Mängu</button>
+    <button class="btn btn-inverse" onclick="window.location.href = 'index.html'">Avalehele</button>
+
+    <h1>Statistika</h1>
+
+    <div id="guessed-container">
+        <h2>Õigesti arvatud sõnad</h2>
+        <table id="guessed-table" class="table"></table>
+    </div>
+
+    <div id="letter-container">
+        <h2>Valesti kirjutatud tähed</h2>
+        <table id="letter-table" class="table"></table>
+    </div>
+
+    <div id="timestamps">
+        <h2>Ajamärgid</h2>
+        <table id="time-table" class="table"></table>
+    </div>
+
+</div>
+</body>
+</html>
