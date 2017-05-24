@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<link rel="stylesheet" type="text/css" href="text/font.css">
+	<link rel="stylesheet" type="text/css" href="page.css">
+
+</head>
+
+<body>
+	<!--VASAK OSA-->
+		<div id="left">
+			<center>
+				<img id="picture1" src="image/1tetris.gif" class="show">
+				<img id="picture2" src="image/2image_how.png" title="2" class="hide">
+				<img id="picture3" src="image/3image_leaders.png" title="3" class="hide">
+				<img id="picture4" src="image/1tetris.gif" title="4" class="hide">
+			</center>
+		</div>
+
+		
+	<!--PAREM OSA-->
+		<div id="right">
+			<center>
+				
+				<!--Lines-->
+				<img class="repeat" src="image/5image_repeat.gif">
+				<!--Naitab infot-->
+				<iframe width="100%" height="300px" src="text/4about.html" name="framez" frameBorder="0"></iframe>
+				
+				<!--BUTTOMS for piltidele ja infole-->
+				<table>		
+				<td>
+				<a  href="text/1start_play.html" target="framez" onclick= "showImg(1)" class="imagebutton1"></a>
+				START GAME</td>
+				<td><a  href="text/2howto.html" target="framez" onclick= "showImg(2)" class="imagebutton2"></a>
+				FAQ</td>
+				<td><a  href="text/3leaders.html" target="framez" onclick= "showImg(3)" class="imagebutton3"></a>
+				LEADERBOARD</td>
+				<td><a  href="text/4about.html" target="framez" onclick= "showImg(4)" class="imagebutton4"></a>
+				ABOUT</td>
+				</table>
+				
+				<!--Lines-->
+				<img class="repeat" src="image/5image_repeat.gif">
+				
+			<table>	
+			</center>
+		</div>
+	
+	
+	<script>
+	
+		function showImg( id ) {
+				// Скрывает прошлую картинку
+				for ( i = 1; i < 5; i++) {
+					var obj = document.getElementById( "picture" + i );
+					if (obj != null)
+						obj.className = 'hide';
+				}
+				var obj = document.getElementById( "picture" + id );      
+				if (obj != null)
+					obj.className = 'show';
+		}
+		
+	
+	</script>
+	
+	
+</body>
+</html>
