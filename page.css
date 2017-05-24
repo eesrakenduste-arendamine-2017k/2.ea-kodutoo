@@ -1,0 +1,71 @@
+html {
+	overflow: hidden;
+	}
+	
+	#bottom{
+		position:absolute;
+		bottom: 0%;
+	}
+	
+	#left { 
+		position: absolute; 
+		left: 0; 
+		top: 0; 
+		width: 50%;
+	}
+	
+	
+	#right { 
+		position: absolute; 
+		right: 0; 
+		top: 0; 
+		width: 50%; 
+	}
+		
+    .show{display:block;}
+    .hide{display:none;}
+	
+	img {
+		width: 90%;
+	}
+	
+	img.repeat{
+		width:100%;
+	}
+			
+	body {
+		background-image: url(image/6pattern.png);
+	}		
+	
+	a.imagebutton1 {
+    background: url(image/button_one.png);
+    display: block;
+    width: 160px;
+    height: 150px;
+	}
+	a.imagebutton2 {
+    background: url(image/button_two.png);
+    display: block;
+    width: 160px;
+    height: 150px;
+	}
+	a.imagebutton3 {
+    background: url(image/button_three.png);
+    display: block;
+    width: 160px;
+    height: 150px;
+	}
+	a.imagebutton4 {
+    background: url(image/button_four.png);
+    display: block;
+    width: 160px;
+    height: 150px;
+	}
+
+	table, th, td {
+		border-collapse: collapse;
+	}
+	th, td {
+		padding: 5px;
+		text-align: center;    
+	}
