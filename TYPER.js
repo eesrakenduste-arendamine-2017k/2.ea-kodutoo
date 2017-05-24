@@ -268,6 +268,7 @@ function compare(score1, score2){
 }
 
 function topTen(){
+  clearDiv();
   var games = JSON.parse(localStorage.getItem("Score"));
   var content = document.getElementsByClassName('topTenPlayers')[0];
   //console.log(games.length);
@@ -292,6 +293,11 @@ function topTen(){
   }
 
 }
+
+function clearDiv(){
+  document.getElementsByClassName("topTenPlayers")[0].innerHTML = "";
+}
+
 
 window.onload = function(){
 	var typerGame = new TYPER();
