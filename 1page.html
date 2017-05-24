@@ -17,6 +17,16 @@
 				<img id="picture4" src="image/1tetris.gif" title="4" class="hide">
 			</center>
 		</div>
+		
+		<!--AUDIO PLAYER-->
+		<audio id="background_audio" autoplay="autoplay">
+			<source src="music/mario.mp3">
+		</audio> 
+		
+		<!--MUTE BUTTON-->
+		<div id="bottom">
+			<a href="#noscroll" id="mute">MUTE</a>
+		</div>
 
 		
 	<!--PAREM OSA-->
@@ -47,6 +57,7 @@
 			<table>	
 			</center>
 		</div>
+		
 	
 	
 	<script>
@@ -63,7 +74,14 @@
 					obj.className = 'show';
 		}
 		
-	
+		var audio = document.getElementById('background_audio');
+		document.getElementById('mute').addEventListener('click', function (e)
+		{
+			e = e || window.event;
+			audio.muted = !audio.muted;
+			e.preventDefault();
+		}, false);
+		
 	</script>
 	
 	
