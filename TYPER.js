@@ -150,9 +150,6 @@ generateWord: function(){
 		// Vordlen kas meie kirjutatud taht on sama mis jarele jaanud sona esimene
 		//console.log(this.word);
 		if(letter === this.word.left.charAt(0)){
-			
-			this.player.score += 1;
-
 
 			// Votame uhe tahe maha
 			this.word.removeFirstLetter();
@@ -165,7 +162,7 @@ generateWord: function(){
 				
                 //update player score
                 this.player.score = this.guessed_words;
-				document.getElementById('score').innerHTML = this.player.score;
+				document.getElementById('score').innerHTML = this.guessed_words;
 				
 
 				//loosin uue sona
