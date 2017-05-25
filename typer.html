@@ -12,14 +12,27 @@
 			width: 100%;
 			height: 100%;
 		}
-		canvas {
+		#canvas {
 			position: absolute;
+		}
+		
+		#Reloader{
+			position:fixed;
+			top: 90%;
+			left: 50%;
+			transform: translate(-50%, -50%);
 		}
 	</style>
 	<script src="TYPER.js"></script>
     <script src="Word.js"></script>
 </head>
 <body>
-	<canvas></canvas>
+	
+
+	<canvas id="canvas"></canvas>
+	<div >
+		<input id="Reloader" type="button" value="New Game" onClick="window.location.reload()">
+	</div>
+	
 </body>
 </html>
