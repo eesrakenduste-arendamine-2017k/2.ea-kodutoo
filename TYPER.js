@@ -326,7 +326,18 @@ TYPER.prototype = {
 		//this.ctx.fillRect(500, 0,800,200);
 		//this.word.Draw();
 		//console.log("clearRect õige süna");
-		this.ctx.clearRect(500, 0,800,200);
+		
+		//this.ctx.fillRect(vasak-algus, ülevalt-algus, vasak-lõpp, ülevalt-lõpp);
+		
+		
+		/*
+		var o = Math.round, r = Math.random, s = 255;
+		this.ctx.fillStyle = 'rgba(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s) + ',' + r().toFixed(1) + ')';
+		this.ctx.fillRect(this.canvas.width*0.5, this.canvas.height*0.0,this.canvas.width, this.canvas.height*0.4);
+		*/
+		
+		this.ctx.clearRect(this.canvas.width*0.5, this.canvas.height*0.0,this.canvas.width, this.canvas.height*0.35);
+		
 		this.ctx.fillText(this.player.score, this.canvas.width*0.8, this.canvas.height*0.2);
 		
 

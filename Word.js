@@ -17,7 +17,7 @@ Word.prototype = {
 	Draw: function(){
 
 		//Tühjendame canvase
-		this.ctx.clearRect( 0, 100, this.canvas.width, this.canvas.height);
+		this.ctx.clearRect( 0, 0, this.canvas.width, this.canvas.height);
 
 		// Canvasele joonistamine
 		
@@ -28,7 +28,7 @@ Word.prototype = {
 	
 	Timer: function(ctx, canvas){
 		
-		var time=10;
+		var time=30;
 		
 		
 		setInterval(function(){ time -= 1; }, 1000);
@@ -37,14 +37,14 @@ Word.prototype = {
 			
 
 			
-			ctx.clearRect( 0, 0, 250, 250);
+			ctx.clearRect(this.canvas.width*0.0, this.canvas.height*0.0,this.canvas.width*0.5, this.canvas.height*0.35);
 			
-		/*
-		    var o = Math.round, r = Math.random, s = 255;
-
+			/*
+			var o = Math.round, r = Math.random, s = 255;
 			ctx.fillStyle = 'rgba(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s) + ',' + r().toFixed(1) + ')';
-			ctx.fillRect(500, 0,800,200);
-		*/
+			ctx.fillRect(this.canvas.width*0.0, this.canvas.height*0.0,this.canvas.width*0.5, this.canvas.height*0.4);
+			*/
+		
 			if(time>0){
 				
 				ctx.fillText(time, canvas.width*0.2, canvas.height*0.2);
