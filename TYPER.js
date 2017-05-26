@@ -1,3 +1,6 @@
+
+var taimer = 60;
+
 var TYPER = function(){
 
 	//singleton
@@ -11,6 +14,7 @@ var TYPER = function(){
 	this.HEIGHT = window.innerHeight;
 	this.canvas = null;
 	this.ctx = null;
+	
 
 	this.words = []; // kõik sõnad
 	this.word = null; // preagu arvamisel olev sõna
@@ -24,7 +28,7 @@ var TYPER = function(){
 };
 
 TYPER.prototype = {
-
+    
 	// Funktsioon, mille käivitame alguses
 	init: function(){
 
@@ -40,13 +44,14 @@ TYPER.prototype = {
 		// kui retina ekraan, siis võib ja peaks olema 2 korda suurem
 		this.canvas.width = this.WIDTH;
 		this.canvas.height = this.HEIGHT;
+		
 
 		// laeme sõnad
 		this.loadWords();
 	}, 
 
 	loadPlayerData: function(){
-
+        self = this
 		// küsime mängija nime ja muudame objektis nime
 		var p_name = prompt("Sisesta mängija nimi");
 
@@ -59,10 +64,12 @@ TYPER.prototype = {
 		// Mänigja objektis muudame nime
 		this.player.name = p_name; // player =>>> {name:"Romil", score: 0}
         console.log(this.player);
-	}, 
+		this.stopper()
+		
+	},
 
 	loadWords: function(){
-
+		var self = this
         console.log('loading...');
 
 		// AJAX http://www.w3schools.com/ajax/tryit.asp?filename=tryajax_first
@@ -90,14 +97,14 @@ TYPER.prototype = {
                 // ehk this.words asemel tuleb kasutada typerGame.words
                 
 				//asendan massiivi
-				typerGame.words = structureArrayByWordLength(words_from_file);
-				console.log(typerGame.words);
+				self.words = structureArrayByWordLength(words_from_file);
+				
 				
 				// küsime mängija andmed
-                typerGame.loadPlayerData();
+                self.loadPlayerData();
 
 				// kõik sõnad olemas, alustame mänguga
-				typerGame.start();
+				self.start();
 			}
 		};
 
@@ -136,7 +143,9 @@ TYPER.prototype = {
     },
     
 	keyPressed: function(event){
-
+        if(taimer <= 0){
+			return;
+		}
 		//console.log(event);
 		// event.which annab koodi ja fromcharcode tagastab tähe
 		var letter = String.fromCharCode(event.which);
@@ -157,6 +166,7 @@ TYPER.prototype = {
 
                 //update player score
                 this.player.score = this.guessed_words;
+				document.getElementById("skoor").innerHTML="SKOOR:"+this.player.score;
 
 				//loosin uue sõna
 				this.generateWord();
@@ -165,13 +175,55 @@ TYPER.prototype = {
 			//joonistan uuesti
 			this.word.Draw();
 		}
+		
+		
+		else {
+			if(taimer<5){
+				taimer=0
+				
+			}
+			else{
+			taimer = taimer - 5	
+			}
+			
+			colorChange("red")
+			setTimeout(colorChange, 100)
+			document.getElementById("taimer").innerHTML="AEG:"+taimer;
+			
+		}
 
-	} // keypress end
+	}, // keypress end
+	
+	stopper: function(){
+		var self = this;
+	    var intervall = setInterval(function(){
+			if (taimer != 0){
+			taimer = taimer - 1
+			}
+			document.getElementById("taimer").innerHTML="AEG:"+taimer;
+			if(taimer <= 0){
+				clearInterval(intervall)
+				console.log("game over, sinu skoor oli " + self.player.score)	
+				
+			}
+			
+			
+		}, 1000)
+	}
 
 };
 
 
 /* HELPERS */
+
+	
+
+function colorChange(col) {
+    if (!col) {
+        col = "#FFFFFF"
+    }
+    document.body.style.backgroundColor = col
+}
 function structureArrayByWordLength(words){
     // TEEN massiivi ümber, et oleksid jaotatud pikkuse järgi
     // NT this.words[3] on kõik kolmetähelised
@@ -196,6 +248,8 @@ function structureArrayByWordLength(words){
 
     return temp_array;
 }
+
+
 
 window.onload = function(){
 	var typerGame = new TYPER();
