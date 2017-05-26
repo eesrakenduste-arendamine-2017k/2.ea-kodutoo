@@ -1,0 +1,88 @@
+<link href="https://fonts.googleapis.com/css?family=Amatic+SC" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Poiret+One" rel="stylesheet">
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>typer</title>
+    <style>
+        body{
+            font-family: 'Poiret One', cursive;
+            width: 100%;
+            height: 94%;
+            background-color: #FFFFFF;
+        }
+        h1 {
+            font-size: 500%;
+            color: #6BA3DC;
+        }.progress{
+            background-color: #CCCCFF;
+        }.btn{
+            background-color: #FFFFFF;
+            overflow: hidden;
+        }.btn:hover{
+            background-color: #FFFFFF;
+        }.changeColor{
+            background-color: #FFFFFF;
+        }
+        .changeColor:hover{
+            background-color: #FFFFFF;
+        }
+        .container {
+  position: relative;
+  width: 50%;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #008CBA;
+  overflow: hidden;
+  width: 0;
+  height: 100%;
+  transition: .5s ease;
+}
+
+.container:hover .overlay {
+  width: 100%;
+}
+
+.text {
+  white-space: nowrap;
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  overflow: hidden;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+}
+    </style>
+
+    <script src="TYPER.js" defer></script>
+    <script src="Word.js"></script>
+    <script src="topten.js"></script>
+</head>
+<body><div >
+    <center><h1>Typer Game</h1>
+    <div id="result"></div></center>
+    <div class="container">
+  <img src="sheet.png" alt="Pilt" class="image">
+  <div class="overlay">
+    <div class="text">Tere</div>
+  </div>
+</div>
+
+</body>
+</html>
