@@ -29,7 +29,7 @@ Word.prototype = {
 	
 	Countdown: function(ctx, canvas){
 		
-		var time=10; //30s parim? proovi 60
+		var time=60;
 		
 		setInterval(function(){
 			

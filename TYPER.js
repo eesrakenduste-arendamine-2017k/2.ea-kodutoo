@@ -197,7 +197,7 @@ TYPER.prototype = {
 		
 		this.ctx.clearRect(0,0,this.canvas.width, this.canvas.height);
 		window.removeEventListener('keypress', this.keyPressed.bind(this));//bindime keypressed functionile lõpu
-		console.log("finishfunc")
+		
 		
 	},
 	
@@ -320,6 +320,11 @@ function structureArrayByWordLength(words){
     return temp_array;
 }
 
+function NewGame(){
+	
+	window.location.reload();
+	
+}
 
 
 window.onload = function(){
