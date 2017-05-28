@@ -1,5 +1,3 @@
-var interval;
-
 var TYPER = function(){
 
 	//singleton
@@ -14,15 +12,17 @@ var TYPER = function(){
 	this.canvas = null;
 	this.ctx = null;
 
+	this.keypress_func = null;
 	this.words = []; // kõik sõnad
 	this.word = null; // preagu arvamisel olev sõna
 	this.word_min_length = 3;
 	this.guessed_words = 0; // arvatud sõnade arv
 	this.word_amount = 5;
-	
+
+	this.interval = null;
 	this.timer = 0;
 	this.timers = [];
-	
+	this.sum = 0;
 	this.players = [];
 	//mängija objekt, hoiame nime ja skoori(+ trükivead, trükikiirus)
 	this.player = {name: null, score: 0, errors: 0, typingSpeed: 0};
@@ -54,16 +54,18 @@ TYPER.prototype = {
 	
 	saveData: function(){
 		//arvutab keskmise aja
-		var sum = 0; 
-		for(t in this.timers){
-			sum += t;
-		}
-		this.player.typingSpeed = sum / this.guessed_words;
-		
+        this.sum = 0;
+		this.timers.forEach(function(timer){
+			this.sum += parseInt(timer, 10);
+		}, this);
 
+		this.player.typingSpeed = this.sum / this.timers.length;
+		
+		//ja salvestab localStorage'i
 		this.players[this.players.length] = this.player;
 		localStorage.setItem("players", JSON.stringify(this.players));
-		console.log(this.player);
+        console.log(this.player);
+
 	},
 	
 	loadPlayerData: function(){
@@ -77,20 +79,24 @@ TYPER.prototype = {
 		}
 		
 		this.hideElements();
-		// Mänigja objektis muudame nime
+		// Mängija objektis muudame nime
 		this.player.name = p_name; // player =>>> {name:"Romil", score: 0}
 		console.log(this.player);
 		
 	}, 
 
 	hideElements: function(){
-		var elementStyle = document.getElementById("info").style;
-		elementStyle.display = "none";
+		var infoStyle = document.getElementById("info").style;
+		var canvas = document.getElementById("canvas").style;
+		infoStyle.display = "none";
+		canvas.display = "block";
 	},
 	
 	showElements: function(){
-		var elementStyle = document.getElementById("info").style;
-		elementStyle.display = "block";
+		var infoStyle = document.getElementById("info").style;
+        var canvas = document.getElementById("canvas").style;
+		infoStyle.display = "block";
+        canvas.display = "none";
 	},
 	
 	loadWords: function(){
@@ -123,7 +129,6 @@ TYPER.prototype = {
                 
 				//asendan massiivi
 				typerGame.words = structureArrayByWordLength(words_from_file);
-				console.log(typerGame.words);
 				
 				// küsime mängija andmed
                 typerGame.loadPlayerData();
@@ -147,19 +152,22 @@ TYPER.prototype = {
 		this.word.Draw();
 
 		// Kuulame klahvivajutusi
-		window.addEventListener('keypress', this.keyPressed.bind(this));
-		interval = window.setInterval(function(){ this.counter += 1 }, 1000);
+        this.keypress_func = this.keyPressed.bind(this);
+		window.addEventListener('keypress', this.keypress_func);
+
+        var self = this;
+		this.interval = window.setInterval(function(){ self.timer += 1;}, 1000);
 	},
 	
 	//salvestab andmed ning deaktiveerib event listenerid
 	stop: function(){
 		
 		this.saveData(this.player);
-		window.removeEventListener('keypress', this.keyPressed);
-		clearInterval(interval);
+		window.removeEventListener('keypress', this.keypress_func);
+		clearInterval(this.interval);
 		this.showElements();
-		
-		this.init();
+        this.player = {name: null, score: 0, errors: 0, typingSpeed: 0};
+        this.init();
 		
 	},
 	
@@ -186,7 +194,7 @@ TYPER.prototype = {
 		var letter = String.fromCharCode(event.which);
 		//console.log(letter);
 		// Võrdlen kas meie kirjutatud täht on sama mis järele jäänud sõna esimene
-		//console.log(this.word);
+		console.log(this.word.left.charAt(0));
 		if(letter === this.word.left.charAt(0)){
 
 			// Võtame ühe tähe maha
@@ -200,19 +208,16 @@ TYPER.prototype = {
 
                 //update player score
 				this.player.score = this.guessed_words;
-				
+
+                this.timers[this.guessed_words-1] = this.timer;
 				//kui mingi arv sõnu on arvatud, siis mäng on läbi
 				if(this.guessed_words === this.word_amount){
-					this.timers[this.guessed_words-1] = this.timer
 					this.guessed_words = 0;
 					this.stop();
 					
-				} else {	
-					
-					this.timers[this.guessed_words-1] = this.timer
+				} else {
 					//loosin uue sõna
 					this.generateWord();
-					
 				}
 				this.timer = 0;
 			}
@@ -222,7 +227,7 @@ TYPER.prototype = {
 			
 		} else {
 			
-			this.player.errors += 1;
+			this.player.errors += parseInt(1, 10);
 			
 		}
 
@@ -258,6 +263,6 @@ function structureArrayByWordLength(words){
 }
 
 window.onload = function(){
-	var typerGame = new TYPER();
+	typerGame = new TYPER();
 	window.typerGame = typerGame;
 };
