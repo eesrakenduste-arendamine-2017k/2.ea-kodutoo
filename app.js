@@ -75,7 +75,7 @@
             document.getElementById('statistics-view').style.visibility = 'visible';
 
 
-            console.log(">>>>game_end");
+
           }
         },
     };
@@ -108,14 +108,14 @@
                 var len = this.players.length;
 
                 for(var j = 0; j < len; j++){
-                  numbers.push([this.players[j].score, j, this.players[j].name]);
+                  numbers.push([this.players[j].score, j, this.players[j].name, this.players[j].mistakes]);
                   // console.log(numbers);
                 }
                 numbers.sort(sortNumbers);
                 numbers.reverse();
-                // console.log(numbers);
+                // console.log(numbers.length);
 
-                for(var i = 0; i < 10; i++){
+                for(var i = 0; i < numbers.length && i<10; i++){
                     // console.log(this.players[i]);
                     var tr = document.createElement('tr');
                     var th = document.createElement('th');
@@ -124,6 +124,7 @@
 
                     var place = i+1;
                     th.append(place);
+                    // console.log("KDJASKDJASJD "+numbers[i]);
                     var Pname = numbers[i][2];
                     // console.log(Pname);
                     th2.append(Pname);
@@ -138,7 +139,7 @@
 
                     document.querySelector('.scoreBoard').appendChild(tr);
 
-                    // console.log(tr);
+                    // console.log('RDY');
                   }
 
                   for(var ii = 0; ii < this.players.length; ii++){
@@ -147,6 +148,7 @@
                       var thh = document.createElement('th');
                       var th2h = document.createElement('th');
                       var th3h = document.createElement('th');
+                      var th4h = document.createElement('th');
 
                       var placee = ii+1;
                       thh.append(placee);
@@ -157,15 +159,23 @@
                       var Pscoree = numbers[ii][0];
                       th3h.append(Pscoree);
 
+                      var Pmistakes = numbers[ii][3];
+                      // console.log(numbers[ii][3]);
+                      // th4h.append(Pmistakes);
+
                       trr.appendChild(thh);
                       trr.appendChild(th2h);
                       trr.appendChild(th3h);
+                      // trr.appendChild(th4h);
 
 
                       document.querySelector('.statistics').appendChild(trr);
+                      // console.log("DONE");
 
                       // console.log(tr);
                     }
+
+
 
                 }
 

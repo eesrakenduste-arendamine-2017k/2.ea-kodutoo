@@ -56,8 +56,9 @@ TYPER.prototype = {
 
         // küsime mängija nime ja muudame objektis nime
         var p_name = document.getElementById('name').value;
-        // var mistakes = document.getElementById('mistake').value;
+        var mistakes = document.getElementById('mistake').value;
 
+        
         // console.log(JSON.parse(localStorage.getItem('playerName')).length);
 
         // Kui ei kirjutanud nime või jättis tühjaks
@@ -191,9 +192,10 @@ TYPER.prototype = {
 
         // Word on defineeritud eraldi Word.js failis
         this.word = new Word(word, this.canvas, this.ctx);
-
+        var mistakess = document.getElementById("mistake").innerHTML;
         //update player score
         this.player.score = this.guessed_words;
+        this.player.mistakes = mistakess;
         document.getElementById("currentScore").innerHTML = this.player.score;
         document.getElementById("mistake").innerHTML = this.player.mistake;
         var playerName = document.getElementById("playerName").innerHTML;
@@ -215,6 +217,7 @@ TYPER.prototype = {
             if (player.gameId == typerGame.player.gameId) {
 
                 player.score = typerGame.player.score;
+                player.mistakes = typerGame.player.mistakes;
 
                 // console.log(player.score);
                 // console.log(typerGame.player.score);
@@ -266,16 +269,18 @@ TYPER.prototype = {
 
                     var name = document.getElementById('name').value;
                     var score = document.getElementById('currentScore').innerHTML;
+                    var mistakes = document.getElementById('mistake').innerHTML;
                     // console.log("NAME: "+name+" SCORE: "+score);
 
-                    var newScore = new Score(name, score);
+                    var newScore = new Score(name, score, mistakes);
+                    console.log('NEW SCORE: '+newScore);
 
                     this.scoreBoard.push(newScore);
                     console.log(JSON.stringify(this.scoreBoard));
 
-                    var li = newScore.createHtmlElement();
-                    document.querySelector('.list-of-jars').appendChild(li);
-                    console.log(li);
+                    // var li = newScore.createHtmlElement();
+                    // document.querySelector('.list-of-jars').appendChild(li);
+                    // console.log(li);
 
 
 
@@ -325,9 +330,11 @@ function guid(){
   return guid;
 }
 
-var Score = function(new_name, new_score) {
+var Score = function(new_name, new_score, new_mistakes) {
     this.name = new_name;
     this.score = new_score;
+    this.mistakes = new_mistakes;
+
     console.log('created new jar');
     console.log(this);
 };
