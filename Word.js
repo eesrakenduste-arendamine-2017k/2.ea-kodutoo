@@ -2,9 +2,9 @@
 function Word(word, canvas, ctx){
 
     this.word = word;
-    
+
     // lisaks mis on sõnast järel, mida alguses hakkame hakkima ja pärast joonistame
-    // esialgne sõna säilib, nt saab kasutada pärast skoori arvutamisel 
+    // esialgne sõna säilib, nt saab kasutada pärast skoori arvutamisel
 	this.left = this.word;
 
     this.canvas = canvas;

@@ -1,25 +1,57 @@
 <!doctype html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<title>typer</title>
-	<style> 
-		* {
-			margin: 0;
-			padding: 0;
-		}
-		html, body, canvas {
-			width: 100%;
-			height: 100%;
-		}
-		canvas {
-			position: absolute;
-		}
+	<style>
+
 	</style>
+	<script src="app.js" charset="utf-8"></script>
 	<script src="TYPER.js"></script>
-    <script src="Word.js"></script>
+	<script src="Word.js"></script>
+	<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-	<canvas></canvas>
+
+	<main role="main">
+		<div id="home-view">
+			<h1>Typer</h1>
+			Mängu eesmärk on võimalikult kiiresti ekraanile tekkivaid sõnu ära trükkida. <br>
+			<input type="text" id="name" placeholder="name">
+			<a href="#game-view">Start</a>
+			<h1>Top 10</h1>
+			<table class="scoreBoard"></table>
+			<a href="#statistics-view">Statistika</a>
+
+		</div>
+
+		<div id="game-view">
+			<div id="playerName"></div>
+			<div id="playerScore" class="playerScore">
+				Score:<div id="currentScore">0</div>
+			</div>
+			<div id="playerMistake">
+				Mistakes:<div id="mistake">0</div>
+			</div>
+			<canvas></canvas>
+		</div>
+
+		<div id="end-view">
+			<h1>END</h1>
+			<a href="#home-view">Start again</a>
+
+
+		</div>
+		<div id="statistics-view">
+			<table class="statistics"></table>
+
+		</div>
+
+
+	</main>
+
 </body>
+
 </html>
