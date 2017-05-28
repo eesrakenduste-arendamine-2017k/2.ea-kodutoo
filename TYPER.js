@@ -16,10 +16,14 @@ var TYPER = function(){
 	this.word = null; // preagu arvamisel olev sõna
 	this.word_min_length = 3;
 	this.guessed_words = 0; // arvatud sõnade arv
-
+	this.WronglyGuessed_words = 0; //valesti kirjutatud sõnade arv(kirjavead)
+	
 	//mängija objekt, hoiame nime ja skoori
 	this.player = {name: null, score: 0};
-
+	this.score = 0;
+	
+	this.finishGame=null;
+	
 	this.init();
 };
 
@@ -106,17 +110,21 @@ TYPER.prototype = {
 	}, 
 
 	start: function(){
+	
+		if(!this.finishGame){
+			// Tekitame sõna objekti Word
+			this.generateWord();
+			//console.log(this.word);
 
-		// Tekitame sõna objekti Word
-		this.generateWord();
-		//console.log(this.word);
+			//joonista sõna
+			this.drawAll();
+			//TyperGame.score.DrawScore();
+			//timer tööle
+			this.word.Countdown(this.ctx, this.canvas);
 
-        //joonista sõna
-		this.word.Draw();
-
-		// Kuulame klahvivajutusi
-		window.addEventListener('keypress', this.keyPressed.bind(this));
-
+			// Kuulame klahvivajutusi
+			window.addEventListener('keypress', this.keyPressed.bind(this));
+		}
 	},
 	
     generateWord: function(){
@@ -138,6 +146,9 @@ TYPER.prototype = {
 	keyPressed: function(event){
 
 		//console.log(event);
+		
+		if(this.finishGame){return;}
+		
 		// event.which annab koodi ja fromcharcode tagastab tähe
 		var letter = String.fromCharCode(event.which);
 		//console.log(letter);
@@ -148,7 +159,7 @@ TYPER.prototype = {
 
 			// Võtame ühe tähe maha
 			this.word.removeFirstLetter();
-
+		
 			// kas sõna sai otsa, kui jah - loosite uue sõna
 
 			if(this.word.left.length === 0){
@@ -164,9 +175,121 @@ TYPER.prototype = {
 
 			//joonistan uuesti
 			this.word.Draw();
-		}
+		}else{
+			
+			this.WronglyGuessed_words += 1;
 
-	} // keypress end
+            //update player score
+            this.WronglyGuessed_words = this.WronglyGuessed_words;
+			console.log(this.WronglyGuessed_words);
+			
+		}
+	
+	this.ctx.clearRect(this.canvas.width*0.5, this.canvas.height*0.0, this.canvas.width, this.canvas.height*0.35);
+	this.ctx.fillText(this.player.score,this.canvas.width*0.75, this.canvas.height*0.2);
+	
+	
+	},	// keypress end
+	
+	finish: function(){
+		
+		this.finishGame=true;
+		
+		this.ctx.clearRect(0,0,this.canvas.width, this.canvas.height);
+		window.removeEventListener('keypress', this.keyPressed.bind(this));//bindime keypressed functionile lõpu
+		console.log("finishfunc")
+		
+	},
+	
+	drawAll: function(){
+		
+		if(!this.finishGame){
+			
+			this.word.Draw();
+			this.word.Countdown(this.ctx, this.canvas);
+			
+			this.ctx.fillText(this.player.score, this.canvas.width*0.8, this.canvas.height*0.2);
+			
+		}
+		
+	},
+	
+	hiScore: function(){
+		
+		if(!localStorage.hiScore){
+			//massiiviga tühjad lahtrid?
+			var hiScore = [
+				{
+					name:"",
+					score:""
+				},
+				{
+					name:"",
+					score:""
+				},
+				{
+					name:"",
+					score:""
+				}
+			]
+			
+			
+		}else if(localStorage.hiScore){
+			
+			hiScore=JSON.parse(localStorage.hiScore);
+			
+		}
+		
+		if(this.player.score>=hiScore[0].score || hiScore[0].score==""){
+			
+			hiScore[2].score=hiScore[1].score;
+			hiScore[2].name=hiScore[1].name;
+			hiScore[1].score=hiScore[0].score;
+			hiScore[1].name=hiScore[0].name;
+			hiScore[0].score=this.player.score;
+			hiScore[0].name=this.player.name;
+			
+			
+		}else if((this.player.score>=hiScore[1].score && this.player.score<hiScore[0].score) || hiScore[1].score==""){
+			
+			hiScore[2].score=hiScore[1].score;
+			hiScore[2].name=hiScore[1].name;
+			hiScore[1].score=this.player.score;
+			hiScore[1].name=this.player.name;
+			
+		}else if((this.player.score>=hiScore[2].score && this.player.score>hiScore[1].score)|| hiScore[2].score==""){
+			
+			hiScore[2].score=this.player.score;
+			hiScore[2].name=this.player.name;
+			
+		}
+		
+		localStorage.setItem("hiScore", JSON.stringify(hiScore));
+		
+		var hiScore = JSON.parse(localStorage.getItem("hiScore"));
+		
+		this.ctx.clearRect(0,0, this.canvas.width, this.canvas.height);
+		
+		var horisontaal=0.0;
+		for(i=0;i<3;i++){
+			
+			if(hiScore[i].score!=""){
+				
+				this.ctx.fillText(hiScore[i].name, this.canvas.width*0.35, this.canvas.height*(0.5+horisontaal));
+				this.ctx.fillText(":"+hiScore[i].score, this.canvas.width*0.9, this.canvas.height*(0.5+horisontaal));
+				horisontaal=horisontaal+0.1;
+				
+			}
+			
+		}
+		this.ctx.fillText("Sinu skoor", canvas.width*0.4, canvas.height*0.3);
+		this.ctx.fillText(":"+this.player.score, canvas.width*0.9, canvas.height*0.3);
+		this.ctx.fillText("Kirjavigu", canvas.width*0.4, canvas.height*0.4);
+		this.ctx.fillText(":"+this.WronglyGuessed_words, canvas.width*0.9, canvas.height*0.4);
+		
+		
+	}
+	
 
 };
 
@@ -197,7 +320,27 @@ function structureArrayByWordLength(words){
     return temp_array;
 }
 
+
+
 window.onload = function(){
 	var typerGame = new TYPER();
 	window.typerGame = typerGame;
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

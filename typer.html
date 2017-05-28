@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>typer</title>
+	<title>Typer</title>
 	<style> 
 		* {
 			margin: 0;
@@ -12,14 +12,24 @@
 			width: 100%;
 			height: 100%;
 		}
-		canvas {
+		#canvas {
 			position: absolute;
 		}
 	</style>
 	<script src="TYPER.js"></script>
     <script src="Word.js"></script>
+	
 </head>
 <body>
-	<canvas></canvas>
+	
+	
+	<canvas id="canvas"></canvas>
+	<div>
+		<canvas id="box" width="200" height="300" 
+		style="position: absolute; top:0; left:0;"></canvas>
+		<button style="position: absolute; top:20px; left:20px;" onclick="myFunction()">New Game</button>
+	</div>
+	
+	
 </body>
 </html>

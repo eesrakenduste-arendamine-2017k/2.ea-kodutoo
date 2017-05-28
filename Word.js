@@ -11,11 +11,13 @@ function Word(word, canvas, ctx){
     this.ctx = ctx;
 }
 
+
+
 Word.prototype = {
 	Draw: function(){
 
 		//Tühjendame canvase
-		this.ctx.clearRect( 0, 0, this.canvas.width, this.canvas.height);
+		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
 		// Canvasele joonistamine
 		this.ctx.textAlign = 'center';
@@ -23,6 +25,40 @@ Word.prototype = {
 
 		// 	// Joonistame sõna, mis on järel / tekst, x, y
 		this.ctx.fillText(this.left, this.canvas.width/2, this.canvas.height/2);
+	},
+	
+	Countdown: function(ctx, canvas){
+		
+		var time=10; //30s parim? proovi 60
+		
+		setInterval(function(){
+			
+			time -= 1;
+			
+		}, 1000);
+		
+		(function counter(){
+			
+			
+			ctx.clearRect(this.canvas.width*0.0, this.canvas.height*0.0, this.canvas.width*0.2, this.canvas.height*0.2);
+			
+			if(time>0){ //kui aega on
+				
+				ctx.fillText(time, canvas.width*0.15, canvas.height*0.2);
+				
+				setTimeout(counter, 10);
+				
+			}else{ //kui aega ei ole
+				
+				if(typerGame.finishGame){return;}
+				ctx.clearRect(0,0, canvas.width, canvas.height); //canvas nulli?
+				typerGame.finish(ctx, canvas);
+				typerGame.hiScore();
+				
+			}
+			
+		})();
+		
 	},
 
 	// Võtame sõnast esimese tähe maha
@@ -32,4 +68,8 @@ Word.prototype = {
 		this.left = this.left.slice(1);
 		//console.log(this.left);
 	}
+	
+
+	
 };
+
