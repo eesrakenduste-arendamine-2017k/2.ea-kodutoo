@@ -178,7 +178,7 @@ TYPER.prototype = {
 	},
 	
     generateWord: function(){
-
+		console.log('generate');
         // kui pikk peab sõna tulema, + min pikkus + äraarvatud sõnade arvul jääk 5 jagamisel
         // iga viie sõna tagant suureneb sõna pikkus ühe võrra
         var generated_word_length =  this.word_min_length + parseInt(this.guessed_words/5);
@@ -198,7 +198,7 @@ TYPER.prototype = {
 		var letter = String.fromCharCode(event.which);
 		//console.log(letter);
 		// Võrdlen kas meie kirjutatud täht on sama mis järele jäänud sõna esimene
-		console.log(this.word.left.charAt(0));
+
 		if(letter === this.word.left.charAt(0)){
 
 			// Võtame ühe tähe maha
