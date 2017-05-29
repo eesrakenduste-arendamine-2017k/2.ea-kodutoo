@@ -73,3 +73,25 @@ h2 {
     font-family: Hazer;
     src: local("alt_hazer"), url("alt_hazer.TTF") format("truetype");
 }
+
+.error{
+    animation: error 0.8s forwards;
+    -webkit-animation: error 0.8s forwards;
+}
+
+@keyframes error{
+    0%{ background-color: red;}
+    20%{ background-color: white;}
+    40%{ background-color: red;}
+    60%{ background-color: white;}
+    80%{ background-color: red;}
+    100%{ background-color: white;}
+}
+@-webkit-keyframes error{
+    0%{ background-color: red;}
+    20%{ background-color: white;}
+    40%{ background-color: red;}
+    60%{ background-color: white;}
+    80%{ background-color: red;}
+    100%{ background-color: white;}
+}
