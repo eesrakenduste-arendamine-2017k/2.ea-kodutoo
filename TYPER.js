@@ -195,8 +195,6 @@ TYPER.prototype = {
     
 	keyPressed: function(event){
 
-		//console.log(event);
-		// event.which annab koodi ja fromcharcode tagastab tähe
 		var letter = String.fromCharCode(event.which);
 		//console.log(letter);
 		// Võrdlen kas meie kirjutatud täht on sama mis järele jäänud sõna esimene
@@ -231,9 +229,13 @@ TYPER.prototype = {
 
 		} else {
 			this.player.errors += parseInt(1, 10);
+			this.player.score -= 1;
+            var body = document.getElementsByTagName("BODY")[0];
+			body.classList.add("error");
+			window.setTimeout(function(){ body.classList.remove("error")}, 1000);
 		}
 	}, // keypress end
-    
+
     reset: function(){
 
 	    document.getElementById("play").removeEventListener("click", this.reset_func);
