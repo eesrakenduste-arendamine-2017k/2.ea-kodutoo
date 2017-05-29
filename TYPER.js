@@ -1,3 +1,10 @@
+var canvasId=document.getElementById("canvas");
+var nightMode=false;
+var textColor="black";
+var wordSize=70;
+var count = 0;
+
+
 var TYPER = function(){
 
 	//singleton
@@ -18,7 +25,7 @@ var TYPER = function(){
 	this.guessed_words = 0; // arvatud sõnade arv
 
 	//mängija objekt, hoiame nime ja skoori
-	this.player = {name: null, score: 0};
+
 
 	this.init();
 };
@@ -56,9 +63,22 @@ TYPER.prototype = {
 		
 		}
 
-		// Mänigja objektis muudame nime
-		this.player.name = p_name; // player =>>> {name:"Romil", score: 0}
-        console.log(this.player);
+		this.player = {name: p_name, score: 0, gameId:parseInt(1000+Math.random()*999999)};
+
+		this.playerNameArray = JSON.parse(localStorage.getItem('playerName'));
+
+		if(!this.playerNameArray || this.playerNameArray.length===0){
+			this.playerNameArray=[];
+		}
+
+		this.playerNameArray.push(this.player);
+		console.log("lisatud");
+
+
+		localStorage.setItem("playerName",  JSON.stringify(this.playerNameArray));
+		//localStorage["palyerName"]+= this.player.name;
+
+		console.log(this.player);// player =>>> {name:"Romil", score: 0}
 	}, 
 
 	loadWords: function(){
@@ -112,11 +132,19 @@ TYPER.prototype = {
 		//console.log(this.word);
 
         //joonista sõna
-		this.word.Draw();
+		this.drawAll();
 
 		// Kuulame klahvivajutusi
 		window.addEventListener('keypress', this.keyPressed.bind(this));
 
+	},
+	drawAll: function(){
+
+		requestAnimFrame(window.typerGame.drawAll.bind(window.typerGame));
+
+		//console.log('joonistab');
+		//joonista sõna
+		this.word.Draw();
 	},
 	
     generateWord: function(){
@@ -134,6 +162,30 @@ TYPER.prototype = {
     	// Word on defineeritud eraldi Word.js failis
         this.word = new Word(word, this.canvas, this.ctx);
     },
+	savescore: function() {
+
+		//this.playerNameArray = JSON.parse(localStorage.getItem('playerName'));
+		//gamesFromStorage = JSON.parse(localStorage.getItem("games"));
+
+		this.playerNameArray.forEach(function (player, key) {
+			//gamesFromStorage.forEach(function(game, key){
+
+			console.log(player);
+			console.log(typerGame.player);
+
+			if (player.gameId == typerGame.player.gameId) {
+
+				player.score = typerGame.player.score;
+
+				console.log("updated");
+				console.log(player);
+
+			}
+
+		});
+
+		localStorage.setItem("playerName", JSON.stringify(this.playerNameArray));
+	},
     
 	keyPressed: function(event){
 
@@ -152,18 +204,33 @@ TYPER.prototype = {
 			// kas sõna sai otsa, kui jah - loosite uue sõna
 
 			if(this.word.left.length === 0){
-
+				wordSize=70;
 				this.guessed_words += 1;
 
                 //update player score
                 this.player.score = this.guessed_words;
 
+				this.savescore();
 				//loosin uue sõna
 				this.generateWord();
 			}
 
 			//joonistan uuesti
 			this.word.Draw();
+		}else{
+			if(nightMode==false) {
+				document.getElementById("canvas").style.backgroundColor = "red";
+				wordSize+=10;
+				window.setTimeout(function () {
+					document.getElementById("canvas").style.backgroundColor = "white";
+				}, 100)
+			}else{
+				document.getElementById("canvas").style.backgroundColor = "red";
+				wordSize+=10;
+				window.setTimeout(function () {
+					document.getElementById("canvas").style.backgroundColor = "darkblue";
+				}, 100)
+			}
 		}
 
 	} // keypress end
@@ -197,7 +264,53 @@ function structureArrayByWordLength(words){
     return temp_array;
 }
 
+var requestAnimFrame = (function(){
+		return  window.requestAnimationFrame       ||
+			window.webkitRequestAnimationFrame ||
+			window.mozRequestAnimationFrame    ||
+			function( callback ){
+				window.setTimeout(callback, 1000 / 60);
+			};
+	}
+)();
 window.onload = function(){
 	var typerGame = new TYPER();
 	window.typerGame = typerGame;
+
 };
+
+canvasId.addEventListener("click",function () {
+	if(nightMode== false){
+		canvasId.style.backgroundColor="darkblue";
+		textColor="white";
+		nightMode=true;
+	}else{
+		canvasId.style.backgroundColor="white";
+		textColor="black";
+		nightMode=false;
+	}
+});
+
+
+function playerName(){
+	console.log("SIIIIINNN");
+	document.getElementById("button").style.visibility="hidden";
+
+	var playerNameData = JSON.parse(localStorage.getItem("playerName"));
+
+
+	playerNameData.sort(function(a, b) {
+		return b.score - a.score;
+	});
+
+	playerNameData.forEach(function (player, key) {
+		//gamesFromStorage.forEach(function(game, key){
+		if(count>=10){
+			return;
+		}
+		document.getElementById("playerName").style.fontSize= "80%";
+		document.getElementById("playerName").innerHTML +=count+1+" ) "+ player.name+"<a style='float: right;color: maroon;padding-top: 0px'>"+player.score+"</a><hr style='padding: 0px'>";
+		count+=1;
+	});
+}
+
