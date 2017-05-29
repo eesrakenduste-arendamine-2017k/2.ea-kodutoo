@@ -20,6 +20,9 @@ canvas {
     width:50%;
     text-align: center;
 }
+#statistics{
+    display: none;
+}
 
 h2 {
     font-family: helvetica;

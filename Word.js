@@ -41,8 +41,8 @@ Word.prototype = {
         var letter = this.word.slice(this.i-1, this.i)
         this.letters[this.i-1] = letter;
         var coloredWord = this.letters.join("");
-        this.ctx.fillStyle = "#ff0000";
-        this.ctx.fillText(coloredWord, this.canvas.width/2, this.canvas.height/3);
+        //this.ctx.fillStyle = "#ff0000";
+        //this.ctx.fillText(coloredWord, this.canvas.width/2, this.canvas.height/3);
         this.ctx.fillStyle = "black";
         this.ctx.fillText(this.left, this.canvas.width/2, this.canvas.height/3);
     }
