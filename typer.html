@@ -7,10 +7,35 @@
 	<title>Typer</title>
 	<script src="TYPER.js"></script>
     <script src="Word.js"></script>
+    <script src="Table.js"></script>
 </head>
+
 <body>
-	<canvas id="canvas"></canvas>
-	<div id="info">
+    <div id="navbar">
+        <ul>
+            <li>
+                <h1>
+                    <a href="#">Statistika</a>
+                </h1>
+            </li>
+        </ul>
+    </div>
+    <div id="statistics">
+        <p>Statistika</p>
+        <table>
+            <thead>
+            <tr>
+                <th>Nimi</th>
+                <th>Skoor</th>
+                <th>Eksimused</th>
+                <th>Kiirus</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <div id="info">
 		<div id="intro">
 			<h2>Tutvustus</h2>
 			<p style="font-family:helvetica">Mängu eesmärk on võimalikult kiiresti ekraanile tekkivaid sõnu ära trükkida.<br>
@@ -18,8 +43,16 @@
 		</div>
 		<div id="top" class="rainbow">
 			<p>TOP 10 edetabel</p>
+            <table id="toplist">
+                <tr>
+                    <th>Top#</th>
+                    <th>Nimi</th>
+                    <th>Skoor</th>
+                </tr>
+            </table>
 		</div>
+        <div id="play"><h1>PLAY</h1></div>
 	</div>
-
+    <canvas id="canvas"></canvas>
 </body>
 </html>

@@ -13,9 +13,10 @@ var TYPER = function(){
 	this.ctx = null;
 
 	this.keypress_func = null;
+	this.reset_func = null;
 	this.words = []; // kõik sõnad
 	this.word = null; // preagu arvamisel olev sõna
-	this.word_min_length = 3;
+	this.word_min_length = 6;
 	this.guessed_words = 0; // arvatud sõnade arv
 	this.word_amount = 5;
 
@@ -26,7 +27,6 @@ var TYPER = function(){
 	this.players = [];
 	//mängija objekt, hoiame nime ja skoori(+ trükivead, trükikiirus)
 	this.player = {name: null, score: 0, errors: 0, typingSpeed: 0};
-
 	this.init();
 };
 
@@ -90,13 +90,17 @@ TYPER.prototype = {
 		var canvas = document.getElementById("canvas").style;
 		infoStyle.display = "none";
 		canvas.display = "block";
+		document.getElementById("navbar").style.display = 'none';
+        document.getElementById("statistics").style.display = 'none';
 	},
 	
 	showElements: function(){
 		var infoStyle = document.getElementById("info").style;
         var canvas = document.getElementById("canvas").style;
+        table.toplist();
 		infoStyle.display = "block";
         canvas.display = "none";
+        document.getElementById("navbar").style.display = 'block';
 	},
 	
 	loadWords: function(){
@@ -167,8 +171,10 @@ TYPER.prototype = {
 		clearInterval(this.interval);
 		this.showElements();
         this.player = {name: null, score: 0, errors: 0, typingSpeed: 0};
-        this.init();
-		
+
+        this.reset_func = this.reset.bind(this);
+        document.getElementById("play").addEventListener('click', this.reset_func);
+
 	},
 	
     generateWord: function(){
@@ -201,7 +207,6 @@ TYPER.prototype = {
 			this.word.removeFirstLetter();
 
 			// kas sõna sai otsa, kui jah - loosite uue sõna
-
 			if(this.word.left.length === 0){
 
 				this.guessed_words += 1;
@@ -221,18 +226,20 @@ TYPER.prototype = {
 				}
 				this.timer = 0;
 			}
-
 			//joonistan uuesti
 			this.word.Draw();
-			
+
 		} else {
-			
 			this.player.errors += parseInt(1, 10);
-			
 		}
+	}, // keypress end
+    
+    reset: function(){
 
-	} // keypress end
+	    document.getElementById("play").removeEventListener("click", this.reset_func);
+	    this.init()
 
+    }
 };
 
 
@@ -260,9 +267,15 @@ function structureArrayByWordLength(words){
     }
 
     return temp_array;
+
 }
 
 window.onload = function(){
-	typerGame = new TYPER();
-	window.typerGame = typerGame;
+
+	window.table = new Table();
+    window.startGame = function(){
+        window.typerGame = new TYPER();
+    };
+    document.getElementById("play").addEventListener("click", window.startGame);
 };
+
