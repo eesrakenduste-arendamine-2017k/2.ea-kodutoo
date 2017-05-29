@@ -11,48 +11,56 @@
 </head>
 
 <body>
-    <div id="navbar">
-        <ul>
-            <li>
-                <h1>
-                    <a href="#">Statistika</a>
-                </h1>
-            </li>
-        </ul>
-    </div>
-    <div id="statistics">
-        <p>Statistika</p>
-        <table>
-            <thead>
-            <tr>
-                <th>Nimi</th>
-                <th>Skoor</th>
-                <th>Eksimused</th>
-                <th>Kiirus</th>
-            </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-    </div>
     <div id="info">
 		<div id="intro">
-			<h2>Tutvustus</h2>
-			<p style="font-family:helvetica">Mängu eesmärk on võimalikult kiiresti ekraanile tekkivaid sõnu ära trükkida.<br>
-				Sõnad võetud Eesti Keele Instituudi lehelt.</p>
+            <img src="typer.png">
+            <br>
+			<p style="font-family:helvetica">Kirjuta nii kiiresti kui jõuad.</p>
 		</div>
-		<div id="top" class="rainbow">
-			<p>TOP 10 edetabel</p>
-            <table id="toplist">
-                <tr>
-                    <th>Top#</th>
-                    <th>Nimi</th>
-                    <th>Skoor</th>
-                </tr>
-            </table>
-		</div>
-        <div id="play"><h1>PLAY</h1></div>
+        <br>
+        <br>
+        <div id="play">PLAY</div>
+        <br>
+        <div>
+                <input type="checkbox" name="Dark" value="Dark">Dark mode
+                <input type="checkbox" name="Hard" value="Hard">Hard mode
+        </div>
+        <br><br>
+        <div id="wrapper">
+            <div id="statistics">
+                <h3>Statistika</h3>
+                <br>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Nimi</th>
+                        <th>Skoor</th>
+                        <th>Eksimused</th>
+                        <th>Kiirus</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <div id="top">
+                <h3>TOP 10 edetabel</h3>
+                <br>
+                <table id="toplist">
+                    <thead>
+                    <tr>
+                        <th>Top#</th>
+                        <th>Nimi</th>
+                        <th>Skoor</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 	</div>
     <canvas id="canvas"></canvas>
+
 </body>
 </html>

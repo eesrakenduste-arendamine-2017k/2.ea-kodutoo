@@ -97,7 +97,6 @@ TYPER.prototype = {
 	showElements: function(){
 		var infoStyle = document.getElementById("info").style;
         var canvas = document.getElementById("canvas").style;
-        table.toplist();
 		infoStyle.display = "block";
         canvas.display = "none";
         document.getElementById("navbar").style.display = 'block';
@@ -273,6 +272,8 @@ function structureArrayByWordLength(words){
 window.onload = function(){
 
 	window.table = new Table();
+	window.table.statistics();
+	window.table.toplist();
     window.startGame = function(){
         window.typerGame = new TYPER();
     };
