@@ -24,7 +24,7 @@ Word.prototype = {
 		this.ctx.font = '70px Raleway, sans-serif';
 
 		// 	// Joonistame sõna, mis on järel / tekst, x, y
-		this.ctx.fillText(this.word, this.canvas.width/2, this.canvas.height/2);
+		this.ctx.fillText(this.left, this.canvas.width/2, this.canvas.height/2);
 	},
 
 	// Võtame sõnast esimese tähe maha
