@@ -45,9 +45,14 @@ TYPER.routes = {
             console.log("Laeti avaleht");
             var divContents = "<table style='width:100%;'><tr><th colspan='2'><h3>Edetabel</h3></th></tr><tr><th>Mängija</th><th>Tulemus</th></tr>";
             savedScores = JSON.parse(localStorage.Scores);
+            savedScores.sort(function(a, b) {
+			    return b.score - a.score;
+			});
             for (i in savedScores) {
-            	score = savedScores[i];
-            	divContents += "<tr><td>"+score["name"]+"</td><td>"+score["score"]+"</td></tr>";
+            	if (i<10) {
+            		score = savedScores[i];
+            		divContents += "<tr><td>"+score["name"]+"</td><td>"+score["score"]+"</td></tr>";
+            	}
             }
             divContents += "</table>";
             document.getElementById("scores").innerHTML = divContents;
