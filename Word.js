@@ -29,6 +29,7 @@ Word.prototype = {
 	removeFirstLetter: function(){
 
 		// Võtame esimese tähe sõnast maha
+		//this.left = this.left.slice(1);
 		this.left = this.left.slice(1);
 		//console.log(this.left);
 	}

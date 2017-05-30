@@ -27,11 +27,14 @@ var TYPER = function(){
 	//mängija objekt, hoiame nime ja skoori
 	this.player = {name: null, score: 0};
 
+	this.timer = 10;
+
 	this.init();
 };
 
 function newGame() {
 	typerGame.guessed_words = 0
+	typerGame.timer = 10
 	typerGame.player = {name: document.getElementById("p_name").value, score: 0};
 	document.location.hash = "#game";
 }
@@ -54,14 +57,23 @@ TYPER.routes = {
     "game": {
         "render": function(){
             console.log("Laeti mäng");
+            var interval = window.setInterval(function() {
+            	typerGame.timer -= 1;
+            	if (typerGame.timer < 1) {
+            		scores.push(typerGame.player);
+		            localStorage.setItem("Scores", JSON.stringify(scores));
+		            clearInterval(interval);
+		            alert("Mäng sai läbi");
+		            document.location.hash = "#home-view";
+
+            	}
+            }, 1000);
         }
     },
     
     "statistics": {
         "render": function(){
             console.log("Laeti statistika");
-            scores.push(typerGame.player);
-            localStorage.setItem("Scores", JSON.stringify(scores));
         }
     }
 };
