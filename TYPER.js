@@ -1,10 +1,12 @@
 var TYPER = function(){
 
 	//singleton
+    
     if (TYPER.instance_) {
-        return TYPER.instance_;
+        delete TYPER.instance_;
     }
     TYPER.instance_ = this;
+	
 
 	// Muutujad
 	this.WIDTH = window.innerWidth;
@@ -23,10 +25,44 @@ var TYPER = function(){
 	this.init();
 };
 
+function newGame() {
+	typerGame = new TYPER();
+	document.location.hash = "#game"
+}
+
+TYPER.routes = {
+    "home-view": {
+        "render": function(){
+            console.log("Laeti avaleht")
+			//typerGame.init();
+            //window.typerGame = typerGame;
+        }
+    },
+    
+    "game": {
+        "render": function(){
+            console.log("Laeti mäng")
+        }
+    },
+    
+    "statistics": {
+        "render": function(){
+            console.log("Laeti statistika")
+        }
+    }
+};
+
 TYPER.prototype = {
 
 	// Funktsioon, mille käivitame alguses
 	init: function(){
+
+		window.addEventListener("hashchange", routeChange.bind(this));
+        
+        if (!window.location.hash) {
+            window.location.hash = 'home-view';
+            // routechange siin ei ole vaja sest käsitsi muutmine käivitab routechange event'i ikka
+        }
 
 		// Lisame canvas elemendi ja contexti
 		this.canvas = document.getElementsByTagName('canvas')[0];
@@ -48,7 +84,8 @@ TYPER.prototype = {
 	loadPlayerData: function(){
 
 		// küsime mängija nime ja muudame objektis nime
-		var p_name = prompt("Sisesta mängija nimi");
+		//var p_name = prompt("Sisesta mängija nimi");
+		var p_name = document.getElementById('p_name').value;
 
 		// Kui ei kirjutanud nime või jättis tühjaks
 		if(p_name === null || p_name === ""){
@@ -168,8 +205,24 @@ TYPER.prototype = {
 
 	} // keypress end
 
+	
+
 };
 
+function routeChange(event){
+	//Võtan hashi aadressiribalt
+    currentRoute = location.hash.slice(1);
+    //Kirjuutan hashi konsooli
+    console.log(currentRoute);
+    //Kui hash on olemas routide all siis renderdan, muidu kirjutan konsooli, et ei leidnud
+    if(TYPER.routes[currentRoute]){
+        TYPER.routes[currentRoute].render();
+    } else {
+        /// 404 - ei olnud
+        console.log("Ei leidnud hashi " + currentRoute);
+    }
+}
+	
 
 /* HELPERS */
 function structureArrayByWordLength(words){
