@@ -1,8 +1,7 @@
 var scores = [];
 var savedScores;
-var scoreDiv = document.getElementById("scores");
 var gameTime = 4;
-var statistics = {"a":{"miks":1}};
+var statistics;
 
 
 var TYPER = function(){
@@ -46,19 +45,21 @@ TYPER.routes = {
     "home-view": {
         "render": function(){
             console.log("Laeti avaleht");
-            var divContents = "<table style='width:100%;'><tr><th colspan='2'><h3>Edetabel</h3></th></tr><tr><th>Mängija</th><th>Tulemus</th></tr>";
-            savedScores = JSON.parse(localStorage.Scores);
-            savedScores.sort(function(a, b) {
-			    return b[1] - a[1];
-			});
-            for (i in savedScores) {
-            	if (i<10) {
-            		score = savedScores[i];
-            		divContents += "<tr><td>"+score[0]+"</td><td>"+score[1]+"</td></tr>";
-            	}
-            }
-            divContents += "</table>";
-            document.getElementById("scores").innerHTML = divContents;
+            if (localStorage.Scores) {
+	            var divContents = "<table style='width:100%;'><tr><th colspan='2'><h3>Edetabel</h3></th></tr><tr><th>Mängija</th><th>Tulemus</th></tr>";
+	            savedScores = JSON.parse(localStorage.Scores);
+	            savedScores.sort(function(a, b) {
+				    return b[1] - a[1];
+				});
+	            for (var i in savedScores) {
+	            	if (i<10) {
+	            		var score = savedScores[i];
+	            		divContents += "<tr><td>"+score[0]+"</td><td>"+score[1]+"</td></tr>";
+	            	}
+	            }
+	            divContents += "</table>";
+	            document.getElementById("scores").innerHTML = divContents;
+	        }
 		}
     },
     
@@ -75,6 +76,7 @@ TYPER.routes = {
             		scores.push(result);
             		console.log("salvestasin");
 		            localStorage.setItem("Scores", JSON.stringify(scores));
+		            localStorage.setItem("Scores", JSON.stringify(statistics));
 		            alert("Mäng sai läbi");
 		            document.location.hash = "#home-view";
 
@@ -86,6 +88,22 @@ TYPER.routes = {
     "statistics": {
         "render": function(){
             console.log("Laeti statistika");
+            if (localStorage.Statistics) {
+            	var divContents = "<table style='width:100%;'><tr><th colspan='3'><h3>Statistika</h3></th></tr><tr><th>Täht</th><th>Mängija</th><th>Vigu</th></tr>";
+            	data = JSON.parse(localStorage.Statistics);
+            	for (var i in data) {
+            		var users = Object.keys(data[i]).length;
+            		var letter = data[i];
+            		divContents += "<tr><td rowspan='"+users+1+"'>"+i+"</td></tr>";
+            		for (var j in letter) {
+            			var mistakes = letter[j]
+            			divContents += "<tr><td>"+j+"</td><td>"+mistakes+"</td></tr>";
+            		}
+            	}
+            	divContents += "</table>";
+            	document.getElementById("statistics").innerHTML = divContents;
+            }
+            
         }
     }
 };
@@ -308,4 +326,10 @@ function structureArrayByWordLength(words){
 window.onload = function(){
 	var typerGame = new TYPER();
 	window.typerGame = typerGame;
+	if (localStorage.Scores) {
+		savedScores = JSON.parse(localStorage.Scores);
+	}
+	if (localStorage.Statistics) {
+		statistics = JSON.parse(localStorage.Statistics);
+	}         	
 };
