@@ -1,6 +1,7 @@
 var scores = [];
 var savedScores;
 var scoreDiv = document.getElementById("scores");
+var gameTime = 10;
 
 
 var TYPER = function(){
@@ -27,14 +28,15 @@ var TYPER = function(){
 	//mängija objekt, hoiame nime ja skoori
 	this.player = {name: null, score: 0};
 
-	this.timer = 10;
+	this.timer = gameTime;
 
 	this.init();
 };
 
 function newGame() {
 	typerGame.guessed_words = 0
-	typerGame.timer = 10
+	typerGame.player.score = 0;
+	typerGame.timer = gameTime;
 	typerGame.player = {name: document.getElementById("p_name").value, score: 0};
 	document.location.hash = "#game";
 }
@@ -63,11 +65,13 @@ TYPER.routes = {
         "render": function(){
             console.log("Laeti mäng");
             var interval = window.setInterval(function() {
+            	console.log(typerGame.timer);
             	typerGame.timer -= 1;
-            	if (typerGame.timer < 1) {
-            		scores.push(typerGame.player);
-		            localStorage.setItem("Scores", JSON.stringify(scores));
+            	if (typerGame.timer == 0) {
 		            clearInterval(interval);
+            		scores.push(typerGame.player);
+            		console.log("salvestasin");
+		            localStorage.setItem("Scores", JSON.stringify(scores));
 		            alert("Mäng sai läbi");
 		            document.location.hash = "#home-view";
 
@@ -226,7 +230,7 @@ TYPER.prototype = {
 				this.guessed_words += 1;
 
                 //update player score
-                this.player.score = this.guessed_words;
+                this.player.score += 1;
 
 				//loosin uue sõna
 				this.generateWord();
@@ -234,6 +238,11 @@ TYPER.prototype = {
 
 			//joonistan uuesti
 			this.word.Draw();
+		} else {
+			typerGame.player.score -= 1;
+			console.log("-1");
+			typerGame.word.Draw();
+			//this.word.removeOnePoint();
 		}
 
 	} // keypress end

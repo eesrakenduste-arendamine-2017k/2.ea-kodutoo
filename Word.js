@@ -19,10 +19,14 @@ Word.prototype = {
 
 		// Canvasele joonistamine
 		this.ctx.textAlign = 'center';
+		this.ctx.font = '30px Courier';
+		this.ctx.fillText("Skoor: " + typerGame.player["score"], this.canvas.width/4, this.canvas.height/4);
 		this.ctx.font = '70px Courier';
 
 		// 	// Joonistame sõna, mis on järel / tekst, x, y
+
 		this.ctx.fillText(this.left, this.canvas.width/2, this.canvas.height/2);
+
 	},
 
 	// Võtame sõnast esimese tähe maha
@@ -32,5 +36,9 @@ Word.prototype = {
 		//this.left = this.left.slice(1);
 		this.left = this.left.slice(1);
 		//console.log(this.left);
+	},
+
+	removeOnePoint: function() {
+		typerGame.player.score -= 1;
 	}
 };
