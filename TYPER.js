@@ -1,6 +1,6 @@
 var scores = [];
 var savedScores;
-var gameTime = 4;
+var gameTime = 15;
 var statistics = {};
 
 
@@ -38,6 +38,8 @@ function newGame() {
 	typerGame.player.score = 0;
 	typerGame.timer = gameTime;
 	typerGame.player = {name: document.getElementById("p_name").value, score: 0};
+	typerGame.generateWord();
+	typerGame.word.Draw();
 	document.location.hash = "#game";
 }
 
@@ -46,7 +48,7 @@ TYPER.routes = {
         "render": function(){
             console.log("Laeti avaleht");
             if (localStorage.Scores) {
-	            var divContents = "<table style='width:100%;'><tr><th colspan='2'><h3>Edetabel</h3></th></tr><tr><th>Mängija</th><th>Tulemus</th></tr>";
+	            var divContents = "<table><tr><th colspan='2' class='ct'><h3>Edetabel</h3></th></tr><tr><th class='ct'>Mängija</th><th class='ct'>Tulemus</th></tr>";
 	            savedScores = JSON.parse(localStorage.Scores);
 	            savedScores.sort(function(a, b) {
 				    return b[1] - a[1];
@@ -54,7 +56,7 @@ TYPER.routes = {
 	            for (var i in savedScores) {
 	            	if (i<10) {
 	            		var score = savedScores[i];
-	            		divContents += "<tr><td>"+score[0]+"</td><td>"+score[1]+"</td></tr>";
+	            		divContents += "<tr><td class='ct'>"+score[0]+"</td><td class='ct'>"+score[1]+"</td></tr>";
 	            	}
 	            }
 	            divContents += "</table>";
@@ -89,12 +91,12 @@ TYPER.routes = {
         "render": function(){
             console.log("Laeti statistika");
             if (localStorage.Statistics) {
-            	var divContents = "<table style='width:100%;'><tr><th colspan='3'><h3>Statistika</h3></th></tr><tr><th>Täht</th><th>Mängija</th><th>Vigu</th></tr>";
+            	var divContents = "<table class='stats'><tr><th colspan='3' class='ct'><h3>Statistika</h3></th></tr><tr><th>Täht</th><th>Mängija</th><th>Vigu</th></tr>";
             	data = JSON.parse(localStorage.Statistics);
             	for (var i in data) {
             		var users = Object.keys(data[i]).length;
             		var letter = data[i];
-            		divContents += "<tr><td rowspan='"+users+1+"'>"+i+"</td></tr>";
+            		divContents += "<tr><td rowspan='"+(parseInt(users)+1)+"'>"+i+"</td></tr>";
             		for (var j in letter) {
             			var mistakes = letter[j]
             			divContents += "<tr><td>"+j+"</td><td>"+mistakes+"</td></tr>";
