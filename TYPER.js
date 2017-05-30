@@ -1,10 +1,18 @@
+var scores = [];
+var savedScores;
+var gameTime = 15;
+var statistics = {};
+
+
 var TYPER = function(){
 
 	//singleton
+    
     if (TYPER.instance_) {
         return TYPER.instance_;
     }
     TYPER.instance_ = this;
+	
 
 	// Muutujad
 	this.WIDTH = window.innerWidth;
@@ -20,13 +28,101 @@ var TYPER = function(){
 	//mängija objekt, hoiame nime ja skoori
 	this.player = {name: null, score: 0};
 
+	this.timer = gameTime;
+
 	this.init();
+};
+
+function newGame() {
+	typerGame.guessed_words = 0
+	typerGame.player.score = 0;
+	typerGame.timer = gameTime;
+	typerGame.player = {name: document.getElementById("p_name").value, score: 0};
+	typerGame.generateWord();
+	typerGame.word.Draw();
+	document.location.hash = "#game";
+}
+
+TYPER.routes = {
+    "home-view": {
+        "render": function(){
+            console.log("Laeti avaleht");
+            if (localStorage.Scores) {
+	            var divContents = "<table><tr><th colspan='2' class='ct'><h3>Edetabel</h3></th></tr><tr><th class='ct'>Mängija</th><th class='ct'>Tulemus</th></tr>";
+	            savedScores = JSON.parse(localStorage.Scores);
+	            savedScores.sort(function(a, b) {
+				    return b[1] - a[1];
+				});
+	            for (var i in savedScores) {
+	            	if (i<10) {
+	            		var score = savedScores[i];
+	            		divContents += "<tr><td class='ct'>"+score[0]+"</td><td class='ct'>"+score[1]+"</td></tr>";
+	            	}
+	            }
+	            divContents += "</table>";
+	            document.getElementById("scores").innerHTML = divContents;
+	        }
+		}
+    },
+    
+    "game": {
+        "render": function(){
+            console.log("Laeti mäng");
+            var interval = window.setInterval(function() {
+            	typerGame.timer -= 1;
+            	if (typerGame.timer == 0) {
+		            clearInterval(interval);
+            		var result = [];
+            		result.push(typerGame.player.name);
+            		result.push(typerGame.player.score);
+            		scores.push(result);
+            		console.log("salvestasin");
+		            localStorage.setItem("Scores", JSON.stringify(scores));
+		            localStorage.setItem("Statistics", JSON.stringify(statistics));
+		            alert("Mäng sai läbi");
+		            document.location.hash = "#home-view";
+
+            	}
+            }, 1000);
+        }
+    },
+    
+    "statistics": {
+        "render": function(){
+            console.log("Laeti statistika");
+            if (localStorage.Statistics) {
+            	var divContents = "<table class='stats'><tr><th colspan='3' class='ct'><h3>Statistika</h3></th></tr><tr><th>Täht</th><th>Mängija</th><th>Vigu</th></tr>";
+            	data = JSON.parse(localStorage.Statistics);
+            	for (var i in data) {
+            		var users = Object.keys(data[i]).length;
+            		var letter = data[i];
+            		divContents += "<tr><td rowspan='"+(parseInt(users)+1)+"'>"+i+"</td></tr>";
+            		for (var j in letter) {
+            			var mistakes = letter[j]
+            			divContents += "<tr><td>"+j+"</td><td>"+mistakes+"</td></tr>";
+            		}
+            	}
+            	divContents += "</table>";
+            	document.getElementById("statistics").innerHTML = divContents;
+            }
+            
+        }
+    }
 };
 
 TYPER.prototype = {
 
 	// Funktsioon, mille käivitame alguses
 	init: function(){
+
+		window.addEventListener("hashchange", routeChange.bind(this));
+        
+        if (!window.location.hash) {
+            window.location.hash = 'home-view';
+            // routeChange siin ei ole vaja sest käsitsi muutmine käivitab routechange event'i ikka
+        } else {
+        	routeChange();
+        }
 
 		// Lisame canvas elemendi ja contexti
 		this.canvas = document.getElementsByTagName('canvas')[0];
@@ -48,7 +144,8 @@ TYPER.prototype = {
 	loadPlayerData: function(){
 
 		// küsime mängija nime ja muudame objektis nime
-		var p_name = prompt("Sisesta mängija nimi");
+		//var p_name = prompt("Sisesta mängija nimi");
+		var p_name = document.getElementById('p_name').value;
 
 		// Kui ei kirjutanud nime või jättis tühjaks
 		if(p_name === null || p_name === ""){
@@ -156,7 +253,7 @@ TYPER.prototype = {
 				this.guessed_words += 1;
 
                 //update player score
-                this.player.score = this.guessed_words;
+                this.player.score += 1;
 
 				//loosin uue sõna
 				this.generateWord();
@@ -164,12 +261,42 @@ TYPER.prototype = {
 
 			//joonistan uuesti
 			this.word.Draw();
+		} else {
+			if(letter in statistics) {
+				if (typerGame.player.name in statistics[letter]) {
+					statistics[letter][typerGame.player.name] += 1;
+				} else {
+					statistics[letter][typerGame.player.name] = 1;
+				}
+			} else {
+				statistics[letter] = {};
+				statistics[letter][typerGame.player.name] = 1;
+			}
+			this.player.score -= 1;
+			this.word.Draw();
+			//this.word.removeOnePoint();
 		}
 
 	} // keypress end
 
+	
+
 };
 
+function routeChange(event){
+	//Võtan hashi aadressiribalt
+    currentRoute = location.hash.slice(1);
+    //Kirjuutan hashi konsooli
+    console.log(currentRoute);
+    //Kui hash on olemas routide all siis renderdan, muidu kirjutan konsooli, et ei leidnud
+    if(TYPER.routes[currentRoute]){
+        TYPER.routes[currentRoute].render();
+    } else {
+        /// 404 - ei olnud
+        console.log("Ei leidnud hashi " + currentRoute);
+        window.location.hash = "home-view";
+    }
+}
 
 /* HELPERS */
 function structureArrayByWordLength(words){
@@ -200,4 +327,11 @@ function structureArrayByWordLength(words){
 window.onload = function(){
 	var typerGame = new TYPER();
 	window.typerGame = typerGame;
+	console.log("Hello");
+	if (localStorage.Scores) {
+		savedScores = JSON.parse(localStorage.Scores);
+	}
+	if (localStorage.Statistics) {
+		statistics = JSON.parse(localStorage.Statistics);
+	}         	
 };

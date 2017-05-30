@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<title>typer</title>
 	<style> 
-		* {
+		{
 			margin: 0;
 			padding: 0;
 		}
@@ -16,10 +16,50 @@
 			position: absolute;
 		}
 	</style>
-	<script src="TYPER.js"></script>
-    <script src="Word.js"></script>
+	<script src="TYPER.js?v="<?date_timestamp_get(date_create());?>></script>
+    <script src="Word.js?v="<?date_timestamp_get(date_create());?>></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-	<canvas></canvas>
+	<!-- MENÜÜ -->
+    <nav class="menu">
+        <ul class="menu-list">
+            <li class="menu-item"><a href="#home-view" class="menu-link home-view">Avaleht</a></li>
+            <li class="menu-item"><a href="#statistics" class="menu-link statistics">Statistika</a></li>
+        </ul>
+    </nav>
+
+	<main role="main">
+    
+        <!-- AVALEHT -->
+        <div id="home-view" style="text-align: center;">
+            <h1>Avaleht</h1>
+            <br>
+            <h3>Tere tulemast typer mängu!</h3>
+            <br>
+            <p>Mängukäik:</p>
+            <p>Ekraanile kuvatakse sõnu ja sina pead klaviatuuril need sisse trükkima.</p>
+            <p>Vale tähe korral saad miinus punkti, sõna täelikul sisestamisel pluss punkti.</p>
+            <p>Et mängu alustada, sisesta nimi ja vajuta "Edasi".</p>
+            <p><input id="p_name" type="text" name="user"></p>
+            <p><button onclick="newGame()">Edasi</button></p>
+            <br><br><br>
+            <div id="scores" class="col-sm-3 col-sm-offset-5"></div>
+
+        </div>
+        
+        <!-- MÄNG -->
+        <div id="game">
+            <canvas></canvas>
+        </div>
+        
+        <!-- EDETABEL -->
+        <div id="statistics" style="text-align: center;">
+            <h1> Statistika </h1>
+            <p>Siin on statistika mängijate ja sõnade kohta</p>
+        </div>
+        
+    </main>
 </body>
 </html>
