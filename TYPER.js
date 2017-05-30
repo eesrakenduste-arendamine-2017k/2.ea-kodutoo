@@ -1,7 +1,8 @@
 var scores = [];
 var savedScores;
 var scoreDiv = document.getElementById("scores");
-var gameTime = 10;
+var gameTime = 4;
+var statistics = {"a":{"miks":1}};
 
 
 var TYPER = function(){
@@ -48,12 +49,12 @@ TYPER.routes = {
             var divContents = "<table style='width:100%;'><tr><th colspan='2'><h3>Edetabel</h3></th></tr><tr><th>Mängija</th><th>Tulemus</th></tr>";
             savedScores = JSON.parse(localStorage.Scores);
             savedScores.sort(function(a, b) {
-			    return b.score - a.score;
+			    return b[1] - a[1];
 			});
             for (i in savedScores) {
             	if (i<10) {
             		score = savedScores[i];
-            		divContents += "<tr><td>"+score["name"]+"</td><td>"+score["score"]+"</td></tr>";
+            		divContents += "<tr><td>"+score[0]+"</td><td>"+score[1]+"</td></tr>";
             	}
             }
             divContents += "</table>";
@@ -65,11 +66,13 @@ TYPER.routes = {
         "render": function(){
             console.log("Laeti mäng");
             var interval = window.setInterval(function() {
-            	console.log(typerGame.timer);
             	typerGame.timer -= 1;
             	if (typerGame.timer == 0) {
 		            clearInterval(interval);
-            		scores.push(typerGame.player);
+            		var result = [];
+            		result.push(typerGame.player.name);
+            		result.push(typerGame.player.score);
+            		scores.push(result);
             		console.log("salvestasin");
 		            localStorage.setItem("Scores", JSON.stringify(scores));
 		            alert("Mäng sai läbi");
@@ -239,9 +242,19 @@ TYPER.prototype = {
 			//joonistan uuesti
 			this.word.Draw();
 		} else {
-			typerGame.player.score -= 1;
+			if(letter in  statistics) {
+				if (typerGame.player.name in statistics[letter]) {
+					statistics[letter][typerGame.player.name] += 1;
+				} else {
+					statistics[letter][typerGame.player.name] = 1;
+				}
+			} else {
+				statistics[letter] = [typerGame.player.name];
+				statistics[letter][typerGame.player.name] = 1;
+			}
+			this.player.score -= 1;
 			console.log("-1");
-			typerGame.word.Draw();
+			this.word.Draw();
 			//this.word.removeOnePoint();
 		}
 
