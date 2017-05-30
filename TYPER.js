@@ -1,6 +1,11 @@
+var scores = [];
+var savedScores;
+var scoreDiv = document.getElementById("scores");
+
+
 var TYPER = function(){
 
-	//singleton
+	//singleton not anymore
     
     if (TYPER.instance_) {
         delete TYPER.instance_;
@@ -26,28 +31,37 @@ var TYPER = function(){
 };
 
 function newGame() {
-	typerGame = new TYPER();
-	document.location.hash = "#game"
+	var typerGame = new TYPER();
+	window.typerGame = typerGame;
+	document.location.hash = "#game";
 }
 
 TYPER.routes = {
     "home-view": {
         "render": function(){
-            console.log("Laeti avaleht")
-			//typerGame.init();
-            //window.typerGame = typerGame;
-        }
+            console.log("Laeti avaleht");
+            var divContents = "<table style='width:100%;'><tr><th colspan='2'><h3>Edetabel</h3></th></tr><tr><th>Mängija</th><th>Tulemus</th></tr>";
+            savedScores = JSON.parse(localStorage.Scores);
+            for (i in savedScores) {
+            	score = savedScores[i];
+            	divContents += "<tr><td>"+score["name"]+"</td><td>"+score["score"]+"</td></tr>";
+            }
+            divContents += "</table>";
+            document.getElementById("scores").innerHTML = divContents;
+		}
     },
     
     "game": {
         "render": function(){
-            console.log("Laeti mäng")
+            console.log("Laeti mäng");
         }
     },
     
     "statistics": {
         "render": function(){
-            console.log("Laeti statistika")
+            console.log("Laeti statistika");
+            scores.push(typerGame.player);
+            localStorage.setItem("Scores", JSON.stringify(scores));
         }
     }
 };
@@ -61,7 +75,9 @@ TYPER.prototype = {
         
         if (!window.location.hash) {
             window.location.hash = 'home-view';
-            // routechange siin ei ole vaja sest käsitsi muutmine käivitab routechange event'i ikka
+            // routeChange siin ei ole vaja sest käsitsi muutmine käivitab routechange event'i ikka
+        } else {
+        	routeChange();
         }
 
 		// Lisame canvas elemendi ja contexti
@@ -220,9 +236,9 @@ function routeChange(event){
     } else {
         /// 404 - ei olnud
         console.log("Ei leidnud hashi " + currentRoute);
+        window.location.hash = "home-view";
     }
 }
-	
 
 /* HELPERS */
 function structureArrayByWordLength(words){

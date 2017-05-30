@@ -92,7 +92,10 @@ label {
     color: gray;
 }
 td {
-    padding: 2px;
+    text-align: left;
+}
+th {
+    text-align: center;
 }
 .letter {
     padding: 9px;
