@@ -5,10 +5,10 @@ var scoreDiv = document.getElementById("scores");
 
 var TYPER = function(){
 
-	//singleton not anymore
+	//singleton
     
     if (TYPER.instance_) {
-        delete TYPER.instance_;
+        return TYPER.instance_;
     }
     TYPER.instance_ = this;
 	
