@@ -1,7 +1,7 @@
 var scores = [];
 var savedScores;
 var gameTime = 4;
-var statistics;
+var statistics = {};
 
 
 var TYPER = function(){
@@ -76,7 +76,7 @@ TYPER.routes = {
             		scores.push(result);
             		console.log("salvestasin");
 		            localStorage.setItem("Scores", JSON.stringify(scores));
-		            localStorage.setItem("Scores", JSON.stringify(statistics));
+		            localStorage.setItem("Statistics", JSON.stringify(statistics));
 		            alert("Mäng sai läbi");
 		            document.location.hash = "#home-view";
 
@@ -260,18 +260,17 @@ TYPER.prototype = {
 			//joonistan uuesti
 			this.word.Draw();
 		} else {
-			if(letter in  statistics) {
+			if(letter in statistics) {
 				if (typerGame.player.name in statistics[letter]) {
 					statistics[letter][typerGame.player.name] += 1;
 				} else {
 					statistics[letter][typerGame.player.name] = 1;
 				}
 			} else {
-				statistics[letter] = [typerGame.player.name];
+				statistics[letter] = {};
 				statistics[letter][typerGame.player.name] = 1;
 			}
 			this.player.score -= 1;
-			console.log("-1");
 			this.word.Draw();
 			//this.word.removeOnePoint();
 		}
@@ -326,6 +325,7 @@ function structureArrayByWordLength(words){
 window.onload = function(){
 	var typerGame = new TYPER();
 	window.typerGame = typerGame;
+	console.log("Hello");
 	if (localStorage.Scores) {
 		savedScores = JSON.parse(localStorage.Scores);
 	}
