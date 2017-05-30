@@ -31,8 +31,8 @@ var TYPER = function(){
 };
 
 function newGame() {
-	var typerGame = new TYPER();
-	window.typerGame = typerGame;
+	typerGame.guessed_words = 0
+	typerGame.player = {name: document.getElementById("p_name").value, score: 0};
 	document.location.hash = "#game";
 }
 
