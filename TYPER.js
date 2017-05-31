@@ -27,7 +27,10 @@ var TYPER = function(){
 	this.players = [];
 	//mängija objekt, hoiame nime ja skoori(+ trükivead, trükikiirus)
 	this.player = {name: null, score: 0, errors: 0, typingSpeed: 0};
+    this.dark = 0;
+    this.hard = 0;
 	this.init();
+
 };
 
 TYPER.prototype = {
@@ -90,8 +93,6 @@ TYPER.prototype = {
 		var canvas = document.getElementById("canvas").style;
 		infoStyle.display = "none";
 		canvas.display = "block";
-		document.getElementById("navbar").style.display = 'none';
-        document.getElementById("statistics").style.display = 'none';
 	},
 	
 	showElements: function(){
@@ -99,7 +100,6 @@ TYPER.prototype = {
         var canvas = document.getElementById("canvas").style;
 		infoStyle.display = "block";
         canvas.display = "none";
-        document.getElementById("navbar").style.display = 'block';
 	},
 	
 	loadWords: function(){
@@ -278,7 +278,11 @@ window.onload = function(){
 	window.table.toplist();
     window.startGame = function(){
         window.typerGame = new TYPER();
+        window.typerGame = dark.checked;
+        window.typerGame = hard.checked;
     };
+    var dark = document.querySelector("input[name=Dark]");
+    var hard = document.querySelector("input[name=Hard]");
     document.getElementById("play").addEventListener("click", window.startGame);
 };
 
