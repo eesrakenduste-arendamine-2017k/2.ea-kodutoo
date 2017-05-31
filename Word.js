@@ -41,7 +41,7 @@ Word.prototype = {
 		this.ctx.fillText(this.left, this.canvas.width/2, this.canvas.height/2);
         this.ctx.font = '40px Raleway, sans-serif';
         this.ctx.fillText(this.guessed_words + "/" + this.word_amount,
-            this.canvas.width/2 + 950, 80);
+            this.canvas.width*0.97, this.canvas.height*0.07);
 	},
 
 	// Võtame sõnast esimese tähe maha
