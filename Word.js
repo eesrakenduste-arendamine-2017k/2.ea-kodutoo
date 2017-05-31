@@ -18,7 +18,7 @@ function Word(word, canvas, ctx) {
 }
 
 if (timeCount != 1) {
-    time = 180;
+    time = 1800;
     timeCount = 1;
 }
 
@@ -36,6 +36,7 @@ Word.prototype = {
         // 	// Joonistame sõna, mis on järel / tekst, x, y
         this.ctx.fillText(this.left, this.canvas.width / 2, this.canvas.height / 2);
 
+
         time-=1;
         this.showTime= Math.round(time/60);
     }
@@ -43,6 +44,10 @@ Word.prototype = {
 
 
          if(time<=0) {
+             document.getElementsByTagName("canvas")[0].addEventListener("click", function(){
+                 location.href="homepage.html";
+             });
+
              this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
              // Canvasele joonistamine
@@ -52,10 +57,13 @@ Word.prototype = {
 
              // 	// Joonistame sõna, mis on järel / tekst, x, y
              this.ctx.fillText("Aeg sai otsa!", this.canvas.width / 2, this.canvas.height / 2);
+             this.ctx.fillText("Skoor: " + score, this.canvas.width / 2, this.canvas.height / 1.5);
              gameFinished = 1;
          } else if (this.showTime>0) {
              this.ctx.font = 'bold 25px Courier';
              this.ctx.fillText("Aega veel: " + this.showTime + " sekundit", this.canvas.width / 8, this.canvas.height / 13);
+
+             this.ctx.fillText("Skoor: " + score, this.canvas.width / 1.3, this.canvas.height / 13);
          }
     },
 

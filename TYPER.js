@@ -19,10 +19,7 @@ var TYPER = function() {
     this.guessed_words = 0; // arvatud sõnade arv
 
     //mängija objekt, hoiame nime ja skoori
-    this.player = {
-        name: null,
-        score: 0
-    };
+
 
     this.init();
 };
@@ -60,9 +57,26 @@ TYPER.prototype = {
 
         }
 
-        // Mänigja objektis muudame nime
-        this.player.name = p_name; // player =>>> {name:"Romil", score: 0}
+
+        this.player = {name: p_name, score: 0, gameId: parseInt(1000+Math.random()*999999)};
+		// Mänigja objektis muudame nime
+
+        this.playerArray = JSON.parse(localStorage.getItem('typer'));
+
+        if(!this.playerArray || this.playerArray.length===0){
+            this.playerArray=[];
+        }
+
+        this.playerArray.push(this.player);
+        console.log("lisatud");
+
+
+        localStorage.setItem("typer",  JSON.stringify(this.playerArray));
+        //localStorage["palyerName"]+= this.player.name;
+
         console.log(this.player);
+
+
     },
 
     loadWords: function() {
@@ -147,6 +161,30 @@ TYPER.prototype = {
         // Word on defineeritud eraldi Word.js failis
         this.word = new Word(word, this.canvas, this.ctx);
     },
+    savescore: function() {
+
+        //this.playerNameArray = JSON.parse(localStorage.getItem('playerName'));
+        //gamesFromStorage = JSON.parse(localStorage.getItem("games"));
+
+        this.playerArray.forEach(function (player, key) {
+            //gamesFromStorage.forEach(function(game, key){
+
+            console.log(player);
+            console.log(typerGame.player);
+
+            if (player.gameId == typerGame.player.gameId) {
+
+                player.score = typerGame.player.score;
+                score = typerGame.player.score;
+
+                console.log("updated");
+                console.log(player);
+
+            }
+
+        });
+        localStorage.setItem("typer", JSON.stringify(this.playerArray));
+    },
 
     keyPressed: function(event) {
 
@@ -170,7 +208,7 @@ TYPER.prototype = {
 
                 //update player score
                 this.player.score = this.guessed_words;
-
+                this.savescore();
                 //loosin uue sõna
                 this.generateWord();
             }
@@ -231,3 +269,26 @@ window.onload = function() {
     var typerGame = new TYPER();
     window.typerGame = typerGame;
 };
+function test(){
+    topList();
+}
+var count = 0;
+function topList(){
+
+    var gameData = JSON.parse(localStorage.getItem("typer"));
+
+
+    gameData.sort(function(a, b) {
+        return b.score - a.score;
+    });
+
+    gameData.forEach(function (player, key) {
+        //gamesFromStorage.forEach(function(game, key){
+        if(count>=10){
+            return;
+        }
+        document.getElementById("topList").style.fontSize= "80%";
+        document.getElementById("topList").innerHTML +=count+1+" ) "+ player.name+"<a style='float: right;color: maroon;padding-top: 0px'>"+player.score+"</a><hr style='padding: 0px'>";
+        count+=1;
+    });
+}
