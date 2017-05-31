@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>typer</title>
+  <script
+    src="https://code.jquery.com/jquery-3.2.0.min.js"
+    integrity="sha256-JAW99MJVpJBGcbzEuXk4Az05s/XyDdBomFqNlM3ic+I="
+    crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js">
+    </script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+    <!-- Material Design fonts -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/css/tether.min.css">
+
+    <!-- Bootstrap Material Design -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/4.0.2/bootstrap-material-design.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/4.0.2/bootstrap-material-design.iife.js">
+
+    </script>
+    <link rel="stylesheet" href="style.css">
+  <!--<script src="TYPER.js"></script>
+    <script src="Word.js"></script>-->
+</head>
+<body>
+  <div id="scoreBoardOverlay" class="sidenav-left">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeScoreBoard()">&times;</a>
+    <h3> - Leaderboard - </h3>
+			<table class="score-table" id="scoreTable">
+				<tbody class="leader-board-from-localStorage" >
+				</tbody>
+			</table>
+  </div>
+	<div id="howToOverlay" class="sidenav-right">
+		<a href="javascript:void(0)" class="closebtn" onclick="closeHowTo()">&times;</a>
+		<h3> - How to - </h3><br>
+		<p> This is a very cool typing game.</p>
+		<p>First you have to insert your name.</p>
+		<p>Then some words appear on the screen.</p>
+		<p>You have to type those exact words</p>
+		<p>Each correctly typed word gives you equal to word length amount of points.</p>
+		<p>The more words you type the harder words you get.</p>
+		<p>Wrongly typed letters are worth <strong>equal to word length amount of minus points</strong></p>
+	</div>
+  <div class="container main">
+    <span onclick="openScoreBoard()" class="open-score-board">Leaderboard</span>
+		<span onclick="openHowTo()" class="open-how-to">How to</span>
+    <div class="row">
+      <div class="col-lg-6 text-center inner-content">
+        <h1 class="title">Typer</h1>
+        <div class="alert alert-dismissible alert-warning">
+          <button type="button" class="close" data-dismiss="alert">×</button>
+          <h4>Oh snap!</h4>
+          <p>You forgot to enter your name.</p>
+        </div>
+        <div class="form-group text-left label-floating">
+          <label for="name" class="control-label">Player name</label>
+          <input type="text" class="form-control" id="name" placeholder="Insert your name">
+        </div>
+        <a href="#" class="btn btn-raised btn-primary btn-lg submit-button">Play the typer</a>
+      </div>
+    </div>
+  </div>
+</body>
+<script type="text/javascript">
+  $(".submit-button").click(function(){
+    var playerName = $.trim($("#name").val());
+
+    if(playerName.length > 0)
+    {
+      localStorage.setItem("currentPlayerName", $("#name").val());
+      window.location.href = "typer.html";
+    }else{
+      $(".alert").show();
+    }
+
+  })
+	$("#name").on('keyup', function (e) {
+    if (e.keyCode == 13) {
+			var playerName = $.trim($("#name").val());
+
+			if(playerName.length > 0)
+			{
+				localStorage.setItem("currentPlayerName", $("#name").val());
+				window.location.href = "typer.html";
+			}else{
+				$(".alert").show();
+			}
+    }
+});
+Object.keys(localStorage).forEach(function(key){
+	 var playerFromScoreBoard = JSON.parse(localStorage.getItem(key))
+	 var name = playerFromScoreBoard.name;
+	 var score = playerFromScoreBoard.score;
+	 $(".leader-board-from-localStorage").append("<tr><td class='id'>" + name + "</td><td class='score'>"+ score +"</td></tr>")
+});
+function sort(ascending, columnClassName, tableId) {
+			 var tbody = document.getElementById(tableId).getElementsByTagName(
+							 "tbody")[0];
+			 var rows = tbody.getElementsByTagName("tr");
+
+			 var unsorted = true;
+
+			 while (unsorted) {
+					 unsorted = false
+
+					 for (var r = 0; r < rows.length - 1; r++) {
+							 var row = rows[r];
+							 var nextRow = rows[r + 1];
+
+							 var value = row.getElementsByClassName(columnClassName)[0].innerHTML;
+							 var nextValue = nextRow.getElementsByClassName(columnClassName)[0].innerHTML;
+
+							 value = value.replace(',', '.'); // in case a comma is used in float number
+							 nextValue = nextValue.replace(',', '.');
+
+							 if (!isNaN(value)) {
+									 value = parseFloat(value);
+									 nextValue = parseFloat(nextValue);
+							 }
+
+							 if (ascending ? value > nextValue : value < nextValue) {
+									 tbody.insertBefore(nextRow, row);
+									 unsorted = true;
+							 }
+					 }
+			 }
+	 };
+  /* Open the sidenav */
+function openScoreBoard() {
+    document.getElementById("scoreBoardOverlay").style.width = "100%";
+		sort(false, 'score', 'scoreTable')
+}
+
+/* Close/hide the sidenav */
+function closeScoreBoard() {
+    document.getElementById("scoreBoardOverlay").style.width = "0";
+}
+function openHowTo() {
+    document.getElementById("howToOverlay").style.width = "100%";
+}
+function closeHowTo() {
+    document.getElementById("howToOverlay").style.width = "0";
+}
+</script>
+</html>
