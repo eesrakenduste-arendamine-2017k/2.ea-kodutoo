@@ -177,7 +177,8 @@ TYPER.prototype = {
         table.toplist();
 		this.showElements();
         this.player = {name: null, score: 0, errors: 0, typingSpeed: 0};
-
+        var body = document.getElementsByTagName("BODY")[0];
+        body.style.background = "white";
         this.reset_func = this.reset.bind(this);
         document.getElementById("play").addEventListener('click', this.reset_func);
 
@@ -197,6 +198,8 @@ TYPER.prototype = {
     	
     	// Word on defineeritud eraldi Word.js failis
         this.word = new Word(word, this.canvas, this.ctx);
+        this.word.guessed_words = this.guessed_words;
+        this.word.word_amount = this.word_amount;
         if (this.guessed_words > 0){
             this.word.first_word = false;
         }

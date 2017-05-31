@@ -16,7 +16,8 @@ canvas {
 }
 
 #info {
-    margin: auto;
+    position: relative;
+    left: 25vw;
     width:50%;
     text-align: center;
 }
@@ -25,11 +26,17 @@ canvas {
     float:left;
 }
 
-#toplist, #top{
+#toplist{
+    width: 50%;
+}
+
+#top{
     float: left;
 }
 
 #wrapper{
+    position: relative;
+    left: 4vw;
     width: 1000px;
     overflow: hidden;
 }
@@ -83,6 +90,15 @@ h2 {
     -webkit-animation: error 0.8s forwards;
 }
 
+.flashing{
+    animation: flashing 0.4s infinite;
+}
+
+@keyframes flashing{
+    0%{color: #36388a;}
+    100%{color: #0c7173;}
+}
+
 @keyframes errordark{
     0%{ background-color: red;}
     20%{ background-color: black;}
@@ -93,11 +109,11 @@ h2 {
 }
 @-webkit-keyframes errordark{
     0%{ background-color: red;}
-    20%{ background-color: white;}
+    20%{ background-color: black;}
     40%{ background-color: red;}
-    60%{ background-color: white;}
+    60%{ background-color: black;}
     80%{ background-color: red;}
-    100%{ background-color: white;}
+    100%{ background-color: black;}
 }
 
 @keyframes error{

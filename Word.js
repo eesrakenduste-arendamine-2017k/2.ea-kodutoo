@@ -12,6 +12,8 @@ function Word(word, canvas, ctx){
     this.first_word = true;
     this.canvas = canvas;
     this.ctx = ctx;
+    this.guessed_words = null;
+    this.word_amount = null;
 }
 
 Word.prototype = {
@@ -37,6 +39,9 @@ Word.prototype = {
         }
 		// 	// Joonistame sõna, mis on järel / tekst, x, y
 		this.ctx.fillText(this.left, this.canvas.width/2, this.canvas.height/2);
+        this.ctx.font = '40px Raleway, sans-serif';
+        this.ctx.fillText(this.guessed_words + "/" + this.word_amount,
+            this.canvas.width/2 + 950, 80);
 	},
 
 	// Võtame sõnast esimese tähe maha
