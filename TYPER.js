@@ -79,7 +79,8 @@ TYPER.prototype = {
 		if(p_name === null || p_name === ""){
 			p_name = "Tundmatu";
 		}
-		
+
+		this.players = JSON.parse(localStorage.getItem('players'));
 		this.hideElements();
 		// Mängija objektis muudame nime
 		this.player.name = p_name; // player =>>> {name:"Romil", score: 0}
@@ -171,6 +172,9 @@ TYPER.prototype = {
 		this.saveData(this.player);
 		window.removeEventListener('keypress', this.keypress_func);
 		clearInterval(this.interval);
+		table.players = this.players;
+        table.statistics();
+        table.toplist();
 		this.showElements();
         this.player = {name: null, score: 0, errors: 0, typingSpeed: 0};
 
@@ -223,6 +227,7 @@ TYPER.prototype = {
 				//kui mingi arv sõnu on arvatud, siis mäng on läbi
 				if(this.guessed_words === this.word_amount){
 					this.guessed_words = 0;
+					this.player.score -= this.player.errors;
 					this.stop();
 					
 				} else {
@@ -236,7 +241,6 @@ TYPER.prototype = {
 
 		} else {
 			this.player.errors += parseInt(1, 10);
-			this.player.score -= 1;
             var body = document.getElementsByTagName("BODY")[0];
             if(this.dark){
                 body.classList.add("errordark");
