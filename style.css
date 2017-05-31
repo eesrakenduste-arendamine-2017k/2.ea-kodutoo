@@ -73,9 +73,31 @@ h2 {
     src: local("alt_hazer"), url("alt_hazer.TTF") format("truetype");
 }
 
+.errordark{
+    animation: errordark 0.8s forwards;
+    -webkit-animation: errordark 0.8s forwards;
+}
+
 .error{
     animation: error 0.8s forwards;
     -webkit-animation: error 0.8s forwards;
+}
+
+@keyframes errordark{
+    0%{ background-color: red;}
+    20%{ background-color: black;}
+    40%{ background-color: red;}
+    60%{ background-color: black;}
+    80%{ background-color: red;}
+    100%{ background-color: black;}
+}
+@-webkit-keyframes errordark{
+    0%{ background-color: red;}
+    20%{ background-color: white;}
+    40%{ background-color: red;}
+    60%{ background-color: white;}
+    80%{ background-color: red;}
+    100%{ background-color: white;}
 }
 
 @keyframes error{

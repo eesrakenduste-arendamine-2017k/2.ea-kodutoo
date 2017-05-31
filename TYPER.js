@@ -27,8 +27,8 @@ var TYPER = function(){
 	this.players = [];
 	//mängija objekt, hoiame nime ja skoori(+ trükivead, trükikiirus)
 	this.player = {name: null, score: 0, errors: 0, typingSpeed: 0};
-    this.dark = 0;
-    this.hard = 0;
+    this.dark = dark.checked;
+    this.hard = hard.checked;
 	this.init();
 
 };
@@ -50,7 +50,6 @@ TYPER.prototype = {
 		// kui retina ekraan, siis võib ja peaks olema 2 korda suurem
 		this.canvas.width = this.WIDTH;
 		this.canvas.height = this.HEIGHT;
-
 		// laeme sõnad
 		this.loadWords();
 	},
@@ -147,6 +146,10 @@ TYPER.prototype = {
 
 	start: function(){
 
+        if(this.dark){
+            var body = document.getElementsByTagName("BODY")[0];
+            body.style.background = "black";
+        }
 		// Tekitame sõna objekti Word
 		this.generateWord();
 		//console.log(this.word);
@@ -190,6 +193,11 @@ TYPER.prototype = {
     	
     	// Word on defineeritud eraldi Word.js failis
         this.word = new Word(word, this.canvas, this.ctx);
+        if (this.guessed_words > 0){
+            this.word.first_word = false;
+        }
+        this.word.dark = this.dark;
+        this.word.hard = this.hard;
     },
     
 	keyPressed: function(event){
@@ -230,8 +238,13 @@ TYPER.prototype = {
 			this.player.errors += parseInt(1, 10);
 			this.player.score -= 1;
             var body = document.getElementsByTagName("BODY")[0];
-			body.classList.add("error");
-			window.setTimeout(function(){ body.classList.remove("error")}, 1000);
+            if(this.dark){
+                body.classList.add("errordark");
+                window.setTimeout(function(){ body.classList.remove("errordark")}, 1000);
+            }else{
+                body.classList.add("error");
+                window.setTimeout(function(){ body.classList.remove("error")}, 1000);
+            }
 		}
 	}, // keypress end
 
@@ -277,12 +290,10 @@ window.onload = function(){
 	window.table.statistics();
 	window.table.toplist();
     window.startGame = function(){
+		window.dark = document.querySelector("input[name=Dark]");
+		window.hard = document.querySelector("input[name=Hard]");
         window.typerGame = new TYPER();
-        window.typerGame = dark.checked;
-        window.typerGame = hard.checked;
     };
-    var dark = document.querySelector("input[name=Dark]");
-    var hard = document.querySelector("input[name=Hard]");
     document.getElementById("play").addEventListener("click", window.startGame);
 };
 

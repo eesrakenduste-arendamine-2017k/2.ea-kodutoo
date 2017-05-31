@@ -6,23 +6,35 @@ function Word(word, canvas, ctx){
     // lisaks mis on sõnast järel, mida alguses hakkame hakkima ja pärast joonistame
     // esialgne sõna säilib, nt saab kasutada pärast skoori arvutamisel 
 	this.left = this.word;
-
+    this.dark = null;
+    this.hard = null;
     this.letters = [];
-
+    this.first_word = true;
     this.canvas = canvas;
     this.ctx = ctx;
 }
 
 Word.prototype = {
-	Draw: function(){
+	Draw: function() {
 
-		//Tühjendame canvase
-		this.ctx.clearRect( 0, 0, this.canvas.width, this.canvas.height);
-
-		// Canvasele joonistamine
-		this.ctx.textAlign = 'center';
-		this.ctx.font = '70px Raleway, sans-serif';
-
+        //Tühjendame canvase
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        if(this.hard){
+            if(this.first_word){
+                this.ctx.translate(this.canvas.width + 65, -3);
+                this.ctx.scale(-1, 1);
+                this.first_word = false;
+            }
+        } else {
+            this.ctx.textAlign = 'center';
+        }
+        // Canvasele joonistamine
+        this.ctx.font = '70px Raleway, sans-serif';
+        if (this.dark){
+            this.ctx.fillStyle = "white";
+        } else{
+            this.ctx.fillStyle = "black";
+        }
 		// 	// Joonistame sõna, mis on järel / tekst, x, y
 		this.ctx.fillText(this.left, this.canvas.width/2, this.canvas.height/2);
 	},
@@ -43,7 +55,6 @@ Word.prototype = {
         var coloredWord = this.letters.join("");
         //this.ctx.fillStyle = "#ff0000";
         //this.ctx.fillText(coloredWord, this.canvas.width/2, this.canvas.height/3);
-        this.ctx.fillStyle = "black";
         this.ctx.fillText(this.left, this.canvas.width/2, this.canvas.height/3);
     }
 };
