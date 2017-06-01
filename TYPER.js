@@ -261,6 +261,8 @@ TYPER.prototype = {
     reset: function(){
 
         document.getElementById("play").removeEventListener("click", this.reset_func);
+		this.dark = dark.selected;
+		this.hard = hard.selected;
         this.init()
 
     }
