@@ -1,25 +1,44 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+
 	<title>typer</title>
-	<style> 
-		* {
-			margin: 0;
-			padding: 0;
-		}
-		html, body, canvas {
-			width: 100%;
-			height: 100%;
-		}
-		canvas {
-			position: absolute;
-		}
+	<style>
+	       p {
+	               padding: 5%;
+	               font-size: 100%;
+	               font-family: 'Press Start 2P', cursive;
+	       }
 	</style>
-	<script src="TYPER.js"></script>
-    <script src="Word.js"></script>
+	<script src="TYPER.js">
+	</script>
+	<script src="Word.js">
+	</script>
+	<link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+	<link href="style1.css" rel="stylesheet">
 </head>
+
 <body>
-	<canvas></canvas>
+	<div id="menu">
+		<audio id="startAudio" src="FactoryTime_loop.mp3"></audio>
+	</div>
+	<button class="btn" onclick="location.href='index.html'">Back</button>
+
+	<div id="canvas">
+		<canvas>
+		</canvas>
+	</div>
+
+	<div id="playerStats">
+		<p>Time: <span id="time"></span></p>
+
+		<p id="score">:</p>
+
+		<div id="hardcoremode">
+			<label class="hardcoremode"><button class="btn" onclick="hardcoremode()"><label class="hardcoremode">Hardcore Mode</label></button></label>
+		</div>
+	</div>
 </body>
 </html>
