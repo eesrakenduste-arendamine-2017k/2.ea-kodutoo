@@ -226,12 +226,7 @@ TYPER.prototype = {
                 this.player.score = this.guessed_words;
 
                 this.timers[this.guessed_words-1] = this.timer;
-                //kui mingi arv sõnu on arvatud, siis mäng on läbi
 
-                } else {
-                    //loosin uue sõna
-                    this.generateWord();
-                }
                 this.timer = 0;
             }
             //joonistan uuesti
