@@ -59,7 +59,6 @@ TYPER.prototype = {
             this.sum += parseInt(timer, 10);
         }, this);
 
-        this.player.typingSpeed = this.sum / this.timers.length;
 
         //ja salvestab localStorage'i
         this.players[this.players.length] = this.player;
