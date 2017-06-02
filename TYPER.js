@@ -18,7 +18,6 @@ var TYPER = function(){
     this.word = null; // preagu arvamisel olev sõna
     this.word_min_length = 6;
     this.guessed_words = 0; // arvatud sõnade arv
-    this.word_amount = 5;
 
     this.interval = null;
     this.timer = 0;
@@ -59,7 +58,6 @@ TYPER.prototype = {
             this.sum += parseInt(timer, 10);
         }, this);
 
-        this.player.typingSpeed = this.sum / this.timers.length;
 
         //ja salvestab localStorage'i
         this.players[this.players.length] = this.player;
@@ -205,8 +203,7 @@ TYPER.prototype = {
         if (this.guessed_words > 0){
             this.word.first_word = false;
         }
-        this.word.dark = this.dark;
-        this.word.hard = this.hard;
+
     },
 
     keyPressed: function(event){
@@ -230,10 +227,6 @@ TYPER.prototype = {
 
                 this.timers[this.guessed_words-1] = this.timer;
                 //kui mingi arv sõnu on arvatud, siis mäng on läbi
-                if(this.guessed_words === this.word_amount){
-                    this.guessed_words = 0;
-                    this.player.score -= this.player.errors;
-                    this.stop();
 
                 } else {
                     //loosin uue sõna
