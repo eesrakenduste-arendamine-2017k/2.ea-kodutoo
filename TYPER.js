@@ -173,8 +173,7 @@ TYPER.prototype = {
         table.toplist();
         this.showElements();
         this.player = {name: null, score: 0, errors: 0};
-        var body = document.getElementsByTagName("BODY")[0];
-        body.style.background = "white";
+        
         this.reset_func = this.reset.bind(this);
         document.getElementById("play").addEventListener('click', this.reset_func);
 
@@ -198,8 +197,6 @@ TYPER.prototype = {
         if (this.guessed_words > 0){
             this.word.first_word = false;
         }
-        this.word.dark = this.dark;
-        this.word.hard = this.hard;
     },
 //test
     keyPressed: function(event){
@@ -230,14 +227,6 @@ TYPER.prototype = {
 
         } else {
             this.player.errors += parseInt(1, 10);
-            var body = document.getElementsByTagName("BODY")[0];
-            if(this.dark){
-                body.classList.add("errordark");
-                window.setTimeout(function(){ body.classList.remove("errordark")}, 1000);
-            }else{
-                body.classList.add("error");
-                window.setTimeout(function(){ body.classList.remove("error")}, 1000);
-            }
         }
     }, // keypress end
 
@@ -284,8 +273,6 @@ window.onload = function(){
     window.table = new Table();
     window.table.toplist();
     window.startGame = function(){
-        window.dark = document.querySelector("input[name=Dark]");
-        window.hard = document.querySelector("input[name=Hard]");
         window.typerGame = new TYPER();
     };
     document.getElementById("play").addEventListener("click", window.startGame);
