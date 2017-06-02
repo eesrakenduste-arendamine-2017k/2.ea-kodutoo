@@ -4,24 +4,6 @@ function Table(){
 
 Table.prototype = {
 
-    statistics: function(){
-        var stats = document.getElementById('statistics');
-        var statsbody = stats.getElementsByTagName("TBODY")[0];
-        statsbody.innerHTML = "";
-        if(this.players !== null) {
-            this.players.forEach(function (player) {
-                var row = statsbody.insertRow(statsbody.rows.length);
-                var i = 0;
-                for (var attribute in player) {
-                    var cell = row.insertCell(i);
-                    var text = document.createTextNode(player[attribute]);
-                    cell.appendChild(text);
-                    i++;
-                }
-            });
-        }
-    },
-
     toplist: function(){
 
         var top = document.getElementById("toplist");

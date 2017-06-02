@@ -19,25 +19,26 @@ canvas {
     width:50%;
     text-align: center;
 }
-#statistics{
-    width: 500px;
-    float:left;
-}
 
 #toplist{
-    width: 50%;
+
+
+    align-items: center;
+    justify-content: center;
+	
+}
+
+#play{
+	font-size: 7em;
 }
 
 #top{
-    float: left;
+
+	display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-#wrapper{
-    position: relative;
-    left: 4vw;
-    width: 1000px;
-    overflow: hidden;
-}
 
 td, th{
     border-bottom: 1px solid #ddd;
@@ -56,13 +57,11 @@ th {
 }
 
 h1{
-    font-family: Hazer;
     font-size: 10em;
     color: red;
     text-shadow: 2px 2px 10px red;
 }
 
 h2 {
-    font-family: helvetica;
     font-size: 2em;
 }

@@ -18,11 +18,9 @@ var TYPER = function(){
     this.word = null; // preagu arvamisel olev sõna
     this.word_min_length = 6;
     this.guessed_words = 0; // arvatud sõnade arv
-    this.word_amount = 5;
 
     this.interval = null;
     this.timer = 0;
-    this.timers = [];
     this.sum = 0;
     this.players = [];
     //mängija objekt, hoiame nime ja skoori(+ trükivead, trükikiirus)
@@ -55,11 +53,7 @@ TYPER.prototype = {
     saveData: function(){
         //arvutab keskmise aja
         this.sum = 0;
-        this.timers.forEach(function(timer){
-            this.sum += parseInt(timer, 10);
-        }, this);
 
-        this.player.typingSpeed = this.sum / this.timers.length;
 
         //ja salvestab localStorage'i
         this.players[this.players.length] = this.player;
@@ -175,10 +169,9 @@ TYPER.prototype = {
         window.removeEventListener('keypress', this.keypress_func);
         clearInterval(this.interval);
         table.players = this.players;
-        table.statistics();
         table.toplist();
         this.showElements();
-        this.player = {name: null, score: 0, errors: 0, typingSpeed: 0};
+        this.player = {name: null, score: 0, errors: 0};
         var body = document.getElementsByTagName("BODY")[0];
         body.style.background = "white";
         this.reset_func = this.reset.bind(this);
@@ -201,7 +194,6 @@ TYPER.prototype = {
         // Word on defineeritud eraldi Word.js failis
         this.word = new Word(word, this.canvas, this.ctx);
         this.word.guessed_words = this.guessed_words;
-        this.word.word_amount = this.word_amount;
         if (this.guessed_words > 0){
             this.word.first_word = false;
         }
@@ -227,13 +219,10 @@ TYPER.prototype = {
 
                 //update player score
                 this.player.score = this.guessed_words;
+                
+                //loosin uue sõna
+                this.generateWord();
 
-                this.timers[this.guessed_words-1] = this.timer;
-
-
-                    //loosin uue sõna
-                    this.generateWord();
-                this.timer = 0;
             }
             //joonistan uuesti
             this.word.Draw();
@@ -292,7 +281,6 @@ function structureArrayByWordLength(words){
 window.onload = function(){
 
     window.table = new Table();
-    window.table.statistics();
     window.table.toplist();
     window.startGame = function(){
         window.dark = document.querySelector("input[name=Dark]");
