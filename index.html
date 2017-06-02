@@ -9,8 +9,7 @@
     <link href="https://fonts.googleapis.com/css?family=Barrio" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Bubbler+One" rel="stylesheet">
     <!-- JS -->
-    <script src="TYPER.js"></script>
-    <script src="Word.js"></script>
+    <script src="scores.js"></script>
 </head>
 </head>
 <body>
@@ -20,7 +19,7 @@
         <div class="main">
             <div>
                 <h1>High-Scores</h1>
-                <button onClick="location.href='#Play'">Play</button>
+                <button onClick="location.href='play.html'">Play</button>
                 <button onClick="location.href='#Homepage'">Back</button>
                 <p>
                     Note that only 10 of the best results will be shown.
@@ -30,29 +29,12 @@
             </div>
         </div>
     </div>
-    <!--Mäng -->
-    <div id="Play">
-        <div class="main">
-            <div>
-                <h1>Typer</h1>
-                <button id=playBtn>Start</button>
-                <button onClick="location.href='#Homepage'">Back</button>
-                <p>
-                Remaining: <span id="time"></span><br>
-                Score: <span id="score"></span>
-                </p>
-                <div id="canvas">
-                    <canvas></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
     <!-- Koduleht -->
     <div id="Homepage">
         <div class="main">
             <div>
                 <h1>Welcome</h1>
-                <button onClick="location.href='#Play'">Play</button>
+                <button onClick="location.href='play.html'">Play</button>
                 <button onClick="location.href='#Scores'">High-Scores</button>
                 <p>
                     Type as many words as you can in 30 seconds.<br>
