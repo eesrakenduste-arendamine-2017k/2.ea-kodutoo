@@ -19,6 +19,6 @@ function highScores() {
     session.sort(orderScores);
 
     for (i = 0; i < session.length; i++) {
-        content.innerHTML += "Score: " + session[i].score + "<br> Name: " + session[i].name + "<br><br>";
+        content.innerHTML += "Score: " + session[i].score + "<br> Typos: " + session[i].typos + "<br> Name: " + session[i].name + "<br><br>";
     }
 }
