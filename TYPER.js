@@ -151,7 +151,7 @@ TYPER.prototype = {
         // Kuulame klahvivajutusi
         this.keypress_func = this.keyPressed.bind(this);
         window.addEventListener('keypress', this.keypress_func);
-
+		timer = 0;
         var self = this;
         this.interval = window.setInterval(function(){ 
 			self.timer += 1; 
@@ -165,6 +165,7 @@ TYPER.prototype = {
     //salvestab andmed ning deaktiveerib event listenerid
     stop: function(){
 
+		this.timer=0;
         this.saveData(this.player);
         window.removeEventListener('keypress', this.keypress_func);
         clearInterval(this.interval);
