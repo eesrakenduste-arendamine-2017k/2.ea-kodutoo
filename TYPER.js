@@ -155,9 +155,11 @@ TYPER.prototype = {
     // Võrdlen, kas meie kirjutatud täht on sama mis järele jäänud sõna esimene
     // console.log(this.word);
     if (letter === this.word.left.charAt(0)) {
-      //console.log("right");
+      // console.log("right");
       this.player.score += 1;
       document.getElementById('score').innerHTML = this.player.score;
+      document.body.style.backgroundColor = "#333";
+      this.canvas.style.backgroundColor = "#333";
 
       // Võtame ühe tähe maha
       this.word.removeFirstLetter();
@@ -181,6 +183,8 @@ TYPER.prototype = {
       console.log(this.player.typos);
       this.player.score -= 1;
       this.player.typos += 1;
+      document.body.style.backgroundColor = "#960000";
+      this.canvas.style.backgroundColor = "#960000";
       document.getElementById('score').innerHTML = this.player.score;
     }
   } // keypress end
@@ -216,7 +220,6 @@ function structureArrayByWordLength(words) {
 window.onload = function() {
   var typerGame = new TYPER();
   window.typerGame = typerGame;
-  highScores();
 };
 
 var r;
