@@ -229,16 +229,10 @@ TYPER.prototype = {
                 this.player.score = this.guessed_words;
 
                 this.timers[this.guessed_words-1] = this.timer;
-                //kui mingi arv sõnu on arvatud, siis mäng on läbi
-                if(this.guessed_words === this.word_amount){
-                    this.guessed_words = 0;
-                    this.player.score -= this.player.errors;
-                    this.stop();
 
-                } else {
+
                     //loosin uue sõna
                     this.generateWord();
-                }
                 this.timer = 0;
             }
             //joonistan uuesti
