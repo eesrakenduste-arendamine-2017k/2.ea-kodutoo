@@ -19,7 +19,14 @@ Word.prototype = {
 
 		// Canvasele joonistamine
 		this.ctx.textAlign = 'center';
-		this.ctx.font = '70px Courier';
+		this.ctx.font = '200px Arial';
+		this.ctx.shadowColor='cyan ';
+		this.ctx.shadowOffsetX='2';
+		this.ctx.shadowOffsetY='2';
+		this.ctx.shadowBlur='5';
+		
+	
+		
 
 		// 	// Joonistame sõna, mis on järel / tekst, x, y
 		this.ctx.fillText(this.left, this.canvas.width/2, this.canvas.height/2);

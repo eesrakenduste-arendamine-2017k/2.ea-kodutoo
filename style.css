@@ -5,13 +5,100 @@
 		html, body, canvas {
 			width: 100%;
 			height: 100%;
+			
 		}
 		canvas {
 			position: absolute;
 			z-index:-1;
+			-webkit-transition:opacity 1s ease-in-out;
+			-moz-transition:opacity 1s ease-in-out;
+			transition:opacity 1s ease-in-out;
+			left:0;
+			
 			
 			
 		}
+#wrapper{
+
+  transition: margin-left .5s;
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%); 
+  text-align: center;
+  font-size:30px;
+  background-color:white;
+  margin-top:20%;
+  width:40%;
+  height:90%;
+  opacity:1;
+}
+
+.startGameBtn {
+	-moz-box-shadow: 0px 10px 14px -7px #6ccad9;
+	-webkit-box-shadow: 0px 10px 14px -7px #6ccad9;
+	box-shadow: 0px 10px 14px -7px #6ccad9;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ecf084), color-stop(1, #f0dd11));
+	background:-moz-linear-gradient(top, #ecf084 5%, #f0dd11 100%);
+	background:-webkit-linear-gradient(top, #ecf084 5%, #f0dd11 100%);
+	background:-o-linear-gradient(top, #ecf084 5%, #f0dd11 100%);
+	background:-ms-linear-gradient(top, #ecf084 5%, #f0dd11 100%);
+	background:linear-gradient(to bottom, #ecf084 5%, #f0dd11 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ecf084', endColorstr='#f0dd11',GradientType=0);
+	background-color:#ecf084;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+	border-radius:8px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:20px;
+	font-weight:bold;
+	padding:13px 32px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #8e9699;
+}
+.startGameBtn:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f0dd11), color-stop(1, #ecf084));
+	background:-moz-linear-gradient(top, #f0dd11 5%, #ecf084 100%);
+	background:-webkit-linear-gradient(top, #f0dd11 5%, #ecf084 100%);
+	background:-o-linear-gradient(top, #f0dd11 5%, #ecf084 100%);
+	background:-ms-linear-gradient(top, #f0dd11 5%, #ecf084 100%);
+	background:linear-gradient(to bottom, #f0dd11 5%, #ecf084 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f0dd11', endColorstr='#ecf084',GradientType=0);
+	background-color:#f0dd11;
+}
+.startGameBtn:active {
+	position:relative;
+	top:1px;
+}
+
+		
+#gameOver{
+	position:absolute;
+    text-align:center;
+	font-size:80px;
+	opacity:0;
+	-webkit-transition:opacity 1s ease-in-out;
+	-moz-transition:opacity 1s ease-in-out;
+	transition:opacity 1s ease-in-out; 
+	z-index:-1;
+	color:#2ca5a4;
+	font-weight:bold;
+	top:40%;
+	left:5%;
+	
+}
+	/*animation: gameOver 1s linear infinite;
+	
+
+}
+@keyframes gameOver {  
+  50% { opacity: 0; }
+}
+		
+*/
 		
 		
 
@@ -22,44 +109,95 @@ body{
   font-variant:small-caps;
   margin: 0px;
   padding: 0px;
-}
-a{
-  color:#dc5455;
+  background:url("test2.gif"); 
 }
 
-/*  http://www.color-hex.com/color-palette/35645 */
 
-#top-view{
-	display:none;
-	
-	
-}
-#home-view{
-	display:none;
-	
-}
 
-.menu{
-	display:none;
-}
 
-#list-view{
-	height:70%;
-	
-}
-
-.gamestats{
-	
+#buttons{
+	top: 70%; left: 10%;
 	position:absolute;
-	width:100%;
+	display:row;
+	
 }
+
+
+
+
 #skoor{
     float:right;
 	padding:15px;
+	font-size:50px;
+	color:#2ca5a4;
+	text-shadow:2px 2px #9a9a98;
+	font-weight:bold;
+	opacity:0;
 }
 
 #taimer{
 	float:left;
 	padding:15px;
+	font-size:50px;
+	color:#2ca5a4;
+	text-shadow:2px 2px #9a9a98;
+	font-weight:bold;
+	opacity:0;
+}
+
+#backToHome{
+	visibility:hidden;
+	position:absolute;
+	left:45%;
+	top:70%;
+	z-index:1;
+
+}
+
+
+#frontPage{
+	top: 0; left: 0;bottom:0;
+	position:relative;
+	text-align:center;
+}
+
+
+#introduction{
+	top: 0; left: 0;bottom:0;
+	position:absolute;
+	text-align:center;
+	opacity:1;
+}
+#gamestat{
+	top: 0; left: 0;bottom:0;
+	position:absolute;
+	text-align:center;
+	opacity:0;
+}
+#topscores{
+	top: 0; left: 0;bottom:0;
+	position:absolute;
+	text-align:center;
+	opacity:0;
+}
+
+#statistics{
+	top:30%; left:25%;bottom:0;
+	position:relative;
+	text-align:center;
+	
+
+}
+#gameStatistics{
+	top:30%; left:25%;bottom:0;
+	position:relative;
+	text-align:center;
 	
 }
+#test{
+	text-align:center;
+	top:30%; left:15%;bottom:0;
+	position:relative;
+	
+}
+
