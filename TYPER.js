@@ -26,7 +26,7 @@ var TYPER = function(){
     this.sum = 0;
     this.players = [];
     //mängija objekt, hoiame nime ja skoori(+ trükivead, trükikiirus)
-    this.player = {name: null, score: 0, errors: 0, typingSpeed: 0};
+    this.player = {name: null, score: 0, errors: 0};
     this.init();
 
 };
@@ -148,13 +148,8 @@ TYPER.prototype = {
 
     start: function(){
 
-        if(this.dark){
-            var body = document.getElementsByTagName("BODY")[0];
-            body.style.background = "black";
-        }
         // Tekitame sõna objekti Word
         this.generateWord();
-        //console.log(this.word);
 
         //joonista sõna
         this.word.Draw();
@@ -164,7 +159,13 @@ TYPER.prototype = {
         window.addEventListener('keypress', this.keypress_func);
 
         var self = this;
-        this.interval = window.setInterval(function(){ self.timer += 1;}, 1000);
+        this.interval = window.setInterval(function(){ 
+			self.timer += 1; 
+			if(self.timer >= 15){
+				self.stop();
+				alert("game over!");
+			}
+		}, 1000);
     },
 
     //salvestab andmed ning deaktiveerib event listenerid
@@ -259,8 +260,6 @@ TYPER.prototype = {
     reset: function(){
 
         document.getElementById("play").removeEventListener("click", this.reset_func);
-		this.dark = dark.selected;
-		this.hard = hard.selected;
         this.init()
 
     }
@@ -293,6 +292,8 @@ function structureArrayByWordLength(words){
     return temp_array;
 
 }
+
+
 
 window.onload = function(){
 
