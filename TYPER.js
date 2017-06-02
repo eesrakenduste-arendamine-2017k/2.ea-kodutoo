@@ -27,8 +27,6 @@ var TYPER = function(){
     this.players = [];
     //mängija objekt, hoiame nime ja skoori(+ trükivead, trükikiirus)
     this.player = {name: null, score: 0, errors: 0, typingSpeed: 0};
-    this.dark = dark.checked;
-    this.hard = hard.checked;
     this.init();
 
 };
