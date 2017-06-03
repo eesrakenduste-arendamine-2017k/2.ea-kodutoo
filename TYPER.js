@@ -1,3 +1,8 @@
+var score = 0;
+var mistake = 0;
+var doneWord = 0;
+var count = 0;
+
 var TYPER = function(){
 
 	//singleton
@@ -16,10 +21,7 @@ var TYPER = function(){
 	this.word = null; // preagu arvamisel olev sõna
 	this.word_min_length = 3;
 	this.guessed_words = 0; // arvatud sõnade arv
-
-	//mängija objekt, hoiame nime ja skoori
-	this.player = {name: null, score: 0};
-
+	this.mistakes = 0;
 	this.init();
 };
 
@@ -48,13 +50,20 @@ TYPER.prototype = {
 	loadPlayerData: function(){
 
 		// küsime mängija nime ja muudame objektis nime
-		var p_name = prompt("Sisesta mängija nimi");
+		var p_name = prompt("Sisesta oma mängija nimi");
 
 		// Kui ei kirjutanud nime või jättis tühjaks
 		if(p_name === null || p_name === ""){
 			p_name = "Tundmatu";
-		
 		}
+		this.player = {name: p_name, score: 0, mistake:0, gameId: parseInt(1000+Math.random()*999999)};
+		this.playerArray = JSON.parse(localStorage.getItem('player'));
+        if(!this.playerArray || this.playerArray.length===0){
+            this.playerArray=[];
+        }
+        this.playerArray.push(this.player);
+        console.log("Player added");
+        localStorage.setItem("player",  JSON.stringify(this.playerArray));	
 
 		// Mänigja objektis muudame nime
 		this.player.name = p_name; // player =>>> {name:"Romil", score: 0}
@@ -113,9 +122,11 @@ TYPER.prototype = {
 
         //joonista sõna
 		this.word.Draw();
+		this.ctx.fillStyle="black";
 
 		// Kuulame klahvivajutusi
 		window.addEventListener('keypress', this.keyPressed.bind(this));
+		clockAlert();
 
 	},
 	
@@ -133,6 +144,19 @@ TYPER.prototype = {
     	
     	// Word on defineeritud eraldi Word.js failis
         this.word = new Word(word, this.canvas, this.ctx);
+    },
+	
+	//[2.punkt - Mängijate kohta hoitakse meeles skoori]
+	savescore: function() {
+		this.playerArray.forEach(function (player, key) {
+            if (player.gameId == typerGame.player.gameId) {
+                player.score = typerGame.player.score;
+				player.mistake = typerGame.player.mistake;
+                console.log("Updated");
+                console.log(player);
+            }
+        });
+        localStorage.setItem("player", JSON.stringify(this.playerArray));
     },
     
 	keyPressed: function(event){
@@ -154,9 +178,13 @@ TYPER.prototype = {
 			if(this.word.left.length === 0){
 
 				this.guessed_words += 1;
+				doneWord=this.guessed_words;
 
                 //update player score
                 this.player.score = this.guessed_words;
+				console.log("Score: "+this.guessed_words);
+				this.savescore();
+				document.getElementById("score").innerHTML=this.player.score ;  
 
 				//loosin uue sõna
 				this.generateWord();
@@ -164,8 +192,18 @@ TYPER.prototype = {
 
 			//joonistan uuesti
 			this.word.Draw();
+		}else{
+			this.mistakes+=1;
+			mistake=this.mistakes;
+			this.player.mistake = this.mistakes
+			//[4.punkt I - valesti tähe trükkimisel on tagajärg]
+			document.body.style.background = 'red';
+			window.setTimeout(function(){
+				document.body.style.backgroundImage = "url('mingitaust.jpg')";
+				document.body.style.backgroundRepeat = "no-repeat";
+				document.body.style.backgroundSize = "cover";
+			}, 150);
 		}
-
 	} // keypress end
 
 };
@@ -197,7 +235,65 @@ function structureArrayByWordLength(words){
     return temp_array;
 }
 
-window.onload = function(){
-	var typerGame = new TYPER();
-	window.typerGame = typerGame;
-};
+//info nähtavus
+//https://www.w3schools.com/howto/howto_js_toggle_hide_show.asp
+function myFunction() {
+    var x = document.getElementById('panel');
+    if (x.style.display === 'none') {
+        x.style.display = 'block';
+    } else {
+        x.style.display = 'none';
+    }
+}
+
+//TOP 10 
+//https://www.w3schools.com/howto/howto_js_toggle_hide_show.asp
+//https://www.w3schools.com/html/html5_webstorage.asp
+function playerName(){
+	clearTop();
+	var x = document.getElementById('player');
+	if (x.style.display === 'none') {
+		x.style.display = 'block';
+			var playerData = JSON.parse(localStorage.getItem("player"));
+			playerData.sort(function(a, b) {
+				return b.score - a.score;
+			});
+
+			playerData.forEach(function (player, key) {
+				if(count>=10){
+					return;
+				}
+				document.getElementById("player").innerHTML +="<br>"+player.name+"</a>"+"<a style='color: hotpink'>"+" Skoor: "+player.score+"</a>";
+				count+=1;
+			});
+    } else {
+        x.style.display = 'none';
+    }
+}
+
+function clockAlert() {
+		setTimeout(function(){
+			alert("AEG LÄBI!\nSõnu suutsid trükkida "+doneWord+"\nning vigu tekkis "+mistake);
+			window.location = 'homepage.html'; 
+		}, 60000);
+}
+
+//https://stackoverflow.com/questions/7667958/clear-localstorage
+function clearTop(){
+	document.getElementById("player").innerHTML = "";	
+}	
+
+//kogu statistika kuvamine
+function Statistics(){
+    var playerData = JSON.parse(localStorage.getItem("player"));
+	var content = document.getElementsByClassName('Leaderboard_players')[0];
+    playerData.sort(function(a, b) {
+        return b.score - a.score;
+    });
+	var count = 1;
+    playerData.forEach(function (player, key) {
+		content.innerHTML +="<br>"+"<a style='color: silver'>"+(count)+". "+ player.name+"</a>"+"<a style='color: lime'>"+" Skoor: "+player.score+"</a>"+"<a style='color: red'>"+" Vigu: "+player.mistake+"</a>";
+        count+=1;
+		
+    });
+}
