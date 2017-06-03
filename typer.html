@@ -1,25 +1,69 @@
+
 <!doctype html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>typer</title>
-	<style> 
-		* {
-			margin: 0;
-			padding: 0;
-		}
-		html, body, canvas {
-			width: 100%;
-			height: 100%;
-		}
-		canvas {
-			position: absolute;
-		}
-	</style>
+	<title>TYPER</title>
+
 	<script src="TYPER.js"></script>
     <script src="Word.js"></script>
+	<link rel="stylesheet" href="style.css">
 </head>
 <body>
-	<canvas></canvas>
+
+	<!-- Navigation -->
+	<nav class="menu">
+		<ul class="menu-list">
+			<li class="menu-item"><a href="#home-view" class="menu-link home-view active-menu">Avaleht</a></li>
+			<li class="menu-item"><a href="#game-view" class="menu-link game-view">Mäng</a></li>
+			<li class="menu-item"><a href="#statistics-view" class="menu-link statistics-view">Statistika</a></li>
+		</ul>
+	</nav>
+
+	<main role="main">
+
+		<!-- Home -->
+		<div id="home-view">
+			<div class="introduction">
+				<h1>Tere tulemast mängima TYPER mängu!</h1>
+				<p>Mängu eesmärk on võimalikult kiiresti ekraanile tekkivaid sõnu ära trükkida.</p>
+				<h2>Mängu reeglid:</h2>
+				<p>1.Sul on aega 1 minut</p>
+				<p>2.Iga õigesti kirjutatud sõna annab 1 punkti</p>
+				<p>3.Iga vale nupuvajutus kaotab su skoorist punkte</p>
+				<p>4.Mäng saab läbi kui aeg otsa saab<p>
+				<p>5.Aeg hakkab jooksma pärast nime sisestamist.<p>
+			</div>
+				<div id="top10" style="float: left;">
+					<h2 class="top10_header">Top 10</h2>
+						<ul class="top10_players">
+					</ul>
+				</div>
+		</div>
+
+		<!-- Game -->
+		<div id="game-view">
+			<p class="message">VALMISTU KIRJUTAMA!</p>
+
+			<p class="words-display">
+				<canvas>
+			</p>
+		</div>
+
+		<!-- Statistics -->
+		<div id="statistics-view">
+			<h1>Statistika</h1>
+			<table class="players_table">
+				<thead>
+					<tr>
+						<th>Mängija</th>
+						<th>Skoor</th>
+						<th>Vigu</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</main>
+
 </body>
 </html>
