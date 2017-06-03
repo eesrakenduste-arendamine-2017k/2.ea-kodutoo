@@ -1,25 +1,34 @@
 <!doctype html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>typer</title>
-	<style> 
-		* {
-			margin: 0;
-			padding: 0;
-		}
-		html, body, canvas {
-			width: 100%;
-			height: 100%;
-		}
-		canvas {
-			position: absolute;
-		}
-	</style>
-	<script src="TYPER.js"></script>
-    <script src="Word.js"></script>
-</head>
-<body>
-	<canvas></canvas>
-</body>
+	<head>
+		<meta charset="UTF-8">
+		<title>Typer Mäng</title>
+		
+		<script src="TYPER.js"></script>
+		<!-- defer - script ei jookse ennem lehe laadimist -->
+		<script src="Word.js" defer></script>
+		<link rel="stylesheet" type="text/css" href="style.css">
+		
+		<!-- bootstrap -->
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link href="https://fonts.googleapis.com/css?family=Russo+One" rel="stylesheet">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		
+		<script>
+			window.onload = function(){
+				var typerGame = new TYPER();
+				window.typerGame = typerGame;
+			};
+		</script>
+	</head>
+	<body>
+		<div class="game">
+				<h2>Aeg: <span id="timer"></span></h2>
+				<h2>Skoor: <span id="score"></span></h2>
+		</div>
+		<canvas id="gameCanvas"></canvas>
+	</body>
 </html>

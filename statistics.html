@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Statistika</title>
+		<script type="text/javascript" src="TYPER.js" defer></script>
+		<link rel="stylesheet" type="text/css" href="style.css">
+		
+		<!-- bootstrap -->
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link href="https://fonts.googleapis.com/css?family=Russo+One" rel="stylesheet">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="TYPER.js"></script>
+		<script>
+			window.onload = function() {
+				Statistics();
+			};
+		</script>
+	</head>
+
+	<body>
+		<div>
+			<button id="exitBtn" class="btn btn-trans btn-lg">
+				<a onclick="location.href='homepage.html'" class="play">Tagasi avalehele</a>
+			</button>
+		</div>
+		<div id="Statistics" class="Statistics text-center">
+			<h2 class="TheHeader" style="color: white">Kõikide mängijate skoorid</h2>
+			<h3><ul class="Leaderboard_players " ></ul></h3>
+		</div>
+	</body>
+</html>

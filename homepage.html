@@ -1,0 +1,68 @@
+ <!DOCTYPE html>
+	<head>
+		<title>Avaleht</title>
+		
+		<!-- defer - script ei jookse ennem lehe laadimist -->
+		<script type="text/javascript" src="TYPER.js" defer></script>
+		<link rel="stylesheet" type="text/css" href="style.css">
+	 
+		<!-- bootstrap -->
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link href="https://fonts.googleapis.com/css?family=Russo+One" rel="stylesheet">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	</head>
+	<body>
+		<!-- header riba -->
+		<div class="page-header transparent">
+			<h1>Typer mäng <small>Made by Anu</small></h1>
+		</div>
+		<!-- Suunab m?u lehele-->
+		<div class="text-center">
+			<h3>
+				<button id="playBtn" style="height:150px;width:300px" class="btn btn-trans btn-shake btn-lg"> 
+					<a onclick="location.href='typer.html'" class="play"  style="font-size:60px">Mängima!</a>
+				</button>
+			</h3>
+		</div>	
+	<br>
+		<!-- [Statistika leht] -->
+		<div class="text-center " style="float: left; width: 25%">
+			<h3>
+				<button id="statBtn" class="btn btn-trans btn-lg" style="height:50px;width:300px">
+					<a onclick="location.href='statistics.html'" class="play">Statistika</a>
+				</button>
+			</h3>
+		</div>
+		<!-- [M?u kirjeldus] -->
+		<div class="text-center " style="float: left; width: 50%">
+			<h3>
+				<button class="btn btn-trans btn-lg" style="height:50px;width:300px">
+					<a onclick="myFunction()" class="play">Info<a/>
+				</button>
+			</h3>
+			<div id="panel" style="display: none">
+				<h3>
+					<p class="player">
+						Tere tulemast Typer mängu!<br>
+						Sinu ülesandeks on etteantud sõnad võimalikult kiiresti trükkida.<br>
+						Mängimiseks on sul vaja head klaviatuuri ning välkkiireid sõrmi!<br>
+						Mida rohkem sõnu suudad 60 sekundi jooksul trükkida, seda suurem skoor on.<br>
+						Edu ning proovi ka jõuda 10 parima hulka!<br>
+					</p>
+				</h3>
+			</div>	
+		</div>
+		<!-- [10 parima m?ija skoor]-->
+		<div class="text-center" style="float: left; width: 25%">
+			<h3>
+				<button class="btn btn-trans btn-lg" style="height:50px;width:300px">
+					<a id="play" onclick="playerName()" class="play"> Parimad</a>
+				</button>
+				<div id="player" class="TopPlayer " style="display: none"></div>
+			</h3> 
+		</div>
+	</body>
+</html>

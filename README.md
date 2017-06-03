@@ -1,3 +1,14 @@
+Autor: Anu Sadam
+
+Avalehel on mängu tutvustus, 10 parima mängija skoor ning link statistika lehele,
+kus on näha kõikide mängijate skoorid ning vead.
+Mängija skoor oleneb sellest, kui mitu sõna suudetakse trükkida.
+Vale tähe trükkimisel välgub taust hetkeks punaseks.
+
+link: http://localhost:5555/~anusada/eesrakendused/2.ea-kodutoo/homepage.html
+
+------
+
 # 2. kodutöö – *Typer* mängu täiendus
 
 Mängu eesmärk on võimalikult kiiresti ekraanile tekkivaid sõnu ära trükkida. Sõnad võetud [Eesti Keele Instituudi lehelt](http://www.eki.ee/tarkvara/wordlist/), [lemmad2013](http://www.eki.ee/tarkvara/wordlist/lemmad2013.txt)
