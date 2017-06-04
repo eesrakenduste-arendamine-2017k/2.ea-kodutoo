@@ -7,7 +7,7 @@ var menu = (function() {
 
       var $this = $(this),
         height = $this.height(),
-        i = $this.index()
+        i = $this.index();
 
       if($this.hasClass('element--active')){
         $this

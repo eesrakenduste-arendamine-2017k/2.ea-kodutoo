@@ -30,17 +30,25 @@
         .changeColor:hover{
             background-color: #FFFFFF;
         }
-        .container {
+
+
+.container {
   position: relative;
   width: 50%;
+
+
 }
 
 .image {
   display: block;
   width: 100%;
+  float: left;
   height: auto;
 }
 
+#parent {
+  display: flex;
+}
 .overlay {
   position: absolute;
   bottom: 0;
@@ -51,6 +59,7 @@
   width: 0;
   height: 100%;
   transition: .5s ease;
+
 }
 
 .container:hover .overlay {
@@ -63,26 +72,83 @@
   font-size: 20px;
   position: absolute;
   overflow: hidden;
+  line-height: 400%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
 }
+.text2 {
+  white-space: nowrap;
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  overflow: hidden;
+  line-height: 400%;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+
+
+}
+.button {
+    background-color: #6B132D;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    margin: 4px 2px;
+    cursor: pointer;
+    font-family: 'Poiret One', cursive;
+    margin-top: 500px;
+    margin-bottom: 100px;
+    margin-right: 100px;
+    margin-left: 100px;
+
+}
     </style>
 
     <script src="TYPER.js" defer></script>
     <script src="Word.js"></script>
-    <script src="topten.js"></script>
+    <script src="backgroundtable.js"></script>
+    <script>
+     function revealTop(){
+      document.getElementById("top10").style.display = "block";
+     }
+   </script>
 </head>
-<body><div >
-    <center><h1>Typer Game</h1>
-    <div id="result"></div></center>
-    <div class="container">
-  <img src="sheet.png" alt="Pilt" class="image">
-  <div class="overlay">
-    <div class="text">Tere</div>
+<body>
+
+  <center><h1>Typer Game</h1>
+    <div id="result"></div>
+  </center>
+
+<div id="parent">
+
+  <div class="container">
+<img src="sild.jpg" alt="Pilt" class="image">
+<div class="overlay">
+  <div class="text">Tere, olete tulnud mängima Typer Game'i </div>
+
+  <div style="text-align:center">
+<button class="button" onclick="location.href='typer.html'">Mängima</button>
   </div>
 </div>
+</div>
+
+     <div class="container">
+   <img src="talv.jpg" alt="Pilt" class="image">
+   <div class="overlay">
+     <div class="text2">Edetabel</div>
+   </div>
+ </div>
+
+
+</div>
+
 
 </body>
 </html>
