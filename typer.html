@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>typer</title>
-	<style> 
+	<style>
 		* {
 			margin: 0;
 			padding: 0;
@@ -18,8 +18,16 @@
 	</style>
 	<script src="TYPER.js"></script>
     <script src="Word.js"></script>
+
 </head>
 <body>
+	<div id="info">
+		<h2>Aega järel: <span id="time"></span></h2>
+		<p id="score">SKOOR:</p>
+		<p id="level">ÕIGEID SÕNU:</p>
+		<p id="mistakes">VIGU:</p>
+		<p>ÖÖREŽIIM  <input type="checkbox" onclick="nightMode()"></p>
+	</div>
 	<canvas></canvas>
 </body>
 </html>
