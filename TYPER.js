@@ -36,14 +36,14 @@ TYPER.prototype = {
 		this.canvas.style.width = this.WIDTH + 'px';
 		this.canvas.style.height = this.HEIGHT + 'px';
 
-		//resolutsioon 
+		//resolutsioon
 		// kui retina ekraan, siis võib ja peaks olema 2 korda suurem
 		this.canvas.width = this.WIDTH;
 		this.canvas.height = this.HEIGHT;
 
 		// laeme sõnad
 		this.loadWords();
-	}, 
+	},
 
 	loadPlayerData: function(){
 
@@ -53,13 +53,13 @@ TYPER.prototype = {
 		// Kui ei kirjutanud nime või jättis tühjaks
 		if(p_name === null || p_name === ""){
 			p_name = "Tundmatu";
-		
+
 		}
 
 		// Mänigja objektis muudame nime
 		this.player.name = p_name; // player =>>> {name:"Romil", score: 0}
         console.log(this.player);
-	}, 
+	},
 
 	loadWords: function(){
 
@@ -85,14 +85,14 @@ TYPER.prototype = {
 				// tekitame massiivi, faili sisu aluseks, uue sõna algust märgib reavahetuse \n
 				var words_from_file = response.split('\n');
 				//console.log(words_from_file);
-                
+
                 // Kuna this viitab siin xmlhttp päringule siis tuleb läheneda läbi avaliku muutuja
                 // ehk this.words asemel tuleb kasutada typerGame.words
-                
+
 				//asendan massiivi
 				typerGame.words = structureArrayByWordLength(words_from_file);
 				console.log(typerGame.words);
-				
+
 				// küsime mängija andmed
                 typerGame.loadPlayerData();
 
@@ -103,7 +103,7 @@ TYPER.prototype = {
 
 		xmlhttp.open('GET','./lemmad2013.txt',true);
 		xmlhttp.send();
-	}, 
+	},
 
 	start: function(){
 
@@ -118,7 +118,7 @@ TYPER.prototype = {
 		window.addEventListener('keypress', this.keyPressed.bind(this));
 
 	},
-	
+
     generateWord: function(){
 
         // kui pikk peab sõna tulema, + min pikkus + äraarvatud sõnade arvul jääk 5 jagamisel
@@ -130,11 +130,11 @@ TYPER.prototype = {
 
         // random sõna, mille salvestame siia algseks
     	var word = this.words[generated_word_length][random_index];
-    	
+
     	// Word on defineeritud eraldi Word.js failis
         this.word = new Word(word, this.canvas, this.ctx);
     },
-    
+
 	keyPressed: function(event){
 
 		//console.log(event);
