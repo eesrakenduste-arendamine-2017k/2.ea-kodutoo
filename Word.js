@@ -1,6 +1,5 @@
 // Sõna objekt, millele paneme külge ka funktsioonid
-var count=30;
-var counter=setInterval(timer, 1000);
+
 
 function Word(word, canvas, ctx){
 
@@ -16,26 +15,7 @@ function Word(word, canvas, ctx){
 }
 
 
-function timer()
-{
-  count=count-1;
-  if (count <= 0)
-  {
-     clearInterval(counter);
-     //counter ended, do something here
-	
-	
-     return;
-	 
-	 
-	 
-	 
-  }
 
-	document.getElementById("timer").innerHTML=count + " sekundit on jäänud";
-  //Do code for showing the number of seconds here
-  
-}
 
 
 Word.prototype = {

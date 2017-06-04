@@ -10,6 +10,8 @@ var mistakes = 0;
 var guessedWords = 0;
 var count = 0;
 var i = 30;
+var timeCount = 30;
+var counter=setInterval(timer, 1000);
 
 var TYPER = function(){
 
@@ -150,6 +152,7 @@ TYPER.prototype = {
 		
 		// Anname teate
 		clockAlert();
+		timer();
 		
 
 	},
@@ -335,3 +338,24 @@ function clockAlert() {
 		
 }
 
+
+function timer()
+{
+  timeCount=timeCount-1;
+  if (timeCount <= 0)
+  {
+     clearInterval(counter);
+     //counter ended, do something here
+	
+	
+     return;
+	 
+	 
+	 
+	 
+  }
+
+	document.getElementById("timer").innerHTML=timeCount + " sekundit on jäänud";
+  //Do code for showing the number of seconds here
+  
+}
