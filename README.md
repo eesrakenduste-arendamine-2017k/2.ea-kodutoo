@@ -27,3 +27,8 @@ Kodutööna peate täiendama etteantud mängu, et nõuded oleksid täidetud.
 
 * Canvas retina ekraani jaoks [High DPI Canvas](https://www.html5rocks.com/en/tutorials/canvas/hidpi/)
 * Mäng 60fps [requestAnimationFrame](http://creativejs.com/resources/requestanimationframe/)
+
+
+Mängu saab mängida:
+
+http://localhost:5555/~kriskand/Javascript/2.ea-kodutoo/homepage.html

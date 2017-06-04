@@ -1,3 +1,18 @@
+
+
+
+  // Run your javascript code here
+
+
+var dark = 0;
+var score = 0;
+var mistakes = 0;
+var guessedWords = 0;
+var count = 0;
+var i = 30;
+var timeCount = 30;
+var counter=setInterval(timer, 1000);
+
 var TYPER = function(){
 
 	//singleton
@@ -14,14 +29,15 @@ var TYPER = function(){
 
 	this.words = []; // kõik sõnad
 	this.word = null; // preagu arvamisel olev sõna
-	this.word_min_length = 3;
+	this.word_min_length = 4;
 	this.guessed_words = 0; // arvatud sõnade arv
 
 	//mängija objekt, hoiame nime ja skoori
-	this.player = {name: null, score: 0};
 
 	this.init();
 };
+
+
 
 TYPER.prototype = {
 
@@ -43,7 +59,9 @@ TYPER.prototype = {
 
 		// laeme sõnad
 		this.loadWords();
-	}, 
+	},	
+	
+	
 
 	loadPlayerData: function(){
 
@@ -55,15 +73,30 @@ TYPER.prototype = {
 			p_name = "Tundmatu";
 		
 		}
+		this.player = {name: p_name, score: 0, gameId: parseInt(1000+Math.random()*999999)};
+		this.playerArray = JSON.parse(localStorage.getItem('player'));
+
+        if(!this.playerArray || this.playerArray.length===0){
+            this.playerArray=[];
+        }
+
+        this.playerArray.push(this.player);
+        console.log("Player added");
+
+
+        localStorage.setItem("player",  JSON.stringify(this.playerArray));
+        //localStorage["palyerName"]+= this.player.name;
 
 		// Mänigja objektis muudame nime
+		
 		this.player.name = p_name; // player =>>> {name:"Romil", score: 0}
         console.log(this.player);
 	}, 
+	
 
 	loadWords: function(){
 
-        console.log('loading...');
+        console.log('Loading data...');
 
 		// AJAX http://www.w3schools.com/ajax/tryit.asp?filename=tryajax_first
 		var xmlhttp = new XMLHttpRequest();
@@ -71,12 +104,11 @@ TYPER.prototype = {
 		// määran mis juhtub, kui saab vastuse
 		xmlhttp.onreadystatechange = function(){
 
-			//console.log(xmlhttp.readyState); //võib teoorias kõiki staatuseid eraldi käsitleda
 
 			// Sai faili tervenisti kätte
 			if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
 
-                console.log('successfully loaded');
+                console.log('Successfully loaded');
 
 				// serveri vastuse sisu
 				var response = xmlhttp.responseText;
@@ -107,17 +139,28 @@ TYPER.prototype = {
 
 	start: function(){
 
+		this.ctx.fillStyle="MediumSpringGreen";
 		// Tekitame sõna objekti Word
 		this.generateWord();
 		//console.log(this.word);
-
-        //joonista sõna
 		this.word.Draw();
+		
+    
 
 		// Kuulame klahvivajutusi
 		window.addEventListener('keypress', this.keyPressed.bind(this));
+		
+		// Anname teate
+		clockAlert();
+		timer();
+		
 
 	},
+	
+
+	
+
+	
 	
     generateWord: function(){
 
@@ -133,6 +176,33 @@ TYPER.prototype = {
     	
     	// Word on defineeritud eraldi Word.js failis
         this.word = new Word(word, this.canvas, this.ctx);
+    },
+	
+	savescore: function() {
+
+        //this.playerNameArray = JSON.parse(localStorage.getItem('playerName'));
+        //gamesFromStorage = JSON.parse(localStorage.getItem("games"));
+
+        this.playerArray.forEach(function (player, key) {
+            //gamesFromStorage.forEach(function(game, key){
+
+            console.log(player);
+            console.log(typerGame.player);
+
+            if (player.gameId == typerGame.player.gameId) {
+
+                player.score = typerGame.player.score;
+				
+				//player.score = 1;
+				
+                console.log("Updated");
+                console.log(player);
+
+            }
+
+        });
+
+        localStorage.setItem("player", JSON.stringify(this.playerArray));
     },
     
 	keyPressed: function(event){
@@ -150,20 +220,38 @@ TYPER.prototype = {
 			this.word.removeFirstLetter();
 
 			// kas sõna sai otsa, kui jah - loosite uue sõna
+			
 
 			if(this.word.left.length === 0){
 
 				this.guessed_words += 1;
+				guessedWords=this.guessed_words;
 
                 //update player score
+				
+				console.log("Score: "+this.guessed_words);
                 this.player.score = this.guessed_words;
+				
+				
+				this.savescore();
 
 				//loosin uue sõna
 				this.generateWord();
+				
 			}
 
 			//joonistan uuesti
 			this.word.Draw();
+		}else{
+			mistakes+=1;
+			this.word.Draw();
+			document.body.style.background = "Tomato";
+			window.setTimeout(function(){
+				document.body.style.background = "white";
+				
+			}, 150);
+	
+		
 		}
 
 	} // keypress end
@@ -197,7 +285,77 @@ function structureArrayByWordLength(words){
     return temp_array;
 }
 
-window.onload = function(){
-	var typerGame = new TYPER();
-	window.typerGame = typerGame;
-};
+
+
+
+function playerName(){
+    console.log("player");
+
+    var playerData = JSON.parse(localStorage.getItem("player"));
+
+
+    playerData.sort(function(a, b) {
+        return b.score - a.score;
+    });
+
+    playerData.forEach(function (player, key) {
+        //gamesFromStorage.forEach(function(game, key){
+        if(count>=10){
+            return;
+        }
+        document.getElementById("player").innerHTML +="<br>"+(count+1)+" ) "+ player.name+"<a style='right: 50px; color: green;padding-top: 0px'>"+"   "+player.score+"</a>";
+        count+=1;
+    });
+	}
+	
+function myFunction() {
+    var x = document.getElementById('panel');
+    if (x.style.display === 'none') {
+        x.style.display = 'block';
+    } else {
+        x.style.display = 'none';
+    }
+}
+
+
+
+
+function darkMode(){
+	if(dark==0){
+		document.getElementById("kanvas").style.backgroundColor = "black";	
+		console.log(kanvas);	
+		dark=1;
+	}
+	else if(dark==1){
+		document.getElementById("kanvas").style.backgroundColor = "white";	
+		console.log(kanvas);
+		dark=0;
+	}
+}
+
+function clockAlert() {
+		setTimeout(function(){ alert("Game Over. You typed in "+guessedWords+ " words and made "+mistakes+" mistakes."); }, 30000);
+		
+}
+
+
+function timer()
+{
+  timeCount=timeCount-1;
+  if (timeCount <= 0)
+  {
+     clearInterval(counter);
+     //counter ended, do something here
+	
+	
+     return;
+	 
+	 
+	 
+	 
+  }
+
+	document.getElementById("timer").innerHTML=timeCount + " sekundit on jäänud";
+  //Do code for showing the number of seconds here
+  
+}

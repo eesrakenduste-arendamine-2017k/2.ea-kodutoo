@@ -9230,8 +9230,8 @@ C
 c
 ca
 café
-caffè
-caffè
+caffe?
+caff?
 cal
 calando
 Camemberti
@@ -9324,7 +9324,7 @@ country
 couture
 cover
 crack
-crêperie
+cr?perie
 crescendo
 croissant
 cum
@@ -10028,7 +10028,7 @@ dešifreerima
 dešifreerimine
 dežuur
 detail
-détail
+de?tail
 détail
 detailima
 detailirikas
@@ -25568,7 +25568,7 @@ idealist
 idealistlik
 idealistlikult
 idee
-idée
+ide?e
 idée
 ideedraama
 ideekaaslane

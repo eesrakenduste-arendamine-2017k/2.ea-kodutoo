@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>typer</title>
+	<title>TypeRacer</title>
 	<style> 
 		* {
 			margin: 0;
@@ -15,11 +15,63 @@
 		canvas {
 			position: absolute;
 		}
+		
+		.button{
+		background-color: red;
+		
+		}
+		
+		h2 {
+			text-align:center;
+			color:MediumSpringGreen;
+			font-size: 250%;
+			text-decoration: underline;
+			font-family: "Arial Black", Gadget, sans-serif;
+		
+		}
+		
+		a.buttonstyle {
+		
+			z-index:5;
+			position:absolute; 
+			padding: 3px 3px;
+			top: 50px;
+			left: 0px;
+			font-size: 92%;
+			background-color: DimGrey;
+			color: black;
+		
+		}
+		
+		
+		
+	
 	</style>
 	<script src="TYPER.js"></script>
     <script src="Word.js"></script>
+	<script>
+	window.onload = function(){
+	var typerGame = new TYPER();
+	window.typerGame = typerGame;
+	
+
+	
+};
+
+
+	
+	
+	</script>
 </head>
 <body>
-	<canvas></canvas>
+
+<div class="game">
+		<h2><span id="timer"></h2></span>
+		<h2 id="end"</h2>
+
+</div>
+	<canvas style="x-index:3" id="kanvas"></canvas>
+	<button onclick="darkMode()" id="button" style="z-index:5; background-color:DimGray; position:absolute; font-size: 200%;">DarkMode
+	<a href="homepage.html" class="buttonstyle">Homepage</a>
 </body>
 </html>
