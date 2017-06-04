@@ -1,0 +1,21 @@
+@import url(https://fonts.googleapis.com/css?family=Orbitron);
+* {
+  margin: 0;
+  padding: 0;
+}
+html, body, canvas {
+  width: 100%;
+  height: 100%;
+}
+canvas {
+  position: absolute;
+}
+#back{
+  position: fixed;
+  bottom:10%;
+  font-family: Orbitron;
+
+}
+h1{
+  font-family: Orbitron;
+}
