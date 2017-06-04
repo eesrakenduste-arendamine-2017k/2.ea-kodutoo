@@ -1,0 +1,154 @@
+<link href="https://fonts.googleapis.com/css?family=Amatic+SC" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Poiret+One" rel="stylesheet">
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>typer</title>
+    <style>
+        body{
+            font-family: 'Poiret One', cursive;
+            width: 100%;
+            height: 94%;
+            background-color: #FFFFFF;
+        }
+        h1 {
+            font-size: 500%;
+            color: #6BA3DC;
+        }.progress{
+            background-color: #CCCCFF;
+        }.btn{
+            background-color: #FFFFFF;
+            overflow: hidden;
+        }.btn:hover{
+            background-color: #FFFFFF;
+        }.changeColor{
+            background-color: #FFFFFF;
+        }
+        .changeColor:hover{
+            background-color: #FFFFFF;
+        }
+
+
+.container {
+  position: relative;
+  width: 50%;
+
+
+}
+
+.image {
+  display: block;
+  width: 100%;
+  float: left;
+  height: auto;
+}
+
+#parent {
+  display: flex;
+}
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #008CBA;
+  overflow: hidden;
+  width: 0;
+  height: 100%;
+  transition: .5s ease;
+
+}
+
+.container:hover .overlay {
+  width: 100%;
+}
+
+.text {
+  white-space: nowrap;
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  overflow: hidden;
+  line-height: 400%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+}
+.text2 {
+  white-space: nowrap;
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  overflow: hidden;
+  line-height: 400%;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+
+
+}
+.button {
+    background-color: #6B132D;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    margin: 4px 2px;
+    cursor: pointer;
+    font-family: 'Poiret One', cursive;
+    margin-top: 500px;
+    margin-bottom: 100px;
+    margin-right: 100px;
+    margin-left: 100px;
+
+}
+    </style>
+
+    <script src="TYPER.js" defer></script>
+    <script src="Word.js"></script>
+    <script src="backgroundtable.js"></script>
+    <script>
+     function revealTop(){
+      document.getElementById("top10").style.display = "block";
+     }
+   </script>
+</head>
+<body>
+
+  <center><h1>Typer Game</h1>
+    <div id="result"></div>
+  </center>
+
+<div id="parent">
+
+  <div class="container">
+<img src="sild.jpg" alt="Pilt" class="image">
+<div class="overlay">
+  <div class="text">Tere, olete tulnud mängima Typer Game'i </div>
+
+  <div style="text-align:center">
+<button class="button" onclick="location.href='typer.html'">Mängima</button>
+  </div>
+</div>
+</div>
+
+     <div class="container">
+   <img src="talv.jpg" alt="Pilt" class="image">
+   <div class="overlay">
+     <div class="text2">Edetabel</div>
+   </div>
+ </div>
+
+
+</div>
+
+
+</body>
+</html>
