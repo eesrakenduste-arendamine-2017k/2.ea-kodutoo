@@ -1,3 +1,5 @@
+//aitah richard kajaste ja ege-rita noor kelle eeskujul sai local soragisse salvestamine ja tabeli kuju
+
 function Table(){
     this.players = JSON.parse(localStorage.getItem('players'));
 }
