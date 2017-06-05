@@ -1,14 +1,18 @@
 var TYPER = function(){
 
 	//singleton
-    if (TYPER.instance_) {
-        return TYPER.instance_;
-    }
-    TYPER.instance_ = this;
+	if (TYPER.instance_) {
+		return TYPER.instance_;
+	}
+	TYPER.instance_ = this;
+
+
+	this.routes = TYPER.routes;
 
 	// Muutujad
 	this.WIDTH = window.innerWidth;
 	this.HEIGHT = window.innerHeight;
+
 	this.canvas = null;
 	this.ctx = null;
 
@@ -17,10 +21,14 @@ var TYPER = function(){
 	this.word_min_length = 3;
 	this.guessed_words = 0; // arvatud sõnade arv
 
-	//mängija objekt, hoiame nime ja skoori
+	this.seconds = 30;
+	this.mistakes = 0;
+	
+	//mängija objekt, hoiame nime ja tulemust
 	this.player = {name: null, score: 0};
 
 	this.init();
+	
 };
 
 TYPER.prototype = {
@@ -43,8 +51,28 @@ TYPER.prototype = {
 
 		// laeme sõnad
 		this.loadWords();
+		
+		//loon mängu alustamise tarveks uue muutuja
+		var startgame = document.getElementById("begingame");
+		if(startgame){
+			startgame.addEventListener("click",this.begingame.bind(this));
+		}
+		window.addEventListener('keypress', this.keyPressed.bind(this));							
+
 	}, 
 
+	
+	//funktsioon alustamaks mängu ja sätestamaks muutuja väärtused
+	begingame: function (){
+		this.seconds = 30;
+		typerGame.player.score = 0;
+		typerGame.mistakes = 0;
+		location.hash = "#game-view";
+		typerGame.start();
+		typerGame.loadPlayerData();
+	},
+	
+	
 	loadPlayerData: function(){
 
 		// küsime mängija nime ja muudame objektis nime
@@ -111,12 +139,89 @@ TYPER.prototype = {
 		this.generateWord();
 		//console.log(this.word);
 
-        //joonista sõna
+		//joonista sõna
 		this.word.Draw();
+		
+		//nullime skoori
+		typerGame.player.score = 0;
+		
 
-		// Kuulame klahvivajutusi
-		window.addEventListener('keypress', this.keyPressed.bind(this));
+		this.counter = window.setInterval(function(){
+			typerGame.word.Draw();
+			typerGame.seconds--;
 
+			//konsoolist aja jälgimiseks
+			console.log("Time: "+typerGame.seconds);
+			
+			if(typerGame.seconds == 0){
+				//aja lõpus lisab mängija nime, tulemuse ja vead kolme massiivi
+				var savedscore = [];
+				var savedscore2 = [];
+				var savedscore3 = [];
+				
+				var savedscorestate = [
+					typerGame.player.name
+				];
+				
+				var savedscorestate2 = [
+					typerGame.player.score
+				];
+				
+				var savedscorestate3 = [
+					typerGame.mistakes
+				];
+			
+				console.log(savedscorestate);
+				console.log(savedscorestate2);
+				console.log(savedscorestate3);
+				
+				var savedscoresFromStorage = null;
+				if(localStorage.getItem("savedscore")){
+					savedscoresFromStorage = JSON.parse(localStorage.getItem("savedscore"));
+					if(savedscoresFromStorage){
+						savedscore = savedscoresFromStorage;
+					}
+				}
+				savedscore.push(savedscorestate);
+				localStorage.setItem("savedscore", JSON.stringify(savedscore));
+				
+				var savedscoresFromStorage2 = null;
+				if(localStorage.getItem("savedscore2")){
+					savedscoresFromStorage2 = JSON.parse(localStorage.getItem("savedscore2"));
+					if(savedscoresFromStorage2){
+						savedscore2 = savedscoresFromStorage2;
+					}
+				}
+				savedscore2.push(savedscorestate2);
+				localStorage.setItem("savedscore2", JSON.stringify(savedscore2));
+				
+				var savedscoresFromStorage3 = null;
+				if(localStorage.getItem("savedscore3")){
+					savedscoresFromStorage3 = JSON.parse(localStorage.getItem("savedscore3"));
+					if(savedscoresFromStorage3){
+						savedscore3 = savedscoresFromStorage3;
+					}
+				}
+				savedscore3.push(savedscorestate3);
+				localStorage.setItem("savedscore3", JSON.stringify(savedscore3));
+				
+			//võimalus kohe uuesti mängu alustada	
+			var tryagain = confirm(typerGame.player.name + " tulemus:  " + typerGame.player.score +"\nAlusta uuesti?");
+				if (tryagain){
+					typerGame.guessed_words = 0;
+					typerGame.generateWord();
+					typerGame.player.score = 0;
+					typerGame.loadPlayerData();
+					typerGame.retry();
+					console.log("Uus tulemus: "+typerGame.player.score);
+				} else {
+					window.clearInterval(typerGame.counter);
+					typerGame.player.score = 0;
+					scoreboard();
+					location.hash = "#home-view";
+				}
+			}
+		},1000);
 	},
 	
     generateWord: function(){
