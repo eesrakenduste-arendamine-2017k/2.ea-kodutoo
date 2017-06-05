@@ -1,14 +1,18 @@
 var TYPER = function(){
 
 	//singleton
-    if (TYPER.instance_) {
-        return TYPER.instance_;
-    }
-    TYPER.instance_ = this;
+	if (TYPER.instance_) {
+		return TYPER.instance_;
+	}
+	TYPER.instance_ = this;
+
+
+	this.routes = TYPER.routes;
 
 	// Muutujad
 	this.WIDTH = window.innerWidth;
 	this.HEIGHT = window.innerHeight;
+
 	this.canvas = null;
 	this.ctx = null;
 
@@ -17,10 +21,14 @@ var TYPER = function(){
 	this.word_min_length = 3;
 	this.guessed_words = 0; // arvatud sõnade arv
 
-	//mängija objekt, hoiame nime ja skoori
+	this.seconds = 30;
+	this.mistakes = 0;
+	
+	//mängija objekt, hoiame nime ja tulemust
 	this.player = {name: null, score: 0};
 
 	this.init();
+	
 };
 
 TYPER.prototype = {
@@ -43,8 +51,28 @@ TYPER.prototype = {
 
 		// laeme sõnad
 		this.loadWords();
+		
+		//loon mängu alustamise tarveks uue muutuja
+		var startgame = document.getElementById("begingame");
+		if(startgame){
+			startgame.addEventListener("click",this.begingame.bind(this));
+		}
+		window.addEventListener('keypress', this.keyPressed.bind(this));							
+
 	}, 
 
+	
+	//funktsioon alustamaks mängu ja sätestamaks muutuja väärtused
+	begingame: function (){
+		this.seconds = 30;
+		typerGame.player.score = 0;
+		typerGame.mistakes = 0;
+		location.hash = "#game-view";
+		typerGame.start();
+		typerGame.loadPlayerData();
+	},
+	
+	
 	loadPlayerData: function(){
 
 		// küsime mängija nime ja muudame objektis nime
@@ -115,8 +143,83 @@ TYPER.prototype = {
 		this.word.Draw();
 
 		// Kuulame klahvivajutusi
-		window.addEventListener('keypress', this.keyPressed.bind(this));
+		//window.addEventListener('keypress', this.keyPressed.bind(this));
+		this.counter = window.setInterval(function(){
+			typerGame.word.Draw();
+			typerGame.seconds--;
 
+			//konsoolist aja jälgimiseks
+			console.log("Time: "+typerGame.seconds);
+			
+			if(typerGame.seconds == 0){
+				//aja lõpus lisab mängija nime, tulemuse ja vead kolme massiivi
+				var game = [];
+				var game2 = [];
+				var game3 = [];
+				
+				var gameinfo = [
+					typerGame.player.name
+				];
+				
+				var gameinfo2 = [
+					typerGame.player.score
+				];
+				
+				var gameinfo3 = [
+					typerGame.mistakes
+				];
+			
+				console.log(gameinfo);
+				console.log(gameinfo2);
+				console.log(gameinfo3);
+				
+				var gamesFromStorage = null;
+				if(localStorage.getItem("game")){
+					gamesFromStorage = JSON.parse(localStorage.getItem("game"));
+					if(gamesFromStorage){
+						game = gamesFromStorage;
+					}
+				}
+				game.push(gameinfo);
+				localStorage.setItem("game", JSON.stringify(game));
+				
+				var gamesFromStorage2 = null;
+				if(localStorage.getItem("game2")){
+					gamesFromStorage2 = JSON.parse(localStorage.getItem("game2"));
+					if(gamesFromStorage2){
+						game2 = gamesFromStorage2;
+					}
+				}
+				game2.push(gameinfo2);
+				localStorage.setItem("game2", JSON.stringify(game2));
+				
+				var gamesFromStorage3 = null;
+				if(localStorage.getItem("game3")){
+					gamesFromStorage3 = JSON.parse(localStorage.getItem("game3"));
+					if(gamesFromStorage3){
+						game3 = gamesFromStorage3;
+					}
+				}
+				game3.push(gameinfo3);
+				localStorage.setItem("game3", JSON.stringify(game3));
+				
+			//võimalus kohe uuesti mängu alustada	
+			var playagain = confirm(typerGame.player.name + " tulemus:  " + typerGame.player.score +"\nTahad uuesti mängida?");
+				if (playagain){
+					typerGame.guessed_words = 0;
+					typerGame.generateWord();
+					typerGame.player.score = 0;
+					typerGame.loadPlayerData();
+					typerGame.again();
+					console.log("Uus tulemus: "+typerGame.player.score);
+				} else {
+					window.clearInterval(typerGame.counter);
+					typerGame.player.score = 0;
+					scoreboard();
+					location.hash = "#home-view";
+				}
+			}
+		},1000);
 	},
 	
     generateWord: function(){
