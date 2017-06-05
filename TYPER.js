@@ -300,6 +300,39 @@ function structureArrayByWordLength(words){
     return temp_array;
 }
 
+function scoreboard() {
+	
+	var playerdata = localStorage.getItem("game");
+	var playerdata2 = localStorage.getItem("game2");
+	var playerdata3 = localStorage.getItem("game3");
+	
+	var specialChars = '"!@#$^&%*()+=-[]\/{}|:<>?.';
+	for (var i = 0; i < specialChars.length; i++) {
+		playerdata = playerdata.replace(new RegExp("\\" + specialChars[i], 'gi'), '');
+		playerdata2 = playerdata2.replace(new RegExp("\\" + specialChars[i], 'gi'), '');
+		playerdata3 = playerdata3.replace(new RegExp("\\" + specialChars[i], 'gi'), '');
+	}
+	
+	console.log("Array playerdata: "+playerdata);
+	console.log("Array playerdata2: "+playerdata2);
+	console.log("Array playerdata3: "+playerdata3);
+	
+	
+	playerdata = playerdata.split(',');
+	playerdata2 = playerdata2.split(',');
+	playerdata3 = playerdata3.split(',');
+	
+	var table = "<table>";
+	table = table + "<tr><th>" + "Mängija" +"</th><th>" + "Tulemus" + "</th><th>" + "Vead" + "</th></tr>";
+	
+	for (var i=0; i< playerdata.length; i++) {
+		table = table + "<tr><td>"+ playerdata[i]+"</td><td>"+ playerdata2[i]+"</td><td>"+ playerdata3[i] +"</td></tr>"; 
+	}
+	table = table + "</table>";
+
+	document.getElementById('scoreboard').innerHTML = table;
+};
+
 window.onload = function(){
 	var typerGame = new TYPER();
 	window.typerGame = typerGame;
