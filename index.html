@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>typer</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		html, body, canvas {
+			width: 100%;
+			height: 100%;
+		}
+		canvas {
+			position: absolute;
+		}
+	</style>
+</head>
+<body>
+<button onclick="window.location.href='typer.html'" style="color:	#800000;font-size: 150px">Play</button>
+<div id="players"></div>
+<script>
+var text,myobj,jsonobj;
+text= (localStorage.getItem("allEntries"))||[];
+//text.push(jsonobj);
+//myobj=JSON.parse(text);
+for(var i=0, len=localStorage.length; i<len; i++) {
+    var key = localStorage.key(i);
+    var value = localStorage[key];
+    console.log(key + " => " + value);
+}
+document.write(text);
+</script>
+	<canvas></canvas>
+</body>
+</html>
