@@ -2,9 +2,10 @@
 function Word(word, canvas, ctx){
 
     this.word = word;
-    
+	//console.log("Sõnad: "+this.word);
+
     // lisaks mis on sõnast järel, mida alguses hakkame hakkima ja pärast joonistame
-    // esialgne sõna säilib, nt saab kasutada pärast skoori arvutamisel 
+    // esialgne sõna säilib, nt saab kasutada pärast skoori arvutamisel
 	this.left = this.word;
 
     this.canvas = canvas;
@@ -13,7 +14,7 @@ function Word(word, canvas, ctx){
 
 Word.prototype = {
 	Draw: function(){
-
+	
 		//Tühjendame canvase
 		this.ctx.clearRect( 0, 0, this.canvas.width, this.canvas.height);
 
@@ -23,6 +24,7 @@ Word.prototype = {
 
 		// 	// Joonistame sõna, mis on järel / tekst, x, y
 		this.ctx.fillText(this.left, this.canvas.width/2, this.canvas.height/2);
+		//this.ctx.fillText("Aeg: "+typerGame.seconds, 150, 100);
 	},
 
 	// Võtame sõnast esimese tähe maha
@@ -30,6 +32,6 @@ Word.prototype = {
 
 		// Võtame esimese tähe sõnast maha
 		this.left = this.left.slice(1);
-		//console.log(this.left);
+		//console.log("Jäänud: "+this.left);
 	}
 };

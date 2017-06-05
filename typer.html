@@ -8,10 +8,24 @@
 		<script src="Word.js"></script>
 	</head>
 	
+	
 <body>
-			<main role="main">
+
+	<div id="color">
+	<nav class="menu">
+		<ul class="menu-list">
+			<li><a class="active" href="#home-view">Avaleht</a></li>
+			<li><a href="#scores-view">Statistika</a></li>
+			<!--<li class="menu-item"><a href="#home-view" class="menu-link home-view active-menu">Avaleht</a></li>
+			<li class="menu-item"><a href="#scores-view" class="menu-link scores-view">Statistika</a></li>-->
+		</ul>
+	</nav>
+
+		<main role="main">
 
 			<div id="scores-view">
+				<h1>Statistika</h1>
+				<p>Siin näete koondtabelina mitu punkti iga mängija sai ja palju vigu tehti.</p>
 				<table id="scoreboard"></table>
 			</div>
 
@@ -21,10 +35,14 @@
 			</div>
 
 			<div id="home-view">
-				<button id="nightmode" type="button" onClick="nightmode();">Öö režiim</button>
-				<button id="begingame" type="button" onClick="begingame();">Alusta mängu</button> <br><br>
-				<table id="tablePrint"></table>
+				<h1>Tere!</h1>
+				<h3>Olete sattunud trükioskuse testimise mängu lehele.</h3>
+				<p>Mäng toimib lihtsalt: vajutades 'Mängi' küsitakse teilt nime ja siis hakkavad ekraanil jooksma sõnad. Sinu ülesanne on neid sõnu võimalikult kiirelt kirjutada. </p>
+				<p>Alustades mängu on teil aega 30 sekundit, et võimalikult palju etteantud sõnu kirjutada. Iga vale klahvivajutus loeb ühe veana.</p>
+				<button class="button" button id="nightmode" onClick="nightmode();"> <span>Öövaade</span></button>
+				<button class="button" button id="begingame" onClick="begingame();"> <span>Mängi</span></button> <br><br>
 			</div>
 		</main>
+	</div>
 </body>
 </html>
