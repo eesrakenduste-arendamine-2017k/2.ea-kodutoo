@@ -155,64 +155,64 @@ TYPER.prototype = {
 			
 			if(typerGame.seconds == 0){
 				//aja lõpus lisab mängija nime, tulemuse ja vead kolme massiivi
-				var savedscore = [];
-				var savedscore2 = [];
-				var savedscore3 = [];
+				var game = [];
+				var game2 = [];
+				var game3 = [];
 				
-				var savedscorestate = [
+				var gameinfo = [
 					typerGame.player.name
 				];
 				
-				var savedscorestate2 = [
+				var gameinfo2 = [
 					typerGame.player.score
 				];
 				
-				var savedscorestate3 = [
+				var gameinfo3 = [
 					typerGame.mistakes
 				];
 			
-				console.log(savedscorestate);
-				console.log(savedscorestate2);
-				console.log(savedscorestate3);
+				console.log(gameinfo);
+				console.log(gameinfo2);
+				console.log(gameinfo3);
 				
-				var savedscoresFromStorage = null;
-				if(localStorage.getItem("savedscore")){
-					savedscoresFromStorage = JSON.parse(localStorage.getItem("savedscore"));
-					if(savedscoresFromStorage){
-						savedscore = savedscoresFromStorage;
+				var gamesFromStorage = null;
+				if(localStorage.getItem("game")){
+					gamesFromStorage = JSON.parse(localStorage.getItem("game"));
+					if(gamesFromStorage){
+						game = gamesFromStorage;
 					}
 				}
-				savedscore.push(savedscorestate);
-				localStorage.setItem("savedscore", JSON.stringify(savedscore));
+				game.push(gameinfo);
+				localStorage.setItem("game", JSON.stringify(game));
 				
-				var savedscoresFromStorage2 = null;
-				if(localStorage.getItem("savedscore2")){
-					savedscoresFromStorage2 = JSON.parse(localStorage.getItem("savedscore2"));
-					if(savedscoresFromStorage2){
-						savedscore2 = savedscoresFromStorage2;
+				var gamesFromStorage2 = null;
+				if(localStorage.getItem("game2")){
+					gamesFromStorage2 = JSON.parse(localStorage.getItem("game2"));
+					if(gamesFromStorage2){
+						game2 = gamesFromStorage2;
 					}
 				}
-				savedscore2.push(savedscorestate2);
-				localStorage.setItem("savedscore2", JSON.stringify(savedscore2));
+				game2.push(gameinfo2);
+				localStorage.setItem("game2", JSON.stringify(game2));
 				
-				var savedscoresFromStorage3 = null;
-				if(localStorage.getItem("savedscore3")){
-					savedscoresFromStorage3 = JSON.parse(localStorage.getItem("savedscore3"));
-					if(savedscoresFromStorage3){
-						savedscore3 = savedscoresFromStorage3;
+				var gamesFromStorage3 = null;
+				if(localStorage.getItem("game3")){
+					gamesFromStorage3 = JSON.parse(localStorage.getItem("game3"));
+					if(gamesFromStorage3){
+						game3 = gamesFromStorage3;
 					}
 				}
-				savedscore3.push(savedscorestate3);
-				localStorage.setItem("savedscore3", JSON.stringify(savedscore3));
+				game3.push(gameinfo3);
+				localStorage.setItem("game3", JSON.stringify(game3));
 				
 			//võimalus kohe uuesti mängu alustada	
-			var tryagain = confirm(typerGame.player.name + " tulemus:  " + typerGame.player.score +"\nAlusta uuesti?");
-				if (tryagain){
+			var playagain = confirm(typerGame.player.name + " tulemus:  " + typerGame.player.score +"\nTahad uuesti mängida?");
+				if (playagain){
 					typerGame.guessed_words = 0;
 					typerGame.generateWord();
 					typerGame.player.score = 0;
 					typerGame.loadPlayerData();
-					typerGame.retry();
+					typerGame.again();
 					console.log("Uus tulemus: "+typerGame.player.score);
 				} else {
 					window.clearInterval(typerGame.counter);
@@ -224,28 +224,25 @@ TYPER.prototype = {
 		},1000);
 	},
 	
-    generateWord: function(){
+	generateWord: function(){
+		// kui pikk peab sõna tulema, + min pikkus + äraarvatud sõnade arvul jääk 5 jagamisel
+		// iga viie sõna tagant suureneb sõna pikkus ühe võrra
+		var generated_word_length =  this.word_min_length + parseInt(this.guessed_words/5);
 
-        // kui pikk peab sõna tulema, + min pikkus + äraarvatud sõnade arvul jääk 5 jagamisel
-        // iga viie sõna tagant suureneb sõna pikkus ühe võrra
-        var generated_word_length =  this.word_min_length + parseInt(this.guessed_words/5);
+		// Saan suvalise arvu vahemikus 0 - (massiivi pikkus -1)
+		var random_index = (Math.random()*(this.words[generated_word_length].length-1)).toFixed();
 
-    	// Saan suvalise arvu vahemikus 0 - (massiivi pikkus -1)
-    	var random_index = (Math.random()*(this.words[generated_word_length].length-1)).toFixed();
+		// random sõna, mille salvestame siia algseks
+		var word = this.words[generated_word_length][random_index];
+		//console.log("Word: "+word);
 
-        // random sõna, mille salvestame siia algseks
-    	var word = this.words[generated_word_length][random_index];
-    	
-    	// Word on defineeritud eraldi Word.js failis
-        this.word = new Word(word, this.canvas, this.ctx);
-    },
-    
+		// Word on defineeritud eraldi Word.js failis
+		this.word = new Word(word, this.canvas, this.ctx);
+	},
+
 	keyPressed: function(event){
-
-		//console.log(event);
 		// event.which annab koodi ja fromcharcode tagastab tähe
 		var letter = String.fromCharCode(event.which);
-		//console.log(letter);
 
 		// Võrdlen kas meie kirjutatud täht on sama mis järele jäänud sõna esimene
 		//console.log(this.word);
@@ -260,19 +257,37 @@ TYPER.prototype = {
 
 				this.guessed_words += 1;
 
-                //update player score
-                this.player.score = this.guessed_words;
-
+				//update player score
+				this.player.score = this.guessed_words;
+				console.log("Score: "+this.player.score);			
+				
 				//loosin uue sõna
 				this.generateWord();
 			}
 
 			//joonistan uuesti
 			this.word.Draw();
-		}
 
-	} // keypress end
-
+		//vigade tracker
+		} else {
+			console.log("Mistype!");
+			this.mistakes = this.mistakes + 1;
+			console.log("This.counter: "+this.mistakes);
+		};
+	},
+	
+	
+	again: function () {
+		this.player.score = 0;
+		this.seconds = 30;
+		console.log("Empty score: "+this.player.score);
+		this.mistakes = 0;
+		typerGame.mistakes = 0;
+		this.guessed_words = 0;
+		this.generateWord();
+		this.word.Draw();
+	},
+	
 };
 
 
@@ -301,6 +316,59 @@ function structureArrayByWordLength(words){
 
     return temp_array;
 }
+
+function nightmode(){  //By Aram Oram, from https://codepen.io/Addiosamigo/pen/lArin
+	var color = document.getElementById('color').style.color;
+	var backgroundColor = document.body.style.backgroundColor;
+
+	if (color == "black" && backgroundColor == "white") {
+		document.getElementById('color').style.color="white";
+		document.body.style.backgroundColor="black";
+		typerGame.ctx.fillStyle = "white";
+		document.getElementById("tablePrint").style.borderColor = "white";
+		document.getElementById("scoreboard").style.borderColor = "white";		
+	} else {
+		document.getElementById('color').style.color="black";
+		document.body.style.backgroundColor="white";
+		typerGame.ctx.fillStyle = "black";
+		document.getElementById("tablePrint").style.borderColor = "black";
+		document.getElementById("scoreboard").style.borderColor = "black";
+	}
+};
+
+
+function scoreboard() {
+	
+	var playerdata = localStorage.getItem("game");
+	var playerdata2 = localStorage.getItem("game2");
+	var playerdata3 = localStorage.getItem("game3");
+	
+	var specialChars = '"!@#$^&%*()+=-[]\/{}|:<>?.';
+	for (var i = 0; i < specialChars.length; i++) {
+		playerdata = playerdata.replace(new RegExp("\\" + specialChars[i], 'gi'), '');
+		playerdata2 = playerdata2.replace(new RegExp("\\" + specialChars[i], 'gi'), '');
+		playerdata3 = playerdata3.replace(new RegExp("\\" + specialChars[i], 'gi'), '');
+	}
+	
+	console.log("Array playerdata: "+playerdata);
+	console.log("Array playerdata2: "+playerdata2);
+	console.log("Array playerdata3: "+playerdata3);
+	
+	
+	playerdata = playerdata.split(',');
+	playerdata2 = playerdata2.split(',');
+	playerdata3 = playerdata3.split(',');
+	
+	var table = "<table>";
+	table = table + "<tr><th>" + "Mängija" +"</th><th>" + "Tulemus" + "</th><th>" + "Vead" + "</th></tr>";
+	
+	for (var i=0; i< playerdata.length; i++) {
+		table = table + "<tr><td>"+ playerdata[i]+"</td><td>"+ playerdata2[i]+"</td><td>"+ playerdata3[i] +"</td></tr>"; 
+	}
+	table = table + "</table>";
+
+	document.getElementById('scoreboard').innerHTML = table;
+};
 
 window.onload = function(){
 	var typerGame = new TYPER();
