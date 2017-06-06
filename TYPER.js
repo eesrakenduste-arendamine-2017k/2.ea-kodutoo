@@ -31,6 +31,7 @@ TYPER.prototype = {
 
 		// Lisame canvas elemendi ja contexti
 		this.canvas = document.getElementsByTagName('canvas')[0];
+		this.canvas = document.getElementById("blink");
 		this.ctx = this.canvas.getContext('2d');
 
 		// canvase laius ja kõrgus veebisirvija akna suuruseks (nii style, kui reso)
@@ -169,7 +170,7 @@ TYPER.prototype = {
 
 			//kui sisestatakse vale täht, siis blinkib
 			document.getElementById("blink").style.background = 'red';
-			setTimeout(function(){ document.getElementById("blink").style.background = 'red'; }, 100);
+			setTimeout(function(){ document.getElementById("blink").style.background = 'white'; }, 100);
 			this.typos += 1;
 			this.player.score -= 20;
 		}
