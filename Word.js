@@ -31,5 +31,9 @@ Word.prototype = {
 		// Võtame esimese tähe sõnast maha
 		this.left = this.left.slice(1);
 		//console.log(this.left);
-	}
+	},
+
+	
+
+
 };
