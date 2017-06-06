@@ -35,6 +35,7 @@ TYPER.prototype = {
 
 	// Funktsioon, mille käivitame alguses
 	init: function(){
+		console.log('Game started.');
 
 		// Lisame canvas elemendi ja contexti
 		this.canvas = document.getElementsByTagName('canvas')[0];
@@ -44,14 +45,16 @@ TYPER.prototype = {
 		this.canvas.style.width = this.WIDTH + 'px';
 		this.canvas.style.height = this.HEIGHT + 'px';
 
-		//resolutsioon 
+		//resolutsioon
 		// kui retina ekraan, siis võib ja peaks olema 2 korda suurem
 		this.canvas.width = this.WIDTH;
 		this.canvas.height = this.HEIGHT;
 
+		this.counter = null;
+
 		// laeme sõnad
 		this.loadWords();
-		
+
 		//loon mängu alustamise tarveks uue muutuja
 		var startgame = document.getElementById("begingame");
 		if(startgame){
@@ -59,8 +62,7 @@ TYPER.prototype = {
 		}
 		window.addEventListener('keypress', this.keyPressed.bind(this));							
 
-	}, 
-
+	},
 	
 	//funktsioon alustamaks mängu ja sätestamaks muutuja väärtused
 	begingame: function (){
@@ -72,26 +74,23 @@ TYPER.prototype = {
 		typerGame.loadPlayerData();
 	},
 	
-	
-	loadPlayerData: function(){
 
+	loadPlayerData: function(){
 		// küsime mängija nime ja muudame objektis nime
 		var p_name = prompt("Sisesta mängija nimi");
-
 		// Kui ei kirjutanud nime või jättis tühjaks
+		
 		if(p_name === null || p_name === ""){
 			p_name = "Tundmatu";
-		
 		}
-
-		// Mänigja objektis muudame nime
+		// Mängija objektis muudame nime
 		this.player.name = p_name; // player =>>> {name:"Romil", score: 0}
-        console.log(this.player);
-	}, 
+		console.log(this.player.name);
+	},
 
 	loadWords: function(){
 
-        console.log('loading...');
+		console.log('loading...');
 
 		// AJAX http://www.w3schools.com/ajax/tryit.asp?filename=tryajax_first
 		var xmlhttp = new XMLHttpRequest();
@@ -104,7 +103,7 @@ TYPER.prototype = {
 			// Sai faili tervenisti kätte
 			if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
 
-                console.log('successfully loaded');
+				console.log('successfully loaded');
 
 				// serveri vastuse sisu
 				var response = xmlhttp.responseText;
@@ -113,26 +112,21 @@ TYPER.prototype = {
 				// tekitame massiivi, faili sisu aluseks, uue sõna algust märgib reavahetuse \n
 				var words_from_file = response.split('\n');
 				//console.log(words_from_file);
-                
-                // Kuna this viitab siin xmlhttp päringule siis tuleb läheneda läbi avaliku muutuja
-                // ehk this.words asemel tuleb kasutada typerGame.words
-                
+
+				// Kuna this viitab siin xmlhttp päringule siis tuleb läheneda läbi avaliku muutuja
+				// ehk this.words asemel tuleb kasutada typerGame.words
+
 				//asendan massiivi
 				typerGame.words = structureArrayByWordLength(words_from_file);
 				console.log(typerGame.words);
-				
-				// küsime mängija andmed
-                typerGame.loadPlayerData();
 
-				// kõik sõnad olemas, alustame mänguga
-				typerGame.start();
 			}
 		};
 
 		xmlhttp.open('GET','./lemmad2013.txt',true);
 		xmlhttp.send();
-	}, 
-
+	},
+	
 	start: function(){
 
 		// Tekitame sõna objekti Word
@@ -223,7 +217,7 @@ TYPER.prototype = {
 			}
 		},1000);
 	},
-	
+
 	generateWord: function(){
 		// kui pikk peab sõna tulema, + min pikkus + äraarvatud sõnade arvul jääk 5 jagamisel
 		// iga viie sõna tagant suureneb sõna pikkus ühe võrra
@@ -290,31 +284,29 @@ TYPER.prototype = {
 	
 };
 
-
 /* HELPERS */
 function structureArrayByWordLength(words){
-    // TEEN massiivi ümber, et oleksid jaotatud pikkuse järgi
-    // NT this.words[3] on kõik kolmetähelised
+	// TEEN massiivi ümber, et oleksid jaotatud pikkuse järgi
+	// NT this.words[3] on kõik kolmetähelised
 
-    // defineerin ajutise massiivi, kus kõik on õiges jrk
-    var temp_array = [];
+	// defineerin ajutise massiivi, kus kõik on õiges jrk
+	var temp_array = [];
 
-    // Käime läbi kõik sõnad
-    for(var i = 0; i < words.length; i++){
+	// Käime läbi kõik sõnad
+	for(var i = 0; i < words.length; i++){
 
-        var word_length = words[i].length;
+		var word_length = words[i].length;
 
-        // Kui pole veel seda array'd olemas, tegu esimese just selle pikkusega sõnaga
-        if(temp_array[word_length] === undefined){
-            // Teen uue
-            temp_array[word_length] = [];
-        }
+		// Kui pole veel seda array'd olemas, tegu esimese just selle pikkusega sõnaga
+		if(temp_array[word_length] === undefined){
+			// Teen uue
+			temp_array[word_length] = [];
+		}
+		// Lisan sõna juurde
+		temp_array[word_length].push(words[i]);
+	}
 
-        // Lisan sõna juurde
-        temp_array[word_length].push(words[i]);
-    }
-
-    return temp_array;
+	return temp_array;
 }
 
 function nightmode(){  //By Aram Oram, from https://codepen.io/Addiosamigo/pen/lArin
