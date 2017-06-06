@@ -21,6 +21,7 @@ var TYPER = function(){
 	this.word_min_length = 3;
 	this.guessed_words = 0; // arvatud sõnade arv
 
+	//lisan aja ja vigade muutujad
 	this.seconds = 30;
 	this.mistakes = 0;
 	
@@ -271,7 +272,7 @@ TYPER.prototype = {
 	},
 	
 	
-	again: function () {
+	retry: function () {
 		this.player.score = 0;
 		this.seconds = 30;
 		console.log("Empty score: "+this.player.score);
@@ -317,13 +318,11 @@ function nightmode(){  //By Aram Oram, from https://codepen.io/Addiosamigo/pen/l
 		document.getElementById('color').style.color="white";
 		document.body.style.backgroundColor="black";
 		typerGame.ctx.fillStyle = "white";
-		document.getElementById("tablePrint").style.borderColor = "white";
 		document.getElementById("scoreboard").style.borderColor = "white";		
 	} else {
 		document.getElementById('color').style.color="black";
 		document.body.style.backgroundColor="white";
 		typerGame.ctx.fillStyle = "black";
-		document.getElementById("tablePrint").style.borderColor = "black";
 		document.getElementById("scoreboard").style.borderColor = "black";
 	}
 };
