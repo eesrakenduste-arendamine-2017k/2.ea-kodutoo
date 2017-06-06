@@ -16,6 +16,7 @@ var TYPER = function(){
 	this.word = null; // preagu arvamisel olev sõna
 	this.word_min_length = 3;
 	this.guessed_words = 0; // arvatud sõnade arv
+	this.typos = 0;
 
 	//mängija objekt, hoiame nime ja skoori
 	this.player = {name: null, score: 0};
@@ -30,6 +31,7 @@ TYPER.prototype = {
 
 		// Lisame canvas elemendi ja contexti
 		this.canvas = document.getElementsByTagName('canvas')[0];
+		this.canvas = document.getElementById("blink");
 		this.ctx = this.canvas.getContext('2d');
 
 		// canvase laius ja kõrgus veebisirvija akna suuruseks (nii style, kui reso)
@@ -164,6 +166,13 @@ TYPER.prototype = {
 
 			//joonistan uuesti
 			this.word.Draw();
+		} else {
+
+			//kui sisestatakse vale täht, siis blinkib
+			document.getElementById("blink").style.background = 'red';
+			setTimeout(function(){ document.getElementById("blink").style.background = 'white'; }, 100);
+			this.typos += 1;
+			this.player.score -= 20;
 		}
 
 	} // keypress end
