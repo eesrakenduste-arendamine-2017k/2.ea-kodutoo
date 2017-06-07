@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+a:link, a:visited {
+    background-color: #f44336;
+    color: white;
+    padding: 14px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+body {
+    background-color: lightblue;
+}
+
+a:hover, a:active {
+    background-color: red;
+}
+</style>
+</head>
+<body>
+
+<a href="typer.html" target="_blank">Start New Game</a>
+<p>Mängu eesmärk on võimalikult kiiresti ekraanile tekkivaid sõnu ära trükkida.</p>
+<p>Esimene kord võtab mäng enamasti kuni 10 sekundit aega laadimiseks.</p>
+<hr>
+<h1>Highscore</h1>
+<div id="result1"></div>
+<div id="result2"></div>
+<div id="result3"></div>
+<div id="result4"></div>
+<div id="result5"></div>
+<div id="result6"></div>
+<div id="result7"></div>
+<div id="result8"></div>
+<div id="result9"></div>
+<div id="result10"></div>
+<hr>
+<h1>Last game's words</h1>
+<div id="localWord1"></div>
+<div id="localWord2"></div>
+<div id="localWord3"></div>
+<div id="localWord4"></div>
+<div id="localWord5"></div>
+<div id="localWord6"></div>
+<div id="localWord7"></div>
+<div id="localWord8"></div>
+<div id="localWord9"></div>
+<div id="localWord10"></div>
+
+<div id="localWord11"></div>
+<div id="localWord12"></div>
+<div id="localWord13"></div>
+<div id="localWord14"></div>
+<div id="localWord15"></div>
+<div id="localWord16"></div>
+<div id="localWord17"></div>
+<div id="localWord18"></div>
+<div id="localWord19"></div>
+<div id="localWord20"></div>
+
+<div id="localWord21"></div>
+<div id="localWord22"></div>
+<div id="localWord23"></div>
+<div id="localWord24"></div>
+<div id="localWord25"></div>
+<div id="localWord26"></div>
+<div id="localWord27"></div>
+<div id="localWord28"></div>
+<div id="localWord29"></div>
+<div id="localWord30"></div>
+
+<div id="localWord40"></div>
+<div id="localWord41"></div>
+<div id="localWord42"></div>
+<div id="localWord43"></div>
+<div id="localWord44"></div>
+<div id="localWord45"></div>
+<div id="localWord46"></div>
+<div id="localWord47"></div>
+<div id="localWord48"></div>
+<div id="localword49"></div>
+<div id="localword50"></div>
+
+</body>
+</html>
+<script>
+if(localStorage.getItem("playername1") == null){
+    document.getElementById("result1").innerHTML = "Highscore is empty for now";
+}
+if(localStorage.getItem("word") == null){
+    document.getElementById("localWord1").innerHTML = "There have been no games played yet";
+}
+for (var i = 1; i < 11; i++) {
+    if(localStorage.getItem("playername" + i) != null){
+    document.getElementById("result" + i).innerHTML = i + ". " + localStorage.getItem("playername" + i) + " " + localStorage.getItem("score" + i);
+    }
+}
+for (var i = 1; i < 51; i++) {
+    if(localStorage.getItem("word" + i) != null){
+        document.getElementById("localWord" + i).innerHTML = i + ". " + localStorage.getItem("word" + i);
+    }
+}
+</script>
