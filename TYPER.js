@@ -241,7 +241,7 @@ function hideCanvas() {
 
 
 
-//localstorage kräu
+//localstorage
 
 
 function addPlayerDataToLocalStorage(objekt) {
