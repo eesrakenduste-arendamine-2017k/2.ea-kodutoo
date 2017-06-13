@@ -188,7 +188,7 @@ TYPER.prototype = {
                 taimer = taimer - 5
             }
 
-            colorChange("#fffbe6")
+            colorChange("#cc0d4e")
             setTimeout(colorChange, 100)
             grab("taimer").innerHTML = "AEG:" + taimer;
             this.errors++
@@ -296,7 +296,7 @@ function showStatistics() {
     var words = JSON.parse(localStorage.getItem("totalGuessedWords"))
 
     if (!games && !words && !errors) {
-        grab("content").innerHTML = "Hetkel pole statistika jaoks piisavalt andmeid. Mängi ja vaata seejärel uuesti siia";
+        grab("content").innerHTML = "<b>Statistika</b><br><br>Hetkel pole statistika jaoks piisavalt andmeid. Mängi ja vaata seejärel uuesti siia";
     } else {
         grab("content").innerHTML = "<b>Statistika</b><br><br>mängus kokku arvatud sõnu: " + words + "<br> " + "mängude peale kokku vigu: " + errors + "<br> " + "mänge kokku: " + games;
     }
@@ -340,7 +340,7 @@ function structureArrayByWordLength(words) {
 
 window.onload = function () {
 
-    grab("content").innerHTML = "<b>TYPER</b><br><br>Sinu eesmärgiks on võimalikult kiiresti ja õigesti trükkida ekraanile ilmuvaid sõnu. Mängu alustamiseks vajuta mängi"
+    grab("content").innerHTML = "<b>TYPER</b><br><br>Sinu eesmärgiks on võimalikult kiiresti ja õigesti trükkida ekraanile ilmuvaid sõnu. Mängu alustamiseks vajuta \"mängi\"."
 
     grab("start").addEventListener("click", function () {
         var typerGame = new TYPER();

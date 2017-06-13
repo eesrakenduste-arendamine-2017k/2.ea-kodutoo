@@ -29,23 +29,24 @@ canvas {
 #wrapper {
     width: 40%;
     height: 60%;
-    background-color: #fffbe6;
+    background-color: #ffffff;
     position: absolute;
     transform: translate(-50%, -50%);
-    opacity:0.8;
+    opacity:0.9;
     border-radius:6px;
-    border: 1px solid #dcdcdc;
+    
     top: 50%;
     left: 50%;
    
 }
+
 
 .gameStats {
    display: none; 
     width: 100%;
     font-size: 20px;
     position: absolute;
-    background-color: #fffbe6;
+    background-color:  #ffffff;
    
     opacity:0.8;
     border-radius:6px;
