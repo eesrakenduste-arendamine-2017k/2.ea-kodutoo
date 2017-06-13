@@ -1,13 +1,14 @@
 var time;
 
-//document.getElementById('playBtn').onclick =
+// document.getElementById('playBtn').addEventListener('click', function(e){e.preventDefault; TYPER();})
 
-var TYPER = function() {
+var TYPER = function (){
 
   // Singleton
   if (TYPER.instance_) {
     return TYPER.instance_;
   }
+
   TYPER.instance_ = this;
 
   // Muutujad
@@ -188,7 +189,6 @@ TYPER.prototype = {
       document.getElementById('score').innerHTML = this.player.score;
     }
   } // keypress end
-
 };
 
 
