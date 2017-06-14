@@ -46,6 +46,9 @@ TYPER.prototype = {
         // kui retina ekraan, siis võib ja peaks olema 2 korda suurem
         this.canvas.width = this.WIDTH;
         this.canvas.height = this.HEIGHT;
+		
+		this.img = new Image();
+		this.img.src = 'goodjob.jpg';
         // laeme sõnad
         this.loadWords();
     },
@@ -156,26 +159,37 @@ TYPER.prototype = {
         this.interval = window.setInterval(function(){ 
 			self.timer += 1; 
 			if(self.timer >= 15){
-				self.stop();
-				alert("game over!");
+				self.drawEndScreen();
 			}
 		}, 1000);
     },
-
-    //salvestab andmed ning deaktiveerib event listenerid
-    stop: function(){
-
+	
+	drawEndScreen: function(){
+		
 		this.timer=0;
         this.saveData(this.player);
         window.removeEventListener('keypress', this.keypress_func);
         clearInterval(this.interval);
         table.players = this.players;
         table.toplist();
-        this.showElements();
-        this.player = {name: null, score: 0, errors: 0};
-        
-        this.reset_func = this.reset.bind(this);
-        document.getElementById("play").addEventListener('click', this.reset_func);
+		
+		this.ctx.clearRect( 0, 0, this.canvas.width, this.canvas.height);
+		
+		this.ctx.textAlign = 'center';
+		this.ctx.font = '40px Times New Roman';
+		
+		this.ctx.drawImage(this.img, this.canvas.width/2-250, this.canvas.height/2-300);
+		this.ctx.fillText("Sa olid tubli!", this.canvas.width/2, this.canvas.height/2);
+		this.ctx.fillText("Skoor: "+this.player.score, this.canvas.width/2, this.canvas.height/2+50);
+		this.ctx.fillText("Vigu: "+this.player.errors, this.canvas.width/2, this.canvas.height/2+100);
+		this.ctx.fillText("Kliki ekraanil, et uuesti mängida.", this.canvas.width/2, this.canvas.height/2+150);
+		var self = this;
+		document.getElementById("canvas").addEventListener('click', function(){
+			self.showElements();
+			self.player = {name: null, score: 0, errors: 0};
+			self.reset_func = self.reset.bind(self);
+			document.getElementById("play").addEventListener('click', self.reset_func);
+		});
 
     },
 
@@ -269,6 +283,8 @@ function structureArrayByWordLength(words){
 
 
 window.onload = function(){
+	
+	
 
     window.table = new Table();
     window.table.toplist();
