@@ -150,15 +150,20 @@ TYPER.prototype = {
 
         //joonista sõna
         this.word.Draw();
+		this.ctx.fillText(15-this.timer, this.canvas.width-100, this.canvas.height-100);
 
         // Kuulame klahvivajutusi
         this.keypress_func = this.keyPressed.bind(this);
         window.addEventListener('keypress', this.keypress_func);
-		timer = 0;
         var self = this;
-        this.interval = window.setInterval(function(){ 
-			self.timer += 1; 
-			if(self.timer >= 15){
+        this.interval = window.setInterval(function(){
+			if(self.timer > 8){
+				self.ctx.fillStyle = "red";
+			}
+			self.ctx.clearRect( self.canvas.width/2, self.canvas.width/2, self.canvas.width, self.canvas.height);
+			self.ctx.fillText(14-self.timer, self.canvas.width-100, self.canvas.height-100);
+			self.timer += 1;
+			if(self.timer >= 16){
 				self.drawEndScreen();
 			}
 		}, 1000);
@@ -174,7 +179,7 @@ TYPER.prototype = {
         table.toplist();
 		
 		this.ctx.clearRect( 0, 0, this.canvas.width, this.canvas.height);
-		
+		this.ctx.fillStyle = "black";
 		this.ctx.textAlign = 'center';
 		this.ctx.font = '40px Times New Roman';
 		
