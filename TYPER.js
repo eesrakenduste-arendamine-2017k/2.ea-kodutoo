@@ -38,7 +38,11 @@ TYPER.prototype = {
             var body = document.getElementsByTagName("BODY")[0];
             body.style.background = "black";
 			body.style.color = "white";
-        }
+        } else {
+			var body = document.getElementsByTagName("BODY")[0];
+			body.style.background = "white";
+			body.style.color = "black";
+		}
         // Lisame canvas elemendi ja contexti
         this.canvas = document.getElementsByTagName('canvas')[0];
         this.ctx = this.canvas.getContext('2d');
