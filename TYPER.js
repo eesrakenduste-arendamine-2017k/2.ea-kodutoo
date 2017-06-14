@@ -25,6 +25,7 @@ var TYPER = function(){
     this.players = [];
     //mängija objekt, hoiame nime ja skoori(+ trükivead, trükikiirus)
     this.player = {name: null, score: 0, errors: 0};
+	this.dark = dark.checked;
     this.init();
 
 };
@@ -33,10 +34,19 @@ TYPER.prototype = {
 
     // Funktsioon, mille käivitame alguses
     init: function(){
-
+		 if(this.dark){
+            var body = document.getElementsByTagName("BODY")[0];
+            body.style.background = "black";
+			body.style.color = "white";
+        } else {
+			var body = document.getElementsByTagName("BODY")[0];
+			body.style.background = "white";
+			body.style.color = "black";
+		}
         // Lisame canvas elemendi ja contexti
         this.canvas = document.getElementsByTagName('canvas')[0];
         this.ctx = this.canvas.getContext('2d');
+		
 
         // canvase laius ja kõrgus veebisirvija akna suuruseks (nii style, kui reso)
         this.canvas.style.width = this.WIDTH + 'px';
@@ -48,7 +58,7 @@ TYPER.prototype = {
         this.canvas.height = this.HEIGHT;
 		
 		this.img = new Image();
-		this.img.src = 'goodjob.jpg';
+		this.img.src = 'goodjob.png';
         // laeme sõnad
         this.loadWords();
     },
@@ -147,10 +157,17 @@ TYPER.prototype = {
 
         // Tekitame sõna objekti Word
         this.generateWord();
-
         //joonista sõna
-        this.word.Draw();
-		this.ctx.fillText(15-this.timer, this.canvas.width-100, this.canvas.height-100);
+		if(this.dark){
+			this.ctx.fillStyle = "white";
+			this.word.Draw();
+		} else {
+			this.ctx.fillStyle = "black";
+			this.word.Draw();
+		}
+		
+		
+        this.ctx.fillText(15-this.timer, this.canvas.width-100, this.canvas.height-100);
 
         // Kuulame klahvivajutusi
         this.keypress_func = this.keyPressed.bind(this);
@@ -179,15 +196,25 @@ TYPER.prototype = {
         table.toplist();
 		
 		this.ctx.clearRect( 0, 0, this.canvas.width, this.canvas.height);
-		this.ctx.fillStyle = "black";
+		
 		this.ctx.textAlign = 'center';
 		this.ctx.font = '40px Times New Roman';
 		
 		this.ctx.drawImage(this.img, this.canvas.width/2-250, this.canvas.height/2-300);
+		if(!this.dark){
+			this.ctx.fillStyle = "black";
 		this.ctx.fillText("Sa olid tubli!", this.canvas.width/2, this.canvas.height/2);
 		this.ctx.fillText("Skoor: "+this.player.score, this.canvas.width/2, this.canvas.height/2+50);
 		this.ctx.fillText("Vigu: "+this.player.errors, this.canvas.width/2, this.canvas.height/2+100);
 		this.ctx.fillText("Kliki ekraanil, et uuesti mängida.", this.canvas.width/2, this.canvas.height/2+150);
+		} else {
+			this.ctx.fillStyle = "White";
+			this.ctx.fillText("Sa olid tubli!", this.canvas.width/2, this.canvas.height/2);
+			this.ctx.fillText("Skoor: "+this.player.score, this.canvas.width/2, this.canvas.height/2+50);
+			this.ctx.fillText("Vigu: "+this.player.errors, this.canvas.width/2, this.canvas.height/2+100);
+			this.ctx.font = '25px Times New Roman';
+			this.ctx.fillText("Kliki ekraanil, et uuesti mängida.", this.canvas.width/2, this.canvas.height/2+150);
+		}
 		var self = this;
 		document.getElementById("canvas").addEventListener('click', function(){
 			self.showElements();
@@ -206,7 +233,7 @@ TYPER.prototype = {
 
         // Saan suvalise arvu vahemikus 0 - (massiivi pikkus -1)
         var random_index = (Math.random()*(this.words[generated_word_length].length-1)).toFixed();
-
+		
         // random sõna, mille salvestame siia algseks
         var word = this.words[generated_word_length][random_index];
 
@@ -216,6 +243,7 @@ TYPER.prototype = {
         if (this.guessed_words > 0){
             this.word.first_word = false;
         }
+		this.word.dark = this.dark;
     },
 //test
     keyPressed: function(event){
@@ -242,16 +270,31 @@ TYPER.prototype = {
 
             }
             //joonistan uuesti
-            this.word.Draw();
+            if(this.dark){
+				this.ctx.fillStyle = "white";
+				this.word.Draw();
+			} else {
+				this.ctx.fillStyle = "black";
+				this.word.Draw();
+			}
 
         } else {
             this.player.errors += parseInt(1, 10);
+			var body = document.getElementsByTagName("BODY")[0];
+			if(this.dark){
+                body.classList.add("errordark");
+                window.setTimeout(function(){ body.classList.remove("errordark")}, 1000);
+            }else{
+                body.classList.add("error");
+                window.setTimeout(function(){ body.classList.remove("error")}, 1000);
+            }
         }
     }, // keypress end
 
     reset: function(){
 
         document.getElementById("play").removeEventListener("click", this.reset_func);
+			this.dark = dark.selected;
         this.init()
 
     }
@@ -294,6 +337,7 @@ window.onload = function(){
     window.table = new Table();
     window.table.toplist();
     window.startGame = function(){
+		 window.dark = document.querySelector("input[name=Dark]");
         window.typerGame = new TYPER();
     };
     document.getElementById("play").addEventListener("click", window.startGame);

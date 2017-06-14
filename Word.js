@@ -15,7 +15,7 @@ Word.prototype = {
 	Draw: function(){
 
 		//Tühjendame canvase
-		this.ctx.fillStyle = "black";
+		//this.ctx.fillStyle = "black";
 		this.ctx.clearRect( 0, 0, this.canvas.width/2+200, this.canvas.height/2+100);
 
 		// Canvasele joonistamine
