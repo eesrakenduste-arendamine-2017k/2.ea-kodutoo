@@ -8,12 +8,11 @@ Table.prototype = {
 
     toplist: function(){
 
-        //var top = document.getElementById("toplist");
+        var top = document.getElementById("toplist");
         var topbody = document.getElementById("toplist");
-        //topbody.innerHTML = "";
+        topbody.innerHTML = "<tr><th>Top</th><th>Nimi</th><th>Skoor</th><th>Arvatud</th><th>Vead</th></tr>";
         if(this.players !== null){
-            var top10 = this.players.sort(function(a, b) { return a.score < b.score ? 1 : -1; })
-                .slice(0, 10);
+            var top10 = this.players.sort(function(a, b) { return a.score < b.score ? 1 : -1; }).slice(0, 10);
             var j = 0;
             top10.forEach(function(player){
                 j++;
@@ -33,9 +32,5 @@ Table.prototype = {
                 }
             });
         }
-
-
-
     }
-
 };

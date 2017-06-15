@@ -189,7 +189,7 @@ TYPER.prototype = {
 	drawEndScreen: function(){
 		
 		this.timer=0;
-		this.player.score = this.player.score - this.player.errors;
+		this.player.score = this.player.score - this.player.errors*2;
         this.saveData(this.player);
         window.removeEventListener('keypress', this.keypress_func);
         clearInterval(this.interval);
@@ -205,22 +205,28 @@ TYPER.prototype = {
 		if(!this.dark){
 			this.ctx.fillStyle = "black";
 		this.ctx.fillText("Sa olid tubli!", this.canvas.width/2, this.canvas.height/2);
+		this.ctx.font = '30px Times New Roman';
 		this.ctx.fillText("Skoor: "+this.player.score, this.canvas.width/2, this.canvas.height/2+50);
-		this.ctx.fillText("Vigu: "+this.player.errors, this.canvas.width/2, this.canvas.height/2+100);
-		this.ctx.fillText("Kliki ekraanil, et uuesti mängida.", this.canvas.width/2, this.canvas.height/2+150);
+		this.ctx.fillText("Sõnu arvatud: "+this.player.quessed, this.canvas.width/2, this.canvas.height/2+90);
+		this.ctx.fillText("Vigu: "+this.player.errors, this.canvas.width/2, this.canvas.height/2+130);
+		this.ctx.font = '20px Times New Roman';
+		this.ctx.fillText("Kliki ekraanil, et uuesti mängida.", this.canvas.width/2, this.canvas.height/2+170);
 		} else {
 			this.ctx.fillStyle = "White";
 			this.ctx.fillText("Sa olid tubli!", this.canvas.width/2, this.canvas.height/2);
+			this.ctx.font = '30px Times New Roman';
 			this.ctx.fillText("Skoor: "+this.player.score, this.canvas.width/2, this.canvas.height/2+50);
-			this.ctx.fillText("Vigu: "+this.player.errors, this.canvas.width/2, this.canvas.height/2+100);
+			this.ctx.fillText("Sõnu arvatud: "+this.player.quessed, this.canvas.width/2, this.canvas.height/2+90);
+			this.ctx.fillText("Vigu: "+this.player.errors, this.canvas.width/2, this.canvas.height/2+130);
 			this.ctx.font = '25px Times New Roman';
-			this.ctx.fillText("Kliki ekraanil, et uuesti mängida.", this.canvas.width/2, this.canvas.height/2+150);
+			this.ctx.fillText("Kliki ekraanil, et uuesti mängida.", this.canvas.width/2, this.canvas.height/2+170);
 		}
 		var self = this;
 		document.getElementById("canvas").addEventListener('click', function(){
 			self.showElements();
 			self.player = {name: null, score: 0, quessed: 0, errors: 0};
 			self.word_min_length = 4;
+			self.guessed_words = 0;
 			self.reset_func = self.reset.bind(self);
 			document.getElementById("play").addEventListener('click', self.reset_func);
 		});
@@ -258,14 +264,17 @@ TYPER.prototype = {
 
             // Võtame ühe tähe maha
             this.word.removeFirstLetter();
+			
+			this.player.score += 1;
 
             // kas sõna sai otsa, kui jah - loosite uue sõna
             if(this.word.left.length === 0){
 
                 this.guessed_words += 1;
+				this.player.score += 5;
 
                 //update player score
-                this.player.score += 1;
+                
                 this.player.quessed = this.guessed_words;
                 
                 //loosin uue sõna
@@ -283,13 +292,13 @@ TYPER.prototype = {
 
         } else {
             this.player.errors += 1;
-			var body = document.getElementsByTagName("BODY")[0];
+			var can = document.getElementsByTagName("CANVAS")[0];
 			if(this.dark){
-                body.classList.add("errordark");
-                window.setTimeout(function(){ body.classList.remove("errordark")}, 1000);
+                can.classList.add("errordark");
+                window.setTimeout(function(){ can.classList.remove("errordark")}, 100);
             }else{
-                body.classList.add("error");
-                window.setTimeout(function(){ body.classList.remove("error")}, 1000);
+                can.classList.add("error");
+                window.setTimeout(function(){ can.classList.remove("error")}, 100);
             }
         }
     }, // keypress end
