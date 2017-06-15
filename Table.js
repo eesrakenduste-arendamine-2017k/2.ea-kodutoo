@@ -8,9 +8,9 @@ Table.prototype = {
 
     toplist: function(){
 
-        var top = document.getElementById("toplist");
-        var topbody = top.getElementsByTagName("TBODY")[0];
-        topbody.innerHTML = "";
+        //var top = document.getElementById("toplist");
+        var topbody = document.getElementById("toplist");
+        //topbody.innerHTML = "";
         if(this.players !== null){
             var top10 = this.players.sort(function(a, b) { return a.score < b.score ? 1 : -1; })
                 .slice(0, 10);
@@ -24,7 +24,7 @@ Table.prototype = {
                 cell.appendChild(text);
                 i++;
                 for(var attribute in player){
-                    if(i <= 2){
+                    if(i <= 4){
                         cell = row.insertCell(i);
                         text = document.createTextNode(player[attribute]);
                         cell.appendChild(text);

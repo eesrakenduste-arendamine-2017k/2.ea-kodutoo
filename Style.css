@@ -22,7 +22,7 @@ canvas {
 
 #toplist{
 
-
+	display: flex;
     align-items: center;
     justify-content: center;
 	
@@ -31,13 +31,6 @@ canvas {
 #play{
 	font-size: 7em;
 	text-shadow: 2px 2px 10px red;
-}
-
-#top{
-
-	display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 

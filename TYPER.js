@@ -189,6 +189,7 @@ TYPER.prototype = {
 	drawEndScreen: function(){
 		
 		this.timer=0;
+		this.player.score = this.player.score - this.player.errors;
         this.saveData(this.player);
         window.removeEventListener('keypress', this.keypress_func);
         clearInterval(this.interval);
@@ -219,6 +220,7 @@ TYPER.prototype = {
 		document.getElementById("canvas").addEventListener('click', function(){
 			self.showElements();
 			self.player = {name: null, score: 0, quessed: 0, errors: 0};
+			self.word_min_length = 4;
 			self.reset_func = self.reset.bind(self);
 			document.getElementById("play").addEventListener('click', self.reset_func);
 		});
