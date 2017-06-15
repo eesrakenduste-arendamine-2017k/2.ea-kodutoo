@@ -16,7 +16,7 @@ var TYPER = function(){
     this.reset_func = null;
     this.words = []; // kõik sõnad
     this.word = null; // preagu arvamisel olev sõna
-    this.word_min_length = 6;
+    this.word_min_length = 4;
     this.guessed_words = 0; // arvatud sõnade arv
 
     this.interval = null;
@@ -24,7 +24,7 @@ var TYPER = function(){
     this.sum = 0;
     this.players = [];
     //mängija objekt, hoiame nime ja skoori(+ trükivead, trükikiirus)
-    this.player = {name: null, score: 0, errors: 0};
+    this.player = {name: null, score: 0, quessed:0, errors: 0};
 	this.dark = dark.checked;
     this.init();
 
@@ -218,7 +218,7 @@ TYPER.prototype = {
 		var self = this;
 		document.getElementById("canvas").addEventListener('click', function(){
 			self.showElements();
-			self.player = {name: null, score: 0, errors: 0};
+			self.player = {name: null, score: 0, quessed: 0, errors: 0};
 			self.reset_func = self.reset.bind(self);
 			document.getElementById("play").addEventListener('click', self.reset_func);
 		});
@@ -229,7 +229,7 @@ TYPER.prototype = {
         console.log('generate');
         // kui pikk peab sõna tulema, + min pikkus + äraarvatud sõnade arvul jääk 5 jagamisel
         // iga viie sõna tagant suureneb sõna pikkus ühe võrra
-        var generated_word_length =  this.word_min_length + parseInt(this.guessed_words/5);
+        var generated_word_length =  this.word_min_length + parseInt(this.guessed_words);
 
         // Saan suvalise arvu vahemikus 0 - (massiivi pikkus -1)
         var random_index = (Math.random()*(this.words[generated_word_length].length-1)).toFixed();
@@ -263,7 +263,8 @@ TYPER.prototype = {
                 this.guessed_words += 1;
 
                 //update player score
-                this.player.score = this.guessed_words;
+                this.player.score += 1;
+                this.player.quessed = this.guessed_words;
                 
                 //loosin uue sõna
                 this.generateWord();
@@ -279,7 +280,7 @@ TYPER.prototype = {
 			}
 
         } else {
-            this.player.errors += parseInt(1, 10);
+            this.player.errors += 1;
 			var body = document.getElementsByTagName("BODY")[0];
 			if(this.dark){
                 body.classList.add("errordark");
