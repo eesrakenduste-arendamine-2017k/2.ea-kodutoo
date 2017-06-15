@@ -15,7 +15,8 @@ Word.prototype = {
 	Draw: function(){
 
 		//Tühjendame canvase
-		this.ctx.clearRect( 0, 0, this.canvas.width, this.canvas.height);
+		//this.ctx.fillStyle = "black";
+		this.ctx.clearRect( 0, 0, this.canvas.width/2+200, this.canvas.height/2+100);
 
 		// Canvasele joonistamine
 		this.ctx.textAlign = 'center';
@@ -23,12 +24,15 @@ Word.prototype = {
 
 		// 	// Joonistame sõna, mis on järel / tekst, x, y
 		this.ctx.fillText(this.left, this.canvas.width/2, this.canvas.height/2);
+		
+		
 	},
 
 	// Võtame sõnast esimese tähe maha
 	removeFirstLetter: function(){
 
 		// Võtame esimese tähe sõnast maha
+		
 		this.left = this.left.slice(1);
 		//console.log(this.left);
 	}
