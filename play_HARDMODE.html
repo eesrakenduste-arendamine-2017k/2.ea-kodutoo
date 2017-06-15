@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>HIDDEN HARDMODE</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Barrio" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Bubbler+One" rel="stylesheet">
+    <!-- JS -->
+    <script src="TYPER_HARDMODE.js"></script>
+    <script src="Word.js"></script>
+    <script>
+        window.onload = function() {
+            changecolors();
+            var typerGame = new TYPER();
+            window.typerGame = typerGame;
+        };
+
+        var x;
+
+        function changecolors() {
+            x = 1;
+            setInterval(change, 250);
+        }
+
+        function change() {
+            if (x === 1) {
+                color = "red";
+                x = 2;
+            } else {
+                color = "green";
+                x = 1;
+            }
+
+            document.body.style.background = color;
+        }
+    </script>
+</head>
+<body>
+    <div class="main">
+        <div>
+            <h1>????????????</h1>
+            <canvas></canvas>
+        </div>
+    </div>
+</body>
+</html>
+
+
