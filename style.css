@@ -1,0 +1,70 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+html, body{
+    background-color: #333;
+    color: #fff;
+    user-select: none;
+}
+
+canvas{
+    width: 100% !important;
+}
+
+.main{
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-family: 'Bubbler One', sans-serif;
+}
+
+h1{
+    font-size: 500%;
+    font-family: 'Barrio', cursive;
+}
+
+button{
+    background-color: #fff;
+    border: none;
+    text-align: center;
+    padding: 0.75em 1.5em;
+    margin-top: 1em;
+}
+
+button:hover{
+    cursor: pointer;
+    background-color: #770000;
+    color: #fff;
+}
+
+button:focus{
+    outline: none;
+}
+
+p{
+    margin-top: 1em;
+}
+
+.topScore{
+    margin-top: 1em;
+}
+
+/* Single-page */
+main > *{
+    display: none;
+}
+
+main > *:last-child{
+    display: block;
+}
+
+main > *:target{
+    display: block;
+    animation: pulse 0.5s linear 1;
+}
+
+main > *:target ~ *{
+    display: none;
+}

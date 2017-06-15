@@ -1,5 +1,4 @@
 var time;
-
 // document.getElementById('playBtn').addEventListener('click', function(e){e.preventDefault; TYPER();})
 
 var TYPER = function (){
@@ -64,7 +63,7 @@ TYPER.prototype = {
     }
 
     // Mänigja objektis muudame nime
-    this.player.name = p_name; // player => {name:"Rauno", score: 0}
+    this.player.name = p_name + " (HIDDEN MODE)"; // player => {name:"Rauno", score: 0}
     console.log(this.player);
     // document.getElementById("playerName").innerHTML = "Mängija: " + this.player.name;
   },
@@ -134,7 +133,7 @@ TYPER.prototype = {
 
     // Kui pikk peab sõna tulema, + min pikkus + äraarvatud sõnade arvul jääk 5 jagamisel
     // Iga viie sõna tagant suureneb sõna pikkus ühe võrra
-    var generated_word_length = this.word_min_length + parseInt(this.guessed_words / 1);
+    var generated_word_length = 20;
 
     // Saan suvalise arvu vahemikus 0 - (massiivi pikkus -1)
     var random_index = (Math.random() * (this.words[generated_word_length].length - 1)).toFixed();
@@ -158,9 +157,6 @@ TYPER.prototype = {
     if (letter === this.word.left.charAt(0)) {
       // console.log("right");
       this.player.score += 1;
-      document.getElementById('score').innerHTML = this.player.score;
-      document.body.style.backgroundColor = "#333";
-      this.canvas.style.backgroundColor = "#333";
 
       // Võtame ühe tähe maha
       this.word.removeFirstLetter();
@@ -182,11 +178,8 @@ TYPER.prototype = {
     } else {
       //console.log("wrong");
       console.log(this.player.typos);
-      this.player.score -= 1;
+      this.player.score -= 5;
       this.player.typos += 1;
-      document.body.style.backgroundColor = "#960000";
-      this.canvas.style.backgroundColor = "#960000";
-      document.getElementById('score').innerHTML = this.player.score;
     }
   } // keypress end
 };
@@ -233,8 +226,6 @@ function timer(time, showTime) {
 
     //minutes = minutes < 10 ? "0" + minutes : minutes;
     seconds = seconds < 10 ? + seconds : seconds;
-
-    showTime.textContent = seconds;
 
     if (--timer < 0) {
       var session = [];
