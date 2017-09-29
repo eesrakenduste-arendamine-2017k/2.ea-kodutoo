@@ -15,6 +15,16 @@ canvas {
   font-family: Orbitron;
 
 }
+#madnessLink{
+	position: fixed;
+  bottom:20%;
+  font-family: Orbitron;
+}
 h1{
   font-family: Orbitron;
+}
+
+#madnessLink:hover {
+  color: red ;
+  
 }

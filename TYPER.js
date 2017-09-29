@@ -172,7 +172,9 @@ TYPER.prototype = {
 
 			//joonistan uuesti
 			this.word.Draw();
-		}
+		}else if (letter != " "){var audio = new Audio('See.mp3');
+					audio.play(); 
+					console.log("valesti");}
 
 	} // keypress end
 
